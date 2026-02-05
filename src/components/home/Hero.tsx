@@ -1,17 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
-
 export function Hero() {
-  return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
+  return <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
       {/* Background with Parallax Effect */}
-      <div 
-        className="absolute inset-0 parallax-bg"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-        }}
-      >
+      <div className="absolute inset-0 parallax-bg" style={{
+      backgroundImage: `url(${heroBg})`
+    }}>
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-hero" />
       </div>
@@ -27,11 +22,7 @@ export function Hero() {
         <p className="font-body text-background/80 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
           Camisetas artesanales inspiradas en leyendas del motor
         </p>
-        <Button 
-          asChild 
-          size="lg" 
-          className="bg-background text-foreground hover:bg-background/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta"
-        >
+        <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta">
           <Link to="/productos">
             Descubre la Colección
           </Link>
@@ -40,10 +31,7 @@ export function Hero() {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-8 h-12 border-2 border-background/50 rounded-full flex items-start justify-center pt-2">
-          <div className="w-1.5 h-3 bg-background/50 rounded-full animate-pulse" />
-        </div>
+        
       </div>
-    </section>
-  );
+    </section>;
 }
