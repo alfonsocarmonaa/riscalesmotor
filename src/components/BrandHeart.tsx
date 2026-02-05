@@ -1,4 +1,4 @@
-import heartLogo from "@/assets/heart-logo.png";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface BrandHeartProps {
@@ -16,10 +16,9 @@ const sizeClasses = {
 
 export function BrandHeart({ className, size = "md" }: BrandHeartProps) {
   return (
-    <img 
-      src={heartLogo} 
-      alt="♥" 
-      className={cn(sizeClasses[size], "inline-block", className)} 
+    <Heart 
+      className={cn(sizeClasses[size], "text-foreground", className)} 
+      strokeWidth={1.5}
     />
   );
 }
