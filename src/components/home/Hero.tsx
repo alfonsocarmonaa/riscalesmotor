@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+
 export function Hero() {
   return <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
       {/* Background with Parallax Effect */}
@@ -22,8 +24,9 @@ export function Hero() {
         <p className="font-body text-background/80 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
           Camisetas artesanales inspiradas en leyendas del motor
         </p>
-        <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta">
-          <Link to="/productos">
+        <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta">
+          <Link to="/productos" className="inline-flex items-center gap-2">
+            <Heart className="h-5 w-5" />
             Descubre la Colección
           </Link>
         </Button>

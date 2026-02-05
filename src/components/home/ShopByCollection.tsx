@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
 import collectionRiscales from "@/assets/collection-riscales.jpg";
 import collectionCars from "@/assets/collection-cars.jpg";
 import collectionMotos from "@/assets/collection-motos.jpg";
@@ -65,9 +66,9 @@ export function ShopByCollection() {
                 <h3 className="font-display text-3xl md:text-4xl mb-2">{collection.name}</h3>
                 <p className="text-background/80 mb-4">{collection.description}</p>
               <Button 
-                  variant="outline" 
-                  className="w-fit border-foreground text-foreground bg-background/90 hover:bg-foreground hover:text-background transition-all"
+                  className="w-fit bg-accent text-accent-foreground hover:bg-accent/90 transition-all inline-flex items-center gap-2"
                 >
+                  <Heart className="h-4 w-4" />
                   Comprar
                 </Button>
               </div>
