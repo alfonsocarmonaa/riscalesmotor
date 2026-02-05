@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Heart, ShoppingCart, Search, User, Menu, X, ChevronDown } from "lucide-react";
+import { ShoppingCart, Search, User, Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
-
+import { BrandHeart } from "@/components/BrandHeart";
 const navLinks = [
   { 
     name: "CAMISETAS", 
@@ -30,7 +30,7 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background">
       {/* Ticker Banner */}
       <div className="bg-foreground text-background py-2 overflow-hidden">
-        <div className="animate-ticker whitespace-nowrap inline-flex">
+        <div className="animate-ticker whitespace-nowrap inline-flex items-center">
           <span className="mx-8">🚗 ENVÍO GRATIS EN PEDIDOS +50€</span>
           <span className="mx-8">•</span>
           <span className="mx-8">ENVÍOS EN 48-72H</span>
@@ -39,7 +39,7 @@ export function Header() {
           <span className="mx-8">•</span>
           <span className="mx-8">FABRICACIÓN RESPONSABLE</span>
           <span className="mx-8">•</span>
-          <span className="mx-8">HECHO CON ♥ EN ESPAÑA</span>
+          <span className="mx-8 inline-flex items-center gap-1">HECHO CON <BrandHeart size="xs" /> EN ESPAÑA</span>
           <span className="mx-8">🚗 ENVÍO GRATIS EN PEDIDOS +50€</span>
           <span className="mx-8">•</span>
           <span className="mx-8">ENVÍOS EN 48-72H</span>
@@ -48,7 +48,7 @@ export function Header() {
           <span className="mx-8">•</span>
           <span className="mx-8">FABRICACIÓN RESPONSABLE</span>
           <span className="mx-8">•</span>
-          <span className="mx-8">HECHO CON ♥ EN ESPAÑA</span>
+          <span className="mx-8 inline-flex items-center gap-1">HECHO CON <BrandHeart size="xs" /> EN ESPAÑA</span>
         </div>
       </div>
 
@@ -67,7 +67,7 @@ export function Header() {
                 <div className="p-6">
                   <Link to="/" className="block mb-8" onClick={() => setMobileMenuOpen(false)}>
                     <h1 className="font-display text-2xl">RISCALES MOTOR CO.</h1>
-                    <span className="text-accent">♥</span>
+                    <BrandHeart size="sm" />
                   </Link>
                   <nav className="space-y-4">
                     {navLinks.map((link) => (
@@ -100,14 +100,14 @@ export function Header() {
               </SheetContent>
             </Sheet>
 
-            <Link to="/" className="font-display text-xl">
-              RISCALES <span className="text-accent">♥</span>
+            <Link to="/" className="font-display text-xl flex items-center gap-1">
+              RISCALES <BrandHeart size="sm" />
             </Link>
 
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" asChild>
                 <Link to="/favoritos">
-                  <Heart className="h-5 w-5" />
+                  <BrandHeart size="md" />
                 </Link>
               </Button>
               <CartDrawer />
@@ -120,7 +120,7 @@ export function Header() {
             <div className="text-center mb-6">
               <Link to="/" className="inline-block">
                 <h1 className="font-display text-4xl tracking-wide">RISCALES MOTOR CO.</h1>
-                <span className="text-accent text-2xl">♥</span>
+                <BrandHeart size="lg" />
               </Link>
             </div>
 
@@ -171,7 +171,7 @@ export function Header() {
                 </Button>
                 <Button variant="ghost" size="icon" className="relative hover-heartbeat" asChild>
                   <Link to="/favoritos">
-                    <Heart className="h-5 w-5" />
+                    <BrandHeart size="md" />
                   </Link>
                 </Button>
                 <CartDrawer />

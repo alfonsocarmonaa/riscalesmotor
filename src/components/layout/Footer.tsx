@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
-
+import { BrandHeart } from "@/components/BrandHeart";
 const footerLinks = {
   shop: [
     { name: "Camisetas", href: "/productos" },
@@ -93,9 +93,10 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="text-sidebar-foreground/80 hover:text-accent transition-colors"
+                    className="group inline-flex items-center gap-0 text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-300"
                   >
-                    {link.name}
+                    <BrandHeart size="xs" className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -110,9 +111,10 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="text-sidebar-foreground/80 hover:text-accent transition-colors"
+                    className="group inline-flex items-center gap-0 text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-300"
                   >
-                    {link.name}
+                    <BrandHeart size="xs" className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -127,9 +129,10 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="text-sidebar-foreground/80 hover:text-accent transition-colors"
+                    className="group inline-flex items-center gap-0 text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-300"
                   >
-                    {link.name}
+                    <BrandHeart size="xs" className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -176,7 +179,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-sidebar-border mt-8 pt-8 text-center text-sm text-sidebar-foreground/60">
-          <p>© 2026 Riscales Motor Co. | Hecho con <span className="text-accent">♥</span> en España</p>
+          <p className="inline-flex items-center gap-1">© 2026 Riscales Motor Co. | Hecho con <BrandHeart size="xs" /> en España</p>
         </div>
       </div>
     </footer>
