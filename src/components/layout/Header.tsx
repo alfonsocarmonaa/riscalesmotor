@@ -49,7 +49,7 @@ export function Header() {
   const headerPosition = isHomePage ? "fixed inset-x-0 top-0" : "sticky top-0";
 
   const headerBg = isHomePage
-    ? (isScrolled ? "bg-background" : "bg-background/10 backdrop-blur-md")
+    ? (isScrolled ? "bg-background" : "bg-transparent")
     : "bg-background";
 
   return (
