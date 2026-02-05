@@ -46,14 +46,16 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const headerBg = isHomePage && !isScrolled 
-    ? "bg-transparent" 
+  const headerPosition = isHomePage ? "fixed inset-x-0 top-0" : "sticky top-0";
+
+  const headerBg = isHomePage
+    ? (isScrolled ? "bg-background" : "bg-background/10 backdrop-blur-md")
     : "bg-background";
 
   return (
-    <header className={`sticky top-0 z-50 transition-colors duration-300 ${headerBg}`}>
+    <header className={`${headerPosition} z-50 transition-all duration-300 ${headerBg}`}> 
       {/* Main Header */}
-      <div className={`${isScrolled || !isHomePage ? 'border-b' : 'border-b border-transparent'}`}>
+      <div className={`${isScrolled || !isHomePage ? "border-b" : "border-b border-transparent"}`}>
         <div className="container py-4">
           {/* Mobile Header */}
           <div className="flex lg:hidden items-center justify-between">
