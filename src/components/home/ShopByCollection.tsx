@@ -64,11 +64,11 @@ export function ShopByCollection() {
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-background">
                 <h3 className="font-display text-3xl md:text-4xl mb-2">{collection.name}</h3>
                 <p className="text-background/80 mb-4">{collection.description}</p>
-                <Button 
+              <Button 
                   variant="outline" 
-                  className="w-fit border-background text-background hover:bg-background hover:text-foreground transition-all"
+                  className="w-fit border-foreground text-foreground bg-background/90 hover:bg-foreground hover:text-background transition-all"
                 >
-                  Explorar
+                  Comprar
                 </Button>
               </div>
             </Link>
