@@ -41,22 +41,52 @@ export default function SizeGuide() {
               <Card className="overflow-hidden">
                 <CardContent className="p-6">
                   <div className="aspect-square bg-secondary rounded-lg mb-6 relative flex items-center justify-center">
-                    {/* T-shirt illustration */}
+                    {/* T-shirt illustration - realistic shape */}
                     <svg viewBox="0 0 200 200" className="w-full h-full max-w-[200px]">
-                      {/* T-shirt shape */}
+                      {/* T-shirt shape with curves */}
                       <path
-                        d="M40 60 L60 40 L80 50 L80 60 L120 60 L120 50 L140 40 L160 60 L150 70 L150 80 L140 80 L140 170 L60 170 L60 80 L50 80 L50 70 Z"
+                        d="M100 35
+                           C92 35 88 38 85 42
+                           L75 42
+                           C70 42 65 44 60 48
+                           L35 68
+                           C32 70 32 75 35 78
+                           L50 88
+                           C52 90 55 89 56 87
+                           L60 78
+                           L60 165
+                           C60 168 62 170 65 170
+                           L135 170
+                           C138 170 140 168 140 165
+                           L140 78
+                           L144 87
+                           C145 89 148 90 150 88
+                           L165 78
+                           C168 75 168 70 165 68
+                           L140 48
+                           C135 44 130 42 125 42
+                           L115 42
+                           C112 38 108 35 100 35
+                           Z"
                         fill="hsl(var(--muted))"
                         stroke="hsl(var(--foreground))"
                         strokeWidth="2"
+                        strokeLinejoin="round"
+                      />
+                      {/* Collar curve */}
+                      <path
+                        d="M85 42 C90 52 110 52 115 42"
+                        fill="none"
+                        stroke="hsl(var(--foreground))"
+                        strokeWidth="1.5"
                       />
                       {/* Width measurement line */}
-                      <line x1="60" y1="90" x2="140" y2="90" stroke="hsl(var(--accent))" strokeWidth="3" />
-                      <line x1="60" y1="85" x2="60" y2="95" stroke="hsl(var(--accent))" strokeWidth="3" />
-                      <line x1="140" y1="85" x2="140" y2="95" stroke="hsl(var(--accent))" strokeWidth="3" />
+                      <line x1="60" y1="95" x2="140" y2="95" stroke="hsl(var(--accent))" strokeWidth="3" />
+                      <line x1="60" y1="90" x2="60" y2="100" stroke="hsl(var(--accent))" strokeWidth="3" />
+                      <line x1="140" y1="90" x2="140" y2="100" stroke="hsl(var(--accent))" strokeWidth="3" />
                       {/* Arrow heads */}
-                      <polygon points="65,90 60,87 60,93" fill="hsl(var(--accent))" />
-                      <polygon points="135,90 140,87 140,93" fill="hsl(var(--accent))" />
+                      <polygon points="65,95 60,92 60,98" fill="hsl(var(--accent))" />
+                      <polygon points="135,95 140,92 140,98" fill="hsl(var(--accent))" />
                     </svg>
                   </div>
                   <div className="flex items-center gap-3 mb-3">
@@ -76,21 +106,51 @@ export default function SizeGuide() {
               <Card className="overflow-hidden">
                 <CardContent className="p-6">
                   <div className="aspect-square bg-secondary rounded-lg mb-6 relative flex items-center justify-center">
-                    {/* T-shirt illustration */}
+                    {/* T-shirt illustration - realistic shape */}
                     <svg viewBox="0 0 200 200" className="w-full h-full max-w-[200px]">
-                      {/* T-shirt shape */}
+                      {/* T-shirt shape with curves */}
                       <path
-                        d="M40 60 L60 40 L80 50 L80 60 L120 60 L120 50 L140 40 L160 60 L150 70 L150 80 L140 80 L140 170 L60 170 L60 80 L50 80 L50 70 Z"
+                        d="M100 35
+                           C92 35 88 38 85 42
+                           L75 42
+                           C70 42 65 44 60 48
+                           L35 68
+                           C32 70 32 75 35 78
+                           L50 88
+                           C52 90 55 89 56 87
+                           L60 78
+                           L60 165
+                           C60 168 62 170 65 170
+                           L135 170
+                           C138 170 140 168 140 165
+                           L140 78
+                           L144 87
+                           C145 89 148 90 150 88
+                           L165 78
+                           C168 75 168 70 165 68
+                           L140 48
+                           C135 44 130 42 125 42
+                           L115 42
+                           C112 38 108 35 100 35
+                           Z"
                         fill="hsl(var(--muted))"
                         stroke="hsl(var(--foreground))"
                         strokeWidth="2"
+                        strokeLinejoin="round"
+                      />
+                      {/* Collar curve */}
+                      <path
+                        d="M85 42 C90 52 110 52 115 42"
+                        fill="none"
+                        stroke="hsl(var(--foreground))"
+                        strokeWidth="1.5"
                       />
                       {/* Length measurement line */}
-                      <line x1="100" y1="55" x2="100" y2="170" stroke="hsl(var(--accent))" strokeWidth="3" />
-                      <line x1="95" y1="55" x2="105" y2="55" stroke="hsl(var(--accent))" strokeWidth="3" />
+                      <line x1="100" y1="50" x2="100" y2="170" stroke="hsl(var(--accent))" strokeWidth="3" />
+                      <line x1="95" y1="50" x2="105" y2="50" stroke="hsl(var(--accent))" strokeWidth="3" />
                       <line x1="95" y1="170" x2="105" y2="170" stroke="hsl(var(--accent))" strokeWidth="3" />
                       {/* Arrow heads */}
-                      <polygon points="100,60 97,55 103,55" fill="hsl(var(--accent))" />
+                      <polygon points="100,55 97,50 103,50" fill="hsl(var(--accent))" />
                       <polygon points="100,165 97,170 103,170" fill="hsl(var(--accent))" />
                     </svg>
                   </div>
