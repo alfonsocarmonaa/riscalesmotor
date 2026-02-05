@@ -6,7 +6,7 @@ import { formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Heart, Minus, Plus, Truck, Package, RotateCcw, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, Minus, Plus, Truck, Package, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -43,8 +43,6 @@ export default function ProductDetail() {
   const hasDiscount = selectedVariant?.compareAtPrice && 
     parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount);
 
-  // Mock view count
-  const viewCount = Math.floor(Math.random() * 50) + 15;
 
   const handleAddToCart = async () => {
     if (!product || !selectedVariant) return;
@@ -68,18 +66,6 @@ export default function ProductDetail() {
     toast.success(isWishlisted ? "Eliminado de favoritos" : "Añadido a favoritos ♥");
   };
 
-  const getColorClass = (color: string) => {
-    const colorMap: Record<string, string> = {
-      'blanco': 'bg-product-white border',
-      'white': 'bg-product-white border',
-      'gris': 'bg-product-grey',
-      'grey': 'bg-product-grey',
-      'gray': 'bg-product-grey',
-      'verde': 'bg-product-green',
-      'green': 'bg-product-green',
-    };
-    return colorMap[color.toLowerCase()] || 'bg-neutral';
-  };
 
   if (isLoading) {
     return (
@@ -215,11 +201,6 @@ export default function ProductDetail() {
                   )}
                 </div>
 
-                {/* View Count */}
-                <p className="text-sm text-muted-foreground flex items-center gap-2">
-                  <Eye className="h-4 w-4" />
-                  {viewCount} personas vieron esto en las últimas 24 horas
-                </p>
               </div>
 
               {/* Short Description */}
@@ -237,26 +218,35 @@ export default function ProductDetail() {
                   
                   {option.name.toLowerCase() === 'color' ? (
                     <div className="flex gap-3">
-                      {option.values.map((value) => (
-                        <button
-                          key={value}
-                          className={`heart-selector w-10 h-10 rounded-full ${getColorClass(value)} relative group`}
-                          title={value}
-                          onClick={() => {
-                            const variant = product.variants.edges.find(v =>
-                              v.node.selectedOptions.some(o => o.name === option.name && o.value === value)
-                            );
-                            if (variant) setSelectedVariantId(variant.node.id);
-                          }}
-                        >
-                          <span className="sr-only">{value}</span>
-                          {selectedVariant?.selectedOptions.some(o => o.name === option.name && o.value === value) && (
-                            <span className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-accent text-lg">♥</span>
-                            </span>
-                          )}
-                        </button>
-                      ))}
+                      {option.values.map((value) => {
+                        const isSelected = selectedVariant?.selectedOptions.some(o => o.name === option.name && o.value === value);
+                        const colorClass = value.toLowerCase() === 'blanco' || value.toLowerCase() === 'white' 
+                          ? 'text-neutral-300' 
+                          : value.toLowerCase() === 'gris' || value.toLowerCase() === 'grey' || value.toLowerCase() === 'gray'
+                          ? 'text-neutral-500'
+                          : value.toLowerCase() === 'verde' || value.toLowerCase() === 'green'
+                          ? 'text-green-600'
+                          : 'text-neutral-400';
+                        return (
+                          <button
+                            key={value}
+                            className="relative group"
+                            title={value}
+                            onClick={() => {
+                              const variant = product.variants.edges.find(v =>
+                                v.node.selectedOptions.some(o => o.name === option.name && o.value === value)
+                              );
+                              if (variant) setSelectedVariantId(variant.node.id);
+                            }}
+                          >
+                            <Heart 
+                              className={`h-10 w-10 ${isSelected ? 'text-accent fill-accent' : colorClass} ${!isSelected && 'fill-current'}`}
+                              strokeWidth={isSelected ? 2 : 1}
+                            />
+                            <span className="sr-only">{value}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="flex flex-wrap gap-2">
@@ -291,8 +281,8 @@ export default function ProductDetail() {
               {/* Size Guide */}
               <Dialog>
                 <DialogTrigger asChild>
-                  <button className="text-sm text-muted-foreground hover:text-accent transition-colors underline">
-                    📏 Guía de tallas
+                  <button className="text-sm font-bold text-foreground hover:text-accent transition-colors underline">
+                    Guía de tallas
                   </button>
                 </DialogTrigger>
                 <DialogContent className="max-w-lg">
@@ -337,11 +327,11 @@ export default function ProductDetail() {
               </Dialog>
 
               {/* Stock Status */}
-              <div className="text-sm">
+              <div className="text-sm font-bold">
                 {selectedVariant?.availableForSale ? (
-                  <span className="text-green-600">✅ En stock</span>
+                  <span className="text-foreground">En stock</span>
                 ) : (
-                  <span className="text-accent">❌ Agotado</span>
+                  <span className="text-foreground">Agotado</span>
                 )}
               </div>
 
@@ -373,7 +363,7 @@ export default function ProductDetail() {
                 <Button
                   onClick={handleAddToCart}
                   disabled={isAddingToCart || !selectedVariant?.availableForSale}
-                  className="flex-1 bg-foreground text-background hover:bg-foreground/90 font-bold uppercase tracking-wide py-6 text-base"
+                  className="flex-1 bg-accent text-white hover:bg-accent/90 font-bold uppercase tracking-wide py-6 text-base"
                 >
                   {isAddingToCart ? 'Añadiendo...' : 'Añadir al Carrito'}
                 </Button>
@@ -388,16 +378,16 @@ export default function ProductDetail() {
               </div>
 
               {/* Shipping Info */}
-              <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4 border-t text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
                   <Truck className="h-4 w-4" />
                   <span>Envío gratis en +50€</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
                   <Package className="h-4 w-4" />
                   <span>Envío: 48-72h</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
                   <RotateCcw className="h-4 w-4" />
                   <span>Devoluciones 30 días</span>
                 </div>
