@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
 import { BrandHeart } from "@/components/BrandHeart";
+import logoImage from "@/assets/logo.png";
 const navLinks = [
   { 
     name: "CAMISETAS", 
@@ -66,8 +67,11 @@ export function Header() {
               <SheetContent side="left" className="w-[300px] p-0">
                 <div className="p-6">
                   <Link to="/" className="block mb-8" onClick={() => setMobileMenuOpen(false)}>
-                    <h1 className="font-display text-2xl">RISCALES MOTOR CO.</h1>
-                    <BrandHeart size="sm" />
+                    <img 
+                      src={logoImage} 
+                      alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
+                      className="h-12 w-auto"
+                    />
                   </Link>
                   <nav className="space-y-4">
                     {navLinks.map((link) => (
@@ -100,8 +104,12 @@ export function Header() {
               </SheetContent>
             </Sheet>
 
-            <Link to="/" className="font-display text-xl flex items-center gap-1">
-              RISCALES <BrandHeart size="sm" />
+            <Link to="/" className="flex items-center">
+              <img 
+                src={logoImage} 
+                alt="Riscales Motor Co." 
+                className="h-10 w-auto"
+              />
             </Link>
 
             <div className="flex items-center gap-2">
@@ -119,8 +127,11 @@ export function Header() {
             {/* Logo Centered */}
             <div className="text-center mb-6">
               <Link to="/" className="inline-block">
-                <h1 className="font-display text-4xl tracking-wide">RISCALES MOTOR CO.</h1>
-                <BrandHeart size="lg" />
+                <img 
+                  src={logoImage} 
+                  alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
+                  className="h-16 w-auto mx-auto"
+                />
               </Link>
             </div>
 
