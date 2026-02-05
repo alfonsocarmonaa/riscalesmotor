@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Heart } from "lucide-react";
+import { Heart, Leaf, Pencil, Flag } from "lucide-react";
 import aboutClassicCar from "@/assets/about-classic-car.jpg";
 import aboutDesignProcess from "@/assets/about-design-process.jpg";
 
@@ -82,20 +82,30 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Values */}
-            <div className="grid md:grid-cols-4 gap-8 py-16 border-t border-b">
-              {[
-                { icon: '♥', title: 'Amor por el Detalle', desc: 'Cada trazo, pensado. Cada diseño, único.' },
-                { icon: '🌍', title: 'Fabricación Responsable', desc: 'Respetamos el planeta, producimos bajo demanda.' },
-                { icon: '🎨', title: 'Arte Auténtico', desc: 'Diseños originales hechos a mano.' },
-                { icon: '🏁', title: 'Pasión Motor', desc: 'Celebramos la historia del automovilismo.' },
-              ].map((value) => (
-                <div key={value.title} className="text-center">
-                  <span className="text-4xl block mb-4">{value.icon}</span>
-                  <h3 className="font-body font-bold mb-2">{value.title}</h3>
-                  <p className="text-sm text-muted-foreground">{value.desc}</p>
-                </div>
-              ))}
+            {/* Values - Workshop Style */}
+            <div className="py-16 border-t border-b border-dashed border-foreground/20">
+              <div className="text-center mb-10">
+                <span className="font-display text-2xl text-muted-foreground">Nuestros Valores</span>
+              </div>
+              <div className="grid md:grid-cols-4 gap-8">
+                {[
+                  { icon: Heart, title: 'Amor por el Detalle', desc: 'Cada trazo, pensado. Cada diseño, único.' },
+                  { icon: Leaf, title: 'Fabricación Responsable', desc: 'Respetamos el planeta, producimos bajo demanda.' },
+                  { icon: Pencil, title: 'Arte Auténtico', desc: 'Diseños originales hechos a mano.' },
+                  { icon: Flag, title: 'Pasión Motor', desc: 'Celebramos la historia del automovilismo.' },
+                ].map((value) => (
+                  <div 
+                    key={value.title} 
+                    className="text-center group"
+                  >
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-dashed border-foreground/30 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/5 transition-all duration-300">
+                      <value.icon className="h-8 w-8 text-foreground/70 group-hover:text-accent transition-colors" strokeWidth={1} />
+                    </div>
+                    <h3 className="font-display text-xl mb-2">{value.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{value.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Final Quote */}
