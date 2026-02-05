@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { TickerBanner } from "@/components/layout/TickerBanner";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 // Pages
@@ -76,6 +77,9 @@ const App = () => (
           
           {/* Cookie Consent Banner */}
           <CookieBanner />
+          
+          {/* Bottom Ticker Banner */}
+          <TickerBanner />
         </CartSyncProvider>
       </BrowserRouter>
     </TooltipProvider>

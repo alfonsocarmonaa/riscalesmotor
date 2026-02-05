@@ -168,21 +168,6 @@ export function Header() {
           </div>
         </div>
       </div>
-
-      {/* Static Info Banner - Bottom */}
-      <div className="bg-foreground text-background py-2">
-        <div className="container">
-          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-1 text-xs md:text-sm text-center">
-            <span>ENVÍOS GRATIS A PARTIR DE 50€</span>
-            <span className="hidden md:inline">•</span>
-            <span>ENVÍOS EN 48-72 HORAS</span>
-            <span className="hidden md:inline">•</span>
-            <span>REGÍSTRATE PARA UN 10% DE DESCUENTO EN PRIMER PEDIDO</span>
-            <span className="hidden md:inline">•</span>
-            <span>FABRICACIÓN Y DISEÑO ARTESANAL</span>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }
