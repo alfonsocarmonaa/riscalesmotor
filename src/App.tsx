@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 // Pages
 import Index from "./pages/Index";
@@ -45,6 +46,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <CartSyncProvider>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/productos" element={<Products />} />
