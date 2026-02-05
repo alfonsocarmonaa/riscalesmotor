@@ -16,8 +16,10 @@ const footerLinks = {
     { name: "Contacto", href: "/contacto" },
     { name: "Envíos", href: "/envios" },
     { name: "Devoluciones", href: "/devoluciones" },
+    { name: "Guía de Tallas", href: "/guia-tallas" },
     { name: "Política de Privacidad", href: "/privacidad" },
     { name: "Términos y Condiciones", href: "/terminos" },
+    { name: "Política de Cookies", href: "/cookies" },
   ],
   about: [
     { name: "Sobre Riscales", href: "/sobre-riscales" },
