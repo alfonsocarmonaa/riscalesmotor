@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Heart, Leaf, Pencil, Flag, Target, Eye } from "lucide-react";
 import aboutClassicCar from "@/assets/about-classic-car.jpg";
 import aboutDesignProcess from "@/assets/about-design-process.jpg";
+import aboutHeroWorkshop from "@/assets/about-hero-workshop.jpg";
 
 export default function AboutPage() {
   return (
@@ -12,12 +13,11 @@ export default function AboutPage() {
       <main className="flex-1">
         {/* Hero */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-neutral-dark via-foreground to-neutral-dark" />
-          <div className="absolute inset-0 opacity-10">
-            <div className="w-full h-full" style={{
-              backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px)`
-            }} />
-          </div>
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${aboutHeroWorkshop})` }}
+          />
+          <div className="absolute inset-0 bg-foreground/60" />
           
           <div className="relative z-10 text-center px-4">
             <h1 className="font-display text-5xl md:text-7xl text-background mb-4">
