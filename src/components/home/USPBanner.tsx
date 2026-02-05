@@ -42,12 +42,12 @@ export function USPBanner() {
           {/* Last item with brand heart */}
           <div className="text-center group cursor-default">
             <div className="inline-flex items-center justify-center w-10 h-10 mb-3">
-              <BrandHeart size="lg" className="group-hover:scale-110 transition-transform" />
+              <BrandHeart size="lg" className="group-hover:scale-110 group-hover:text-accent transition-all" />
             </div>
             <h3 className="font-body font-bold text-sm mb-1">
               Hecho con Amor
             </h3>
-            <p className="text-accent text-xs">
+            <p className="text-muted-foreground text-xs">
               España
             </p>
           </div>
