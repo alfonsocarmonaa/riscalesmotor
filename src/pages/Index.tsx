@@ -15,14 +15,14 @@ const Index = () => {
         {/* Hero Section */}
         <Hero />
 
-        {/* USP Banner */}
-        <USPBanner />
-
         {/* Best Sellers */}
         <BestSellers />
 
         {/* Shop by Collection */}
         <ShopByCollection />
+
+        {/* USP Banner */}
+        <USPBanner />
 
         {/* Manifesto / Lifestyle Section */}
         <Manifesto />
