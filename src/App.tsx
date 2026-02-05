@@ -14,6 +14,7 @@ import About from "./pages/About";
 import ComingSoon from "./pages/ComingSoon";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import SizeGuide from "./pages/SizeGuide";
 
 // Legal Pages
 import Privacy from "./pages/legal/Privacy";
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/sobre-riscales" element={<About />} />
             <Route path="/proximamente/:category" element={<ComingSoon />} />
             <Route path="/contacto" element={<Contact />} />
+            <Route path="/guia-tallas" element={<SizeGuide />} />
             
             {/* Legal Pages */}
             <Route path="/privacidad" element={<Privacy />} />
