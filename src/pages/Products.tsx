@@ -32,7 +32,6 @@ const colorOptions = [
   { id: 'blanco', name: 'Blanco', class: 'text-gray-200' },
   { id: 'gris', name: 'Gris', class: 'text-gray-400' },
   { id: 'verde', name: 'Verde', class: 'text-green-700' },
-  { id: 'negro', name: 'Negro', class: 'text-gray-900' },
 ];
 
 const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
