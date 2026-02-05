@@ -106,8 +106,8 @@ export function Header() {
 
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" asChild>
-                <Link to="/buscar">
-                  <Search className="h-5 w-5" />
+                <Link to="/favoritos">
+                  <Heart className="h-5 w-5" />
                 </Link>
               </Button>
               <CartDrawer />
@@ -164,11 +164,6 @@ export function Header() {
 
               {/* Icons */}
               <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" asChild>
-                  <Link to="/buscar">
-                    <Search className="h-5 w-5" />
-                  </Link>
-                </Button>
                 <Button variant="ghost" size="icon" asChild>
                   <Link to="/cuenta">
                     <User className="h-5 w-5" />
