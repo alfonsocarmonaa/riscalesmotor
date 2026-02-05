@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Heart, Leaf, Pencil, Flag } from "lucide-react";
+import { Heart, Leaf, Pencil, Flag, Target, Eye } from "lucide-react";
 import aboutClassicCar from "@/assets/about-classic-car.jpg";
 import aboutDesignProcess from "@/assets/about-design-process.jpg";
 
@@ -79,6 +79,88 @@ export default function AboutPage() {
                   alt="Proceso de diseño artesanal" 
                   className="w-full h-full object-cover"
                 />
+              </div>
+            </div>
+
+            {/* Mission & Vision Section */}
+            <div className="mb-24">
+              <div className="text-center mb-16">
+                <span className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Lo que nos mueve</span>
+                <h2 className="font-display text-4xl md:text-5xl mt-4">Nuestra Esencia</h2>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+                {/* Mission */}
+                <div className="relative p-8 md:p-12 bg-foreground text-background rounded-lg overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-full border border-background/30 flex items-center justify-center">
+                        <Target className="h-6 w-6" strokeWidth={1} />
+                      </div>
+                      <span className="text-xs uppercase tracking-[0.2em] text-background/60">Nuestra Misión</span>
+                    </div>
+                    
+                    <h3 className="font-display text-2xl md:text-3xl mb-6 leading-tight">
+                      Vestir la pasión por el motor con arte y autenticidad
+                    </h3>
+                    
+                    <p className="text-background/80 leading-relaxed mb-4">
+                      Creamos camisetas que son más que prendas: son lienzos donde plasmamos 
+                      la belleza de los vehículos que marcaron historia. Cada diseño nace del 
+                      respeto por la artesanía y el amor por los clásicos.
+                    </p>
+                    
+                    <p className="text-background/80 leading-relaxed">
+                      Nuestra misión es conectar a personas que comparten esta pasión, 
+                      ofreciéndoles piezas únicas que cuentan historias y despiertan emociones.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Vision */}
+                <div className="relative p-8 md:p-12 border-2 border-dashed border-foreground/20 rounded-lg overflow-hidden group hover:border-foreground/40 transition-colors">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 rounded-full border border-foreground/30 flex items-center justify-center">
+                        <Eye className="h-6 w-6" strokeWidth={1} />
+                      </div>
+                      <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Nuestra Visión</span>
+                    </div>
+                    
+                    <h3 className="font-display text-2xl md:text-3xl mb-6 leading-tight">
+                      Ser el referente mundial en moda artesanal del motor
+                    </h3>
+                    
+                    <p className="text-muted-foreground leading-relaxed mb-4">
+                      Imaginamos un mundo donde la moda y la pasión por el motor se unen 
+                      en armonía. Donde cada camiseta es una obra de arte que trasciende 
+                      generaciones y fronteras.
+                    </p>
+                    
+                    <p className="text-muted-foreground leading-relaxed">
+                      Aspiramos a crear una comunidad global de amantes del motor que visten 
+                      con orgullo su pasión, sabiendo que llevan una pieza fabricada con 
+                      responsabilidad, amor y el saber hacer de un taller artesanal español.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Origin Story */}
+              <div className="mt-16 text-center max-w-3xl mx-auto">
+                <div className="inline-block mb-6">
+                  <Heart className="h-6 w-6 text-accent mx-auto" strokeWidth={1.5} />
+                </div>
+                <p className="font-display text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                  Todo comenzó con un lápiz, un papel y la imagen de un Porsche 911 
+                  que no salía de nuestra cabeza. Hoy, ese mismo espíritu sigue vivo 
+                  en cada diseño que creamos desde nuestro pequeño taller en España.
+                </p>
               </div>
             </div>
 
