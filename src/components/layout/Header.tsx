@@ -8,6 +8,7 @@ import { CartDrawer } from "./CartDrawer";
 import { BrandHeart } from "@/components/BrandHeart";
 import logoImage from "@/assets/logo.png";
 const navLinks = [
+  { name: "INICIO", href: "/" },
   { 
     name: "CAMISETAS", 
     href: "/productos",
@@ -136,9 +137,9 @@ export function Header() {
             </div>
 
             {/* Navigation & Icons */}
-            <div className="flex items-center justify-between">
-              {/* Navigation */}
-              <nav className="flex-1 flex justify-center">
+            <div className="relative flex items-center justify-center">
+              {/* Navigation - Centered */}
+              <nav>
                 <ul className="flex items-center gap-8">
                   {navLinks.map((link) => (
                     <li key={link.name} className="relative group mega-menu-trigger">
@@ -173,8 +174,8 @@ export function Header() {
                 </ul>
               </nav>
 
-              {/* Icons */}
-              <div className="flex items-center gap-4">
+              {/* Icons - Absolute Right */}
+              <div className="absolute right-0 flex items-center gap-3">
                 <Button variant="ghost" size="icon" asChild>
                   <Link to="/cuenta">
                     <User className="h-5 w-5" />
