@@ -1,5 +1,5 @@
-import { Truck, Palette, Leaf, Heart } from "lucide-react";
-
+import { Truck, Palette, Leaf } from "lucide-react";
+import { BrandHeart } from "@/components/BrandHeart";
 const usps = [
   {
     icon: Truck,
@@ -16,34 +16,41 @@ const usps = [
     title: "Fabricación Responsable",
     description: "Planeta",
   },
-  {
-    icon: Heart,
-    title: "Hecho con Amor",
-    description: "España",
-  },
 ];
 
 export function USPBanner() {
   return (
-    <section className="py-12 bg-secondary">
+    <section className="py-8 bg-background border-y border-border">
       <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {usps.map((usp) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {usps.slice(0, 3).map((usp) => (
             <div 
               key={usp.title} 
               className="text-center group cursor-default"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 mb-4 transition-colors group-hover:text-accent">
-                <usp.icon className="w-8 h-8" strokeWidth={1.5} />
+              <div className="inline-flex items-center justify-center w-10 h-10 mb-3 transition-colors group-hover:text-accent">
+                <usp.icon className="w-7 h-7" strokeWidth={1.5} />
               </div>
-              <h3 className="font-body font-bold text-sm md:text-base mb-1">
+              <h3 className="font-body font-bold text-sm mb-1">
                 {usp.title}
               </h3>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-xs">
                 {usp.description}
               </p>
             </div>
           ))}
+          {/* Last item with brand heart */}
+          <div className="text-center group cursor-default">
+            <div className="inline-flex items-center justify-center w-10 h-10 mb-3">
+              <BrandHeart size="lg" className="group-hover:scale-110 transition-transform" />
+            </div>
+            <h3 className="font-body font-bold text-sm mb-1">
+              Hecho con Amor
+            </h3>
+            <p className="text-accent text-xs">
+              España
+            </p>
+          </div>
         </div>
       </div>
     </section>
