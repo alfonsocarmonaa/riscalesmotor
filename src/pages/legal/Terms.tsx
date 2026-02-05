@@ -8,7 +8,7 @@ export default function TermsPage() {
       
       <main className="flex-1">
         <div className="bg-secondary py-12">
-          <div className="container">
+          <div className="container max-w-4xl">
             <h1 className="font-display text-4xl md:text-5xl">Términos y Condiciones</h1>
             <p className="text-muted-foreground mt-2">Última actualización: Febrero 2026</p>
           </div>
