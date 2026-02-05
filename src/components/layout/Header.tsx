@@ -108,7 +108,7 @@ export function Header() {
               <img 
                 src={logoImage} 
                 alt="Riscales Motor Co." 
-                className="h-14 w-auto"
+                className="h-16 w-auto"
               />
             </Link>
 
@@ -125,12 +125,12 @@ export function Header() {
           {/* Desktop Header */}
           <div className="hidden lg:block">
             {/* Logo Centered */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-3">
               <Link to="/" className="inline-block">
                 <img 
                   src={logoImage} 
                   alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
-                  className="h-20 w-auto mx-auto"
+                  className="h-24 w-auto mx-auto"
                 />
               </Link>
             </div>
