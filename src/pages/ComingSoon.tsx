@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
+import comingSoonBg from "@/assets/coming-soon-bg.jpg";
 
 export default function ComingSoonPage() {
   const { category } = useParams<{ category: string }>();
@@ -33,30 +34,22 @@ export default function ComingSoonPage() {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <main className="flex-1 flex items-center justify-center">
-        <div className="container py-16">
-          <div className="max-w-2xl mx-auto text-center">
-            {/* Background Pattern */}
-            <div className="relative mb-12">
-              <div className="aspect-video rounded-lg overflow-hidden bg-gradient-to-br from-neutral-dark via-foreground to-neutral-dark relative">
-                <div className="absolute inset-0 opacity-20">
-                  <div className="w-full h-full" style={{
-                    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px)`
-                  }} />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-6xl md:text-8xl text-background/20">
-                    {title}
-                  </span>
-                </div>
-              </div>
-            </div>
+      <main className="flex-1 flex items-center justify-center relative">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${comingSoonBg})` }}
+        >
+          <div className="absolute inset-0 bg-foreground/70" />
+        </div>
 
+        <div className="container py-16 relative z-10">
+          <div className="max-w-2xl mx-auto text-center text-background">
             {/* Content */}
-            <h1 className="font-display text-4xl md:text-5xl mb-4">¡Próximamente!</h1>
-            <h2 className="font-display text-2xl md:text-3xl text-accent mb-6">{title}</h2>
+            <h1 className="font-display text-5xl md:text-7xl mb-4">¡Próximamente!</h1>
+            <h2 className="font-display text-3xl md:text-4xl text-accent mb-6">{title}</h2>
             
-            <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto">
+            <p className="text-lg text-background/80 mb-8 max-w-lg mx-auto">
               {description}. Estamos preparando algo especial para ti.
             </p>
 
@@ -64,15 +57,15 @@ export default function ComingSoonPage() {
               <Button 
                 asChild 
                 size="lg"
-                className="bg-foreground text-background hover:bg-foreground/90 font-bold uppercase tracking-wide"
+                className="bg-background text-foreground hover:bg-background/90 font-bold uppercase tracking-wide"
               >
                 <Link to="/productos">
                   Ver Camisetas
                 </Link>
               </Button>
 
-              <div className="pt-8 border-t max-w-md mx-auto">
-                <p className="text-sm text-muted-foreground mb-4">
+              <div className="pt-8 border-t border-background/30 max-w-md mx-auto">
+                <p className="text-sm text-background/70 mb-4">
                   Suscríbete para ser el primero en saberlo
                 </p>
                 <form onSubmit={handleSubmit} className="flex gap-2">
@@ -81,6 +74,7 @@ export default function ComingSoonPage() {
                     placeholder="Tu email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="bg-background/10 border-background/30 text-background placeholder:text-background/50"
                     required
                   />
                   <Button 

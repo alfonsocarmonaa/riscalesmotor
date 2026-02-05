@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import manifestoImage from "@/assets/manifesto-lifestyle.jpg";
 
 export function Manifesto() {
   return (
@@ -7,19 +8,14 @@ export function Manifesto() {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Image */}
-          <div className="relative aspect-square lg:aspect-[4/5] rounded-lg overflow-hidden bg-gradient-to-br from-neutral-light via-secondary to-neutral-light">
-            {/* Placeholder decorative elements */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <span className="text-8xl text-accent opacity-20">♥</span>
-              </div>
-            </div>
-            {/* Overlay pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="w-full h-full" style={{
-                backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(var(--foreground) / 0.05) 10px, hsl(var(--foreground) / 0.05) 20px)`
-              }} />
-            </div>
+          <div className="relative aspect-square lg:aspect-[4/5] rounded-lg overflow-hidden">
+            <img 
+              src={manifestoImage} 
+              alt="Persona con camiseta Riscales en un garaje vintage"
+              className="w-full h-full object-cover"
+            />
+            {/* Subtle overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
           </div>
 
           {/* Content */}
