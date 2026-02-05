@@ -221,7 +221,7 @@ export default function ProductDetail() {
                       {option.values.map((value) => {
                         const isSelected = selectedVariant?.selectedOptions.some(o => o.name === option.name && o.value === value);
                         const colorClass = value.toLowerCase() === 'blanco' || value.toLowerCase() === 'white' 
-                          ? 'text-neutral-300' 
+                          ? 'text-white [&]:fill-white [&]:stroke-neutral-300' 
                           : value.toLowerCase() === 'gris' || value.toLowerCase() === 'grey' || value.toLowerCase() === 'gray'
                           ? 'text-neutral-500'
                           : value.toLowerCase() === 'verde' || value.toLowerCase() === 'green'
@@ -239,11 +239,20 @@ export default function ProductDetail() {
                               if (variant) setSelectedVariantId(variant.node.id);
                             }}
                           >
-                            <Heart 
-                              className={`h-10 w-10 ${colorClass} fill-current`}
-                              strokeWidth={isSelected ? 3 : 1}
-                              stroke={isSelected ? 'black' : 'currentColor'}
-                            />
+                            {(value.toLowerCase() === 'blanco' || value.toLowerCase() === 'white') ? (
+                              <Heart 
+                                className="h-10 w-10"
+                                fill="white"
+                                stroke={isSelected ? 'black' : '#d4d4d4'}
+                                strokeWidth={isSelected ? 3 : 1.5}
+                              />
+                            ) : (
+                              <Heart 
+                                className={`h-10 w-10 ${colorClass} fill-current`}
+                                strokeWidth={isSelected ? 3 : 1}
+                                stroke={isSelected ? 'black' : 'currentColor'}
+                              />
+                            )}
                             <span className="sr-only">{value}</span>
                           </button>
                         );
