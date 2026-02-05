@@ -30,30 +30,6 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-background">
-      {/* Ticker Banner */}
-      <div className="bg-foreground text-background py-2 overflow-hidden">
-        <div className="animate-ticker whitespace-nowrap inline-flex items-center">
-          <span className="mx-8">🚗 ENVÍO GRATIS EN PEDIDOS +50€</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8">ENVÍOS EN 48-72H</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8">DISEÑOS ÚNICOS ARTESANALES</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8">FABRICACIÓN RESPONSABLE</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8 inline-flex items-center gap-1">HECHO CON <BrandHeart size="xs" /> EN ESPAÑA</span>
-          <span className="mx-8">🚗 ENVÍO GRATIS EN PEDIDOS +50€</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8">ENVÍOS EN 48-72H</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8">DISEÑOS ÚNICOS ARTESANALES</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8">FABRICACIÓN RESPONSABLE</span>
-          <span className="mx-8">•</span>
-          <span className="mx-8 inline-flex items-center gap-1">HECHO CON <BrandHeart size="xs" /> EN ESPAÑA</span>
-        </div>
-      </div>
-
       {/* Main Header */}
       <div className="border-b">
         <div className="container py-4">
@@ -189,6 +165,21 @@ export function Header() {
                 <CartDrawer />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Static Info Banner - Bottom */}
+      <div className="bg-foreground text-background py-2">
+        <div className="container">
+          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-1 text-xs md:text-sm text-center">
+            <span>ENVÍOS GRATIS A PARTIR DE 50€</span>
+            <span className="hidden md:inline">•</span>
+            <span>ENVÍOS EN 48-72 HORAS</span>
+            <span className="hidden md:inline">•</span>
+            <span>REGÍSTRATE PARA UN 10% DE DESCUENTO EN PRIMER PEDIDO</span>
+            <span className="hidden md:inline">•</span>
+            <span>FABRICACIÓN Y DISEÑO ARTESANAL</span>
           </div>
         </div>
       </div>
