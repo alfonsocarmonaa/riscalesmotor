@@ -70,7 +70,7 @@ export function Header() {
                     <img 
                       src={logoImage} 
                       alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
-                      className="h-12 w-auto"
+                      className="h-16 w-auto"
                     />
                   </Link>
                   <nav className="space-y-4">
@@ -108,7 +108,7 @@ export function Header() {
               <img 
                 src={logoImage} 
                 alt="Riscales Motor Co." 
-                className="h-10 w-auto"
+                className="h-14 w-auto"
               />
             </Link>
 
@@ -130,7 +130,7 @@ export function Header() {
                 <img 
                   src={logoImage} 
                   alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
-                  className="h-16 w-auto mx-auto"
+                  className="h-20 w-auto mx-auto"
                 />
               </Link>
             </div>
