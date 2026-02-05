@@ -113,7 +113,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <Button 
             onClick={handleAddToCart}
             disabled={isLoading || !firstVariant?.availableForSale}
-            className="w-full bg-foreground hover:bg-foreground/90 text-background font-bold uppercase text-xs tracking-wide"
+            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase text-xs tracking-wide"
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
             {!firstVariant?.availableForSale ? 'Agotado' : 'Añadir al Carrito'}

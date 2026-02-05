@@ -209,7 +209,7 @@ export default function ProductsPage() {
       {/* Clear Filters */}
       <Button 
         variant="outline" 
-        className="w-full"
+        className="w-full bg-foreground text-background hover:bg-foreground/90 hover:text-background"
         onClick={clearAllFilters}
       >
         Limpiar Filtros
