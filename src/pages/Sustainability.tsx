@@ -25,7 +25,7 @@ const commitments = [
     icon: Factory,
     title: "Proveedores de Confianza",
     subtitle: "Calidad Certificada",
-    description: "Trabajamos exclusivamente con proveedores de primera calidad que comparten nuestros valores de sostenibilidad y condiciones laborales justas.",
+    description: "Trabajamos exclusivamente con proveedores de primera calidad que comparten nuestros valores de sostenibilidad y condiciones laborales.",
     stat: "1ª",
     statLabel: "Calidad",
   },
