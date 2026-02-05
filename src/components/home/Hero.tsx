@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export function Hero() {
@@ -25,8 +24,7 @@ export function Hero() {
           Camisetas artesanales inspiradas en leyendas del motor
         </p>
         <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta">
-          <Link to="/productos" className="inline-flex items-center gap-2">
-            <Heart className="h-5 w-5" />
+          <Link to="/productos">
             Descubre la Colección
           </Link>
         </Button>
