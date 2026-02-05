@@ -240,8 +240,9 @@ export default function ProductDetail() {
                             }}
                           >
                             <Heart 
-                              className={`h-10 w-10 ${isSelected ? 'text-accent fill-accent' : colorClass} ${!isSelected && 'fill-current'}`}
-                              strokeWidth={isSelected ? 2 : 1}
+                              className={`h-10 w-10 ${colorClass} fill-current`}
+                              strokeWidth={isSelected ? 3 : 1}
+                              stroke={isSelected ? 'black' : 'currentColor'}
                             />
                             <span className="sr-only">{value}</span>
                           </button>
