@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import collectionRiscales from "@/assets/collection-riscales.jpg";
+import collectionEdicionesRiscales from "@/assets/collection-ediciones-riscales.jpg";
 import collectionCars from "@/assets/collection-cars.jpg";
 import collectionMotos from "@/assets/collection-motos.jpg";
 
@@ -10,7 +10,7 @@ const collections = [
     name: 'Ediciones Riscales',
     description: 'Diseños exclusivos de la marca',
     href: '/productos?collection=ediciones-riscales',
-    image: collectionRiscales,
+    image: collectionEdicionesRiscales,
   },
   {
     id: 'leyendas',
