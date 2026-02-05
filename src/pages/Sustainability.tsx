@@ -33,7 +33,7 @@ const commitments = [
     icon: Heart,
     title: "Hecho con Amor",
     subtitle: "Producción Local",
-    description: "Diseñamos en España y producimos de forma responsable. Cada camiseta pasa por manos que aman lo que hacen.",
+    description: "Diseñamos en España y producimos de forma responsable. Cada camiseta pasa por manos que aman lo que hacen tanto como vosotros.",
     stat: "♥",
     statLabel: "España",
   },
