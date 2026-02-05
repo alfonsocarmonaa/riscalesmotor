@@ -24,8 +24,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const collections = [
   { id: 'ediciones-riscales', name: 'Ediciones Riscales' },
-  { id: 'coches', name: 'Leyendas del Asfalto' },
-  { id: 'motos', name: 'Espíritu Dos Ruedas' },
+  { id: 'leyendas', name: 'Leyendas del Motor' },
+  { id: 'espiritu', name: 'Espíritu' },
 ];
 
 const colors = [
@@ -52,15 +52,15 @@ export default function ProductsPage() {
 
   const getPageTitle = () => {
     if (collection === 'ediciones-riscales') return 'Ediciones Riscales';
-    if (collection === 'coches') return 'Leyendas del Asfalto';
-    if (collection === 'motos') return 'Espíritu Dos Ruedas';
+    if (collection === 'leyendas') return 'Leyendas del Motor';
+    if (collection === 'espiritu') return 'Espíritu';
     return 'Todas las Camisetas';
   };
 
   const getPageDescription = () => {
     if (collection === 'ediciones-riscales') return 'Diseños exclusivos creados por Riscales Motor Co.';
-    if (collection === 'coches') return 'Camisetas inspiradas en los coches clásicos que marcaron época';
-    if (collection === 'motos') return 'Homenaje a las motos legendarias que escribieron historia';
+    if (collection === 'leyendas') return 'Homenaje a las máquinas legendarias que escribieron historia';
+    if (collection === 'espiritu') return 'Camisetas para los que sienten la llamada del asfalto';
     return 'Explora nuestra colección completa de camisetas artesanales';
   };
 
