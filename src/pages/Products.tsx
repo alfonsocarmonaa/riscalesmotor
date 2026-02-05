@@ -5,7 +5,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Filter, Heart } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Select,
   SelectContent,
@@ -28,19 +28,22 @@ const collections = [
   { id: 'espiritu', name: 'Espíritu Viajero' },
 ];
 
-const colors = [
+const colorOptions = [
   { id: 'blanco', name: 'Blanco', class: 'text-gray-200' },
   { id: 'gris', name: 'Gris', class: 'text-gray-400' },
   { id: 'verde', name: 'Verde', class: 'text-green-700' },
+  { id: 'negro', name: 'Negro', class: 'text-gray-900' },
 ];
 
-const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const collection = searchParams.get('collection');
   const [sortBy, setSortBy] = useState('featured');
   const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
 
   // Build query based on collection
   let query: string | undefined;
@@ -49,6 +52,61 @@ export default function ProductsPage() {
   }
 
   const { data: products, isLoading } = useProducts(50, query);
+
+  // Filter products by color and size on the client side
+  const filteredProducts = useMemo(() => {
+    if (!products) return [];
+    
+    return products.filter(product => {
+      // Filter by color
+      if (selectedColors.length > 0) {
+        const productColors = product.node.options
+          .find(opt => opt.name.toLowerCase() === 'color')?.values || [];
+        const hasMatchingColor = productColors.some(color => 
+          selectedColors.some(selected => 
+            color.toLowerCase().includes(selected.toLowerCase()) ||
+            selected.toLowerCase().includes(color.toLowerCase())
+          )
+        );
+        if (!hasMatchingColor) return false;
+      }
+      
+      // Filter by size
+      if (selectedSizes.length > 0) {
+        const productSizes = product.node.options
+          .find(opt => opt.name.toLowerCase() === 'talla')?.values || [];
+        const hasMatchingSize = productSizes.some(size => 
+          selectedSizes.includes(size.toUpperCase())
+        );
+        if (!hasMatchingSize) return false;
+      }
+      
+      return true;
+    });
+  }, [products, selectedColors, selectedSizes]);
+
+  const toggleColor = (colorId: string) => {
+    setSelectedColors(prev => 
+      prev.includes(colorId) 
+        ? prev.filter(c => c !== colorId)
+        : [...prev, colorId]
+    );
+  };
+
+  const toggleSize = (size: string) => {
+    setSelectedSizes(prev => 
+      prev.includes(size) 
+        ? prev.filter(s => s !== size)
+        : [...prev, size]
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSearchParams({});
+    setSelectedColors([]);
+    setSelectedSizes([]);
+    setFilterOpen(false);
+  };
 
   const getPageTitle = () => {
     if (collection === 'ediciones-riscales') return 'Ediciones Riscales';
@@ -92,10 +150,13 @@ export default function ProductsPage() {
       <div>
         <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-4">Color</h4>
         <div className="flex gap-3">
-          {colors.map((color) => (
+          {colorOptions.map((color) => (
             <button
               key={color.id}
-              className="relative w-8 h-8 transition-transform hover:scale-110"
+              onClick={() => toggleColor(color.id)}
+              className={`relative w-8 h-8 transition-transform hover:scale-110 ${
+                selectedColors.includes(color.id) ? 'scale-125' : ''
+              }`}
               title={color.name}
             >
               <Heart 
@@ -103,6 +164,9 @@ export default function ProductsPage() {
                 fill="currentColor"
                 strokeWidth={color.id === 'blanco' ? 1 : 0}
               />
+              {selectedColors.includes(color.id) && (
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-accent rounded-full" />
+              )}
               <span className="sr-only">{color.name}</span>
             </button>
           ))}
@@ -113,10 +177,15 @@ export default function ProductsPage() {
       <div>
         <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-4">Talla</h4>
         <div className="flex flex-wrap gap-2">
-          {sizes.map((size) => (
+          {sizeOptions.map((size) => (
             <button
               key={size}
-              className="px-3 py-1.5 border rounded text-sm hover:border-accent hover:text-accent transition-colors"
+              onClick={() => toggleSize(size)}
+              className={`px-3 py-1.5 border rounded text-sm transition-colors ${
+                selectedSizes.includes(size)
+                  ? 'border-accent bg-accent text-accent-foreground'
+                  : 'hover:border-accent hover:text-accent'
+              }`}
             >
               {size}
             </button>
@@ -124,14 +193,18 @@ export default function ProductsPage() {
         </div>
       </div>
 
+      {/* Active Filters Count */}
+      {(selectedColors.length > 0 || selectedSizes.length > 0 || collection) && (
+        <div className="text-sm text-muted-foreground">
+          {selectedColors.length + selectedSizes.length + (collection ? 1 : 0)} filtros activos
+        </div>
+      )}
+
       {/* Clear Filters */}
       <Button 
         variant="outline" 
         className="w-full"
-        onClick={() => {
-          setSearchParams({});
-          setFilterOpen(false);
-        }}
+        onClick={clearAllFilters}
       >
         Limpiar Filtros
       </Button>
@@ -202,7 +275,7 @@ export default function ProductsPage() {
                 </Sheet>
 
                 <span className="text-sm text-muted-foreground hidden lg:block">
-                  {products?.length || 0} productos
+                  {filteredProducts.length} productos
                 </span>
 
                 {/* Sort Dropdown */}
@@ -224,7 +297,7 @@ export default function ProductsPage() {
               </div>
 
               {/* Product Grid */}
-              <ProductGrid products={products || []} isLoading={isLoading} />
+              <ProductGrid products={filteredProducts} isLoading={isLoading} />
             </div>
           </div>
         </div>
