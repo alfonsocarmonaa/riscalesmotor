@@ -8,6 +8,25 @@
     <meta name="author" content="Riscales Motor Co." />
     <link rel="icon" href="/favicon.png" type="image/png" />
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZNHBTFH4B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      
+      // Check cookie consent before initializing
+      (function() {
+        var consent = localStorage.getItem('riscales-cookie-consent');
+        if (consent) {
+          var prefs = JSON.parse(consent);
+          if (prefs.analytics) {
+            gtag('js', new Date());
+            gtag('config', 'G-7ZNHBTFH4B');
+          }
+        }
+      })();
+    </script>
+
     <meta property="og:title" content="Riscales Motor Co. | Camisetas de Coches y Motos Clásicos" />
     <meta property="og:description" content="Camisetas artesanales ilustradas con vehículos clásicos. Diseños únicos, algodón premium, fabricación responsable." />
     <meta property="og:type" content="website" />
