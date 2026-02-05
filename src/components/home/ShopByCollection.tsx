@@ -21,7 +21,7 @@ const collections = [
   },
   {
     id: 'espiritu',
-    name: 'Espíritu',
+    name: 'Espíritu Viajero',
     description: 'Para los que sienten la llamada del asfalto',
     href: '/productos?collection=espiritu',
     image: collectionCars,
