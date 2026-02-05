@@ -191,7 +191,7 @@ export default function AboutPage() {
             </div>
 
             {/* Final Quote */}
-            <div className="text-center py-24">
+            <div className="text-center pt-16 pb-8">
               <blockquote className="max-w-2xl mx-auto">
                 <p className="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-8">
                   "Porque cada camiseta que llevas<br />cuenta una historia.<br />
