@@ -39,6 +39,9 @@ export function Header() {
       setIsScrolled(window.scrollY > 50);
     };
 
+    // Check initial scroll position
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -125,7 +128,7 @@ export function Header() {
               <img 
                 src={logoImage} 
                 alt="Riscales Motor Co." 
-                className="h-12 w-auto"
+                className="h-[72px] w-auto"
               />
             </Link>
 
