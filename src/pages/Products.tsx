@@ -4,7 +4,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { useProducts } from "@/hooks/useProducts";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Filter, ChevronDown } from "lucide-react";
+import { Filter, Heart } from "lucide-react";
 import { useState } from "react";
 import {
   Select,
@@ -29,9 +29,9 @@ const collections = [
 ];
 
 const colors = [
-  { id: 'blanco', name: 'Blanco', class: 'bg-product-white border' },
-  { id: 'gris', name: 'Gris', class: 'bg-product-grey' },
-  { id: 'verde', name: 'Verde', class: 'bg-product-green' },
+  { id: 'blanco', name: 'Blanco', class: 'text-gray-200' },
+  { id: 'gris', name: 'Gris', class: 'text-gray-400' },
+  { id: 'verde', name: 'Verde', class: 'text-green-700' },
 ];
 
 const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
@@ -95,9 +95,14 @@ export default function ProductsPage() {
           {colors.map((color) => (
             <button
               key={color.id}
-              className={`heart-selector w-8 h-8 rounded-full ${color.class} relative`}
+              className="relative w-8 h-8 transition-transform hover:scale-110"
               title={color.name}
             >
+              <Heart 
+                className={`w-full h-full ${color.class} transition-colors`}
+                fill="currentColor"
+                strokeWidth={color.id === 'blanco' ? 1 : 0}
+              />
               <span className="sr-only">{color.name}</span>
             </button>
           ))}
