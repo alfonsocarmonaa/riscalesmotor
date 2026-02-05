@@ -25,7 +25,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 const collections = [
   { id: 'ediciones-riscales', name: 'Ediciones Riscales' },
   { id: 'leyendas', name: 'Leyendas del Motor' },
-  { id: 'espiritu', name: 'Espíritu' },
+  { id: 'espiritu', name: 'Espíritu Viajero' },
 ];
 
 const colors = [
@@ -53,7 +53,7 @@ export default function ProductsPage() {
   const getPageTitle = () => {
     if (collection === 'ediciones-riscales') return 'Ediciones Riscales';
     if (collection === 'leyendas') return 'Leyendas del Motor';
-    if (collection === 'espiritu') return 'Espíritu';
+    if (collection === 'espiritu') return 'Espíritu Viajero';
     return 'Todas las Camisetas';
   };
 
