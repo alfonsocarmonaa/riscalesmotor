@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Search, User, Menu, X, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
 import { BrandHeart } from "@/components/BrandHeart";
 import logoImage from "@/assets/logo.png";
+
 const navLinks = [
   { name: "INICIO", href: "/" },
   { 
@@ -26,12 +27,30 @@ const navLinks = [
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const totalItems = useCartStore(state => state.getTotalItems());
+  const location = useLocation();
+  
+  // Only apply transparent header on homepage
+  const isHomePage = location.pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const headerBg = isHomePage && !isScrolled 
+    ? "bg-transparent" 
+    : "bg-background";
 
   return (
-    <header className="sticky top-0 z-50 bg-background">
+    <header className={`sticky top-0 z-50 transition-colors duration-300 ${headerBg}`}>
       {/* Main Header */}
-      <div className="border-b">
+      <div className={`${isScrolled || !isHomePage ? 'border-b' : 'border-b border-transparent'}`}>
         <div className="container py-4">
           {/* Mobile Header */}
           <div className="flex lg:hidden items-center justify-between">
