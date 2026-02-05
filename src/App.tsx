@@ -17,6 +17,7 @@ import NotFound from "./pages/NotFound";
 import SizeGuide from "./pages/SizeGuide";
 import Shipping from "./pages/Shipping";
 import Returns from "./pages/Returns";
+import Sustainability from "./pages/Sustainability";
 
 // Legal Pages
 import Privacy from "./pages/legal/Privacy";
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/guia-tallas" element={<SizeGuide />} />
             <Route path="/envios" element={<Shipping />} />
             <Route path="/devoluciones" element={<Returns />} />
+            <Route path="/sostenibilidad" element={<Sustainability />} />
             
             {/* Legal Pages */}
             <Route path="/privacidad" element={<Privacy />} />
