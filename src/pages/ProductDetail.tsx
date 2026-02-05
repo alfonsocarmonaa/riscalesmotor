@@ -1,0 +1,517 @@
+import { useParams, Link } from "react-router-dom";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { useProductByHandle, useProducts } from "@/hooks/useProducts";
+import { formatPrice } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Heart, Minus, Plus, Truck, Package, RotateCcw, Eye, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProductCard } from "@/components/products/ProductCard";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+export default function ProductDetail() {
+  const { handle } = useParams<{ handle: string }>();
+  const { data: product, isLoading } = useProductByHandle(handle || '');
+  const { data: relatedProducts } = useProducts(4);
+  const addItem = useCartStore(state => state.addItem);
+  const isAddingToCart = useCartStore(state => state.isLoading);
+
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  // Set default variant
+  useEffect(() => {
+    if (product?.variants.edges.length) {
+      setSelectedVariantId(product.variants.edges[0].node.id);
+    }
+  }, [product]);
+
+  const selectedVariant = product?.variants.edges.find(v => v.node.id === selectedVariantId)?.node;
+  const images = product?.images.edges || [];
+  const hasDiscount = selectedVariant?.compareAtPrice && 
+    parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount);
+
+  // Mock view count
+  const viewCount = Math.floor(Math.random() * 50) + 15;
+
+  const handleAddToCart = async () => {
+    if (!product || !selectedVariant) return;
+
+    await addItem({
+      product: { node: product },
+      variantId: selectedVariant.id,
+      variantTitle: selectedVariant.title,
+      price: selectedVariant.price,
+      quantity,
+      selectedOptions: selectedVariant.selectedOptions || []
+    });
+
+    toast.success("¡Añadido al carrito!", {
+      description: product.title,
+    });
+  };
+
+  const handleWishlist = () => {
+    setIsWishlisted(!isWishlisted);
+    toast.success(isWishlisted ? "Eliminado de favoritos" : "Añadido a favoritos ♥");
+  };
+
+  const getColorClass = (color: string) => {
+    const colorMap: Record<string, string> = {
+      'blanco': 'bg-product-white border',
+      'white': 'bg-product-white border',
+      'gris': 'bg-product-grey',
+      'grey': 'bg-product-grey',
+      'gray': 'bg-product-grey',
+      'verde': 'bg-product-green',
+      'green': 'bg-product-green',
+    };
+    return colorMap[color.toLowerCase()] || 'bg-neutral';
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container py-8">
+          <div className="grid lg:grid-cols-2 gap-12">
+            <Skeleton className="aspect-[4/5] rounded-lg" />
+            <div className="space-y-6">
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-8 w-1/4" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="font-display text-4xl mb-4">Producto no encontrado</h1>
+            <Button asChild>
+              <Link to="/productos">Ver todos los productos</Link>
+            </Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      
+      <main className="flex-1">
+        {/* Breadcrumb */}
+        <div className="bg-secondary py-4">
+          <div className="container">
+            <nav className="text-sm text-muted-foreground">
+              <Link to="/" className="hover:text-accent transition-colors">Inicio</Link>
+              <span className="mx-2">/</span>
+              <Link to="/productos" className="hover:text-accent transition-colors">Camisetas</Link>
+              <span className="mx-2">/</span>
+              <span className="text-foreground">{product.title}</span>
+            </nav>
+          </div>
+        </div>
+
+        {/* Product Section */}
+        <div className="container py-8 md:py-12">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Image Gallery */}
+            <div className="space-y-4">
+              {/* Main Image */}
+              <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-secondary">
+                {images[selectedImage] && (
+                  <img
+                    src={images[selectedImage].node.url}
+                    alt={images[selectedImage].node.altText || product.title}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                
+                {/* Navigation Arrows */}
+                {images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setSelectedImage(i => i === 0 ? images.length - 1 : i - 1)}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-background/80 rounded-full hover:bg-background transition-colors"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={() => setSelectedImage(i => i === images.length - 1 ? 0 : i + 1)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-background/80 rounded-full hover:bg-background transition-colors"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {/* Thumbnails */}
+              {images.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                  {images.map((img, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedImage(i)}
+                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
+                        i === selectedImage ? 'border-accent' : 'border-transparent'
+                      }`}
+                    >
+                      <img
+                        src={img.node.url}
+                        alt={img.node.altText || `${product.title} ${i + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Product Info */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="font-display text-3xl md:text-4xl mb-2">{product.title}</h1>
+                
+                {/* Price */}
+                <div className="flex items-center gap-3 mb-4">
+                  {hasDiscount ? (
+                    <>
+                      <span className="text-2xl font-bold">
+                        {formatPrice(selectedVariant?.price.amount || '0', selectedVariant?.price.currencyCode)}
+                      </span>
+                      <span className="price-original text-lg">
+                        {formatPrice(selectedVariant?.compareAtPrice?.amount || '0', selectedVariant?.compareAtPrice?.currencyCode)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-2xl font-bold">
+                      {formatPrice(selectedVariant?.price.amount || '0', selectedVariant?.price.currencyCode)}
+                    </span>
+                  )}
+                </div>
+
+                {/* View Count */}
+                <p className="text-sm text-muted-foreground flex items-center gap-2">
+                  <Eye className="h-4 w-4" />
+                  {viewCount} personas vieron esto en las últimas 24 horas
+                </p>
+              </div>
+
+              {/* Short Description */}
+              <p className="text-muted-foreground">
+                {product.description.slice(0, 200)}
+                {product.description.length > 200 && '...'}
+              </p>
+
+              {/* Options */}
+              {product.options.map((option) => (
+                <div key={option.name}>
+                  <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-3">
+                    {option.name}:
+                  </h4>
+                  
+                  {option.name.toLowerCase() === 'color' ? (
+                    <div className="flex gap-3">
+                      {option.values.map((value) => (
+                        <button
+                          key={value}
+                          className={`heart-selector w-10 h-10 rounded-full ${getColorClass(value)} relative group`}
+                          title={value}
+                          onClick={() => {
+                            const variant = product.variants.edges.find(v =>
+                              v.node.selectedOptions.some(o => o.name === option.name && o.value === value)
+                            );
+                            if (variant) setSelectedVariantId(variant.node.id);
+                          }}
+                        >
+                          <span className="sr-only">{value}</span>
+                          {selectedVariant?.selectedOptions.some(o => o.name === option.name && o.value === value) && (
+                            <span className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-accent text-lg">♥</span>
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {option.values.map((value) => {
+                        const isSelected = selectedVariant?.selectedOptions.some(
+                          o => o.name === option.name && o.value === value
+                        );
+                        return (
+                          <button
+                            key={value}
+                            onClick={() => {
+                              const variant = product.variants.edges.find(v =>
+                                v.node.selectedOptions.some(o => o.name === option.name && o.value === value)
+                              );
+                              if (variant) setSelectedVariantId(variant.node.id);
+                            }}
+                            className={`px-4 py-2 border rounded transition-colors ${
+                              isSelected 
+                                ? 'border-foreground bg-foreground text-background' 
+                                : 'border-border hover:border-foreground'
+                            }`}
+                          >
+                            {value}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Size Guide */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="text-sm text-muted-foreground hover:text-accent transition-colors underline">
+                    📏 Guía de tallas
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle className="font-display text-2xl">Guía de Tallas</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Medidas en centímetros. Medir de sisa a sisa (ancho) y desde hombro hasta bajo (alto).
+                    </p>
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="py-2 text-left font-bold">Talla</th>
+                          <th className="py-2 text-center font-bold">Ancho</th>
+                          <th className="py-2 text-center font-bold">Alto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { size: 'XS', width: 46, height: 66 },
+                          { size: 'S', width: 49, height: 69 },
+                          { size: 'M', width: 52, height: 72 },
+                          { size: 'L', width: 55, height: 74 },
+                          { size: 'XL', width: 58, height: 76 },
+                          { size: '2XL', width: 61, height: 78 },
+                          { size: '3XL', width: 64, height: 80 },
+                        ].map((row) => (
+                          <tr key={row.size} className="border-b border-border">
+                            <td className="py-2">{row.size}</td>
+                            <td className="py-2 text-center">{row.width} cm</td>
+                            <td className="py-2 text-center">{row.height} cm</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <p className="text-sm text-muted-foreground">
+                      💡 <strong>Ajuste:</strong> Regular Fit (unisex). Si buscas ajuste más holgado, elige una talla más.
+                    </p>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {/* Stock Status */}
+              <div className="text-sm">
+                {selectedVariant?.availableForSale ? (
+                  <span className="text-green-600">✅ En stock</span>
+                ) : (
+                  <span className="text-accent">❌ Agotado</span>
+                )}
+              </div>
+
+              {/* Quantity */}
+              <div>
+                <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-3">Cantidad:</h4>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                    disabled={quantity <= 1}
+                  >
+                    <Minus className="h-4 w-4" />
+                  </Button>
+                  <span className="w-12 text-center font-medium">{quantity}</span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setQuantity(q => q + 1)}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Add to Cart & Wishlist */}
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleAddToCart}
+                  disabled={isAddingToCart || !selectedVariant?.availableForSale}
+                  className="flex-1 bg-foreground text-background hover:bg-foreground/90 font-bold uppercase tracking-wide py-6 text-base"
+                >
+                  {isAddingToCart ? 'Añadiendo...' : 'Añadir al Carrito'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleWishlist}
+                  className={`h-14 w-14 ${isWishlisted ? 'text-accent border-accent' : ''}`}
+                >
+                  <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-current' : ''}`} />
+                </Button>
+              </div>
+
+              {/* Shipping Info */}
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Truck className="h-4 w-4" />
+                  <span>Envío gratis en +50€</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Package className="h-4 w-4" />
+                  <span>Envío: 48-72h</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <RotateCcw className="h-4 w-4" />
+                  <span>Devoluciones 30 días</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Product Tabs */}
+          <div className="mt-16">
+            <Tabs defaultValue="description" className="w-full">
+              <TabsList className="w-full justify-start border-b rounded-none bg-transparent h-auto p-0">
+                <TabsTrigger 
+                  value="description" 
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-6 py-3"
+                >
+                  Descripción
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="details" 
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-6 py-3"
+                >
+                  Características
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="shipping" 
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-foreground data-[state=active]:bg-transparent px-6 py-3"
+                >
+                  Envíos
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="description" className="pt-8">
+                <div className="max-w-3xl space-y-6">
+                  <h3 className="font-display text-2xl">La Historia Detrás del Diseño</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {product.description || 
+                      `Esta camiseta captura la esencia de los vehículos clásicos que marcaron época. 
+                      Con una ilustración detallada hecha a mano, combinamos precisión histórica 
+                      con un toque artístico contemporáneo.`}
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    La frase "Nuestras miradas taparon nuestros secretos..." evoca esos momentos
+                    donde las palabras sobran y solo queda la pasión por lo auténtico.
+                    Cada camiseta es única, impresa bajo pedido con la máxima calidad.
+                  </p>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="details" className="pt-8">
+                <div className="max-w-3xl">
+                  <table className="w-full">
+                    <tbody>
+                      {[
+                        { label: 'Composición', value: '100% Algodón' },
+                        { label: 'Gramaje', value: '180 gr/m²' },
+                        { label: 'Ajuste', value: 'Unisex Regular Fit' },
+                        { label: 'Origen', value: 'Diseño España' },
+                        { label: 'Fabricación', value: 'Print-on-Demand' },
+                        { label: 'Tiempo entrega', value: '5-7 días laborables' },
+                      ].map((row) => (
+                        <tr key={row.label} className="border-b">
+                          <td className="py-3 font-medium">{row.label}</td>
+                          <td className="py-3 text-muted-foreground">{row.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="shipping" className="pt-8">
+                <div className="max-w-3xl space-y-6">
+                  <div>
+                    <h4 className="font-bold mb-2">🚚 España Península</h4>
+                    <ul className="text-muted-foreground space-y-1">
+                      <li>Envío estándar: 4,95€</li>
+                      <li>Envío GRATIS en pedidos +50€</li>
+                      <li>Tiempo: 48-72 horas laborables</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-2">🌍 Europa</h4>
+                    <ul className="text-muted-foreground space-y-1">
+                      <li>Disponible: Francia, Italia, Portugal, Alemania</li>
+                      <li>Coste: Calculado en checkout</li>
+                      <li>Tiempo: 5-7 días laborables</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-bold mb-2">🔁 Devoluciones</h4>
+                    <p className="text-muted-foreground">
+                      30 días para cambios/devoluciones. Producto sin usar, etiquetas intactas.
+                    </p>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Related Products */}
+          {relatedProducts && relatedProducts.length > 0 && (
+            <div className="mt-16 pt-16 border-t">
+              <h2 className="font-display text-3xl mb-8 text-center">También te puede gustar</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {relatedProducts.slice(0, 4).map((product) => (
+                  <ProductCard key={product.node.id} product={product} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
