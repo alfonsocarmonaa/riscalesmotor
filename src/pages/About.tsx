@@ -1,6 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Heart } from "lucide-react";
+import aboutClassicCar from "@/assets/about-classic-car.jpg";
+import aboutDesignProcess from "@/assets/about-design-process.jpg";
 
 export default function AboutPage() {
   return (
@@ -35,10 +37,12 @@ export default function AboutPage() {
           <div className="container">
             {/* Section 1 */}
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
-              <div className="aspect-square bg-gradient-to-br from-secondary via-neutral-light to-secondary rounded-lg overflow-hidden relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-9xl text-accent/10">♥</span>
-                </div>
+              <div className="aspect-square rounded-lg overflow-hidden relative">
+                <img 
+                  src={aboutClassicCar} 
+                  alt="Detalle de coche clásico vintage" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="space-y-6">
                 <h2 className="font-display text-3xl md:text-4xl leading-tight">
@@ -69,10 +73,12 @@ export default function AboutPage() {
                   a estos vehículos.
                 </p>
               </div>
-              <div className="order-1 lg:order-2 aspect-square bg-gradient-to-br from-tertiary/30 via-tertiary/10 to-transparent rounded-lg overflow-hidden relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-display text-6xl text-tertiary/30">Arte</span>
-                </div>
+              <div className="order-1 lg:order-2 aspect-square rounded-lg overflow-hidden relative">
+                <img 
+                  src={aboutDesignProcess} 
+                  alt="Proceso de diseño artesanal" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 
