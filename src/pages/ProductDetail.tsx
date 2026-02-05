@@ -220,13 +220,14 @@ export default function ProductDetail() {
                     <div className="flex gap-3">
                       {option.values.map((value) => {
                         const isSelected = selectedVariant?.selectedOptions.some(o => o.name === option.name && o.value === value);
-                        const colorClass = value.toLowerCase() === 'blanco' || value.toLowerCase() === 'white' 
-                          ? 'text-white [&]:fill-white [&]:stroke-neutral-300' 
-                          : value.toLowerCase() === 'gris' || value.toLowerCase() === 'grey' || value.toLowerCase() === 'gray'
-                          ? 'text-neutral-500'
-                          : value.toLowerCase() === 'verde' || value.toLowerCase() === 'green'
-                          ? 'text-green-600'
-                          : 'text-neutral-400';
+                        const colorLower = value.toLowerCase();
+                        const isWhite = colorLower === 'blanco' || colorLower === 'white';
+                        const isGray = colorLower === 'gris' || colorLower === 'grey' || colorLower === 'gray';
+                        const isGreen = colorLower === 'verde' || colorLower === 'green';
+                        
+                        // Skip black/negro colors
+                        if (colorLower === 'negro' || colorLower === 'black') return null;
+                        
                         return (
                           <button
                             key={value}
@@ -239,18 +240,33 @@ export default function ProductDetail() {
                               if (variant) setSelectedVariantId(variant.node.id);
                             }}
                           >
-                            {(value.toLowerCase() === 'blanco' || value.toLowerCase() === 'white') ? (
+                            {isWhite ? (
                               <Heart 
                                 className="h-10 w-10"
                                 fill="white"
                                 stroke={isSelected ? 'black' : '#d4d4d4'}
                                 strokeWidth={isSelected ? 3 : 1.5}
                               />
+                            ) : isGray ? (
+                              <Heart 
+                                className="h-10 w-10"
+                                fill="#9ca3af"
+                                stroke={isSelected ? 'black' : '#9ca3af'}
+                                strokeWidth={isSelected ? 3 : 1}
+                              />
+                            ) : isGreen ? (
+                              <Heart 
+                                className="h-10 w-10"
+                                fill="#16a34a"
+                                stroke={isSelected ? 'black' : '#16a34a'}
+                                strokeWidth={isSelected ? 3 : 1}
+                              />
                             ) : (
                               <Heart 
-                                className={`h-10 w-10 ${colorClass} fill-current`}
+                                className="h-10 w-10"
+                                fill="#a3a3a3"
+                                stroke={isSelected ? 'black' : '#a3a3a3'}
                                 strokeWidth={isSelected ? 3 : 1}
-                                stroke={isSelected ? 'black' : 'currentColor'}
                               />
                             )}
                             <span className="sr-only">{value}</span>

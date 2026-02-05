@@ -61,10 +61,11 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const getHeartColor = (color: string) => {
     const c = color.toLowerCase();
-    if (c === 'blanco' || c === 'white') return { isWhite: true, class: '' };
-    if (c === 'gris' || c === 'grey' || c === 'gray') return { isWhite: false, class: 'text-neutral-500' };
-    if (c === 'verde' || c === 'green') return { isWhite: false, class: 'text-green-600' };
-    return { isWhite: false, class: 'text-neutral-400' };
+    if (c === 'blanco' || c === 'white') return { type: 'white' };
+    if (c === 'gris' || c === 'grey' || c === 'gray') return { type: 'gray' };
+    if (c === 'verde' || c === 'green') return { type: 'green' };
+    if (c === 'negro' || c === 'black') return { type: 'skip' };
+    return { type: 'default' };
   };
 
   return (
@@ -143,18 +144,35 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center gap-1.5">
             {colors.map((color) => {
               const colorInfo = getHeartColor(color);
+              if (colorInfo.type === 'skip') return null;
               return (
                 <span key={color} title={color}>
-                  {colorInfo.isWhite ? (
+                  {colorInfo.type === 'white' ? (
                     <Heart 
                       className="h-5 w-5"
                       fill="white"
                       stroke="#d4d4d4"
                       strokeWidth={1.5}
                     />
+                  ) : colorInfo.type === 'gray' ? (
+                    <Heart 
+                      className="h-5 w-5"
+                      fill="#9ca3af"
+                      stroke="#9ca3af"
+                      strokeWidth={0}
+                    />
+                  ) : colorInfo.type === 'green' ? (
+                    <Heart 
+                      className="h-5 w-5"
+                      fill="#16a34a"
+                      stroke="#16a34a"
+                      strokeWidth={0}
+                    />
                   ) : (
                     <Heart 
-                      className={`h-5 w-5 ${colorInfo.class} fill-current`}
+                      className="h-5 w-5"
+                      fill="#a3a3a3"
+                      stroke="#a3a3a3"
                       strokeWidth={0}
                     />
                   )}
