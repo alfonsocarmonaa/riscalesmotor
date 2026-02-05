@@ -52,11 +52,11 @@ export default function ProductsPage() {
 
   const { data: products, isLoading } = useProducts(50, query);
 
-  // Filter products by color and size on the client side
+  // Filter and sort products on the client side
   const filteredProducts = useMemo(() => {
     if (!products) return [];
     
-    return products.filter(product => {
+    let result = products.filter(product => {
       // Filter by color
       if (selectedColors.length > 0) {
         const productColors = product.node.options
@@ -82,7 +82,35 @@ export default function ProductsPage() {
       
       return true;
     });
-  }, [products, selectedColors, selectedSizes]);
+
+    // Sort products
+    switch (sortBy) {
+      case 'price-asc':
+        result = [...result].sort((a, b) => {
+          const priceA = parseFloat(a.node.priceRange.minVariantPrice.amount);
+          const priceB = parseFloat(b.node.priceRange.minVariantPrice.amount);
+          return priceA - priceB;
+        });
+        break;
+      case 'price-desc':
+        result = [...result].sort((a, b) => {
+          const priceA = parseFloat(a.node.priceRange.minVariantPrice.amount);
+          const priceB = parseFloat(b.node.priceRange.minVariantPrice.amount);
+          return priceB - priceA;
+        });
+        break;
+      case 'newest':
+        result = [...result].reverse();
+        break;
+      case 'best-selling':
+      case 'featured':
+      default:
+        // Keep original order
+        break;
+    }
+
+    return result;
+  }, [products, selectedColors, selectedSizes, sortBy]);
 
   const toggleColor = (colorId: string) => {
     setSelectedColors(prev => 
