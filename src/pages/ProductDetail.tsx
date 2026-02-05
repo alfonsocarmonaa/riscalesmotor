@@ -221,9 +221,9 @@ export default function ProductDetail() {
                       {option.values.map((value) => {
                         const isSelected = selectedVariant?.selectedOptions.some(o => o.name === option.name && o.value === value);
                         const colorLower = value.toLowerCase();
-                        const isWhite = colorLower === 'blanco' || colorLower === 'white';
-                        const isGray = colorLower === 'gris' || colorLower === 'grey' || colorLower === 'gray';
-                        const isGreen = colorLower === 'verde' || colorLower === 'green';
+                        const isWhite = colorLower.includes('blanco') || colorLower.includes('white');
+                        const isGray = colorLower.includes('gris') || colorLower.includes('grey') || colorLower.includes('gray');
+                        const isGreen = colorLower.includes('verde') || colorLower.includes('green') || colorLower.includes('militar');
                         
                         // Skip black/negro colors
                         if (colorLower === 'negro' || colorLower === 'black') return null;

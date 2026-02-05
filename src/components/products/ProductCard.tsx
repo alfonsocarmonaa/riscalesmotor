@@ -61,10 +61,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const getHeartColor = (color: string) => {
     const c = color.toLowerCase();
-    if (c === 'blanco' || c === 'white') return { type: 'white' };
-    if (c === 'gris' || c === 'grey' || c === 'gray') return { type: 'gray' };
-    if (c === 'verde' || c === 'green') return { type: 'green' };
-    if (c === 'negro' || c === 'black') return { type: 'skip' };
+    if (c.includes('blanco') || c.includes('white')) return { type: 'white' };
+    if (c.includes('gris') || c.includes('grey') || c.includes('gray')) return { type: 'gray' };
+    if (c.includes('verde') || c.includes('green') || c.includes('militar')) return { type: 'green' };
+    if (c.includes('negro') || c.includes('black')) return { type: 'skip' };
     return { type: 'default' };
   };
 
