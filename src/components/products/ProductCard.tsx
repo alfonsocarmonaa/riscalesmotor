@@ -59,17 +59,12 @@ export function ProductCard({ product }: ProductCardProps) {
     toast.success(isWishlisted ? "Eliminado de favoritos" : "Añadido a favoritos ♥");
   };
 
-  const getColorClass = (color: string) => {
-    const colorMap: Record<string, string> = {
-      'blanco': 'bg-product-white border',
-      'white': 'bg-product-white border',
-      'gris': 'bg-product-grey',
-      'grey': 'bg-product-grey',
-      'gray': 'bg-product-grey',
-      'verde': 'bg-product-green',
-      'green': 'bg-product-green',
-    };
-    return colorMap[color.toLowerCase()] || 'bg-neutral';
+  const getHeartColor = (color: string) => {
+    const c = color.toLowerCase();
+    if (c === 'blanco' || c === 'white') return { isWhite: true, class: '' };
+    if (c === 'gris' || c === 'grey' || c === 'gray') return { isWhite: false, class: 'text-neutral-500' };
+    if (c === 'verde' || c === 'green') return { isWhite: false, class: 'text-green-600' };
+    return { isWhite: false, class: 'text-neutral-400' };
   };
 
   return (
@@ -145,17 +140,27 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Color Options as Hearts */}
         {colors.length > 1 && (
-          <div className="flex items-center gap-2">
-            {colors.map((color) => (
-              <button
-                key={color}
-                className={`heart-selector w-5 h-5 rounded-full ${getColorClass(color)}`}
-                title={color}
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="sr-only">{color}</span>
-              </button>
-            ))}
+          <div className="flex items-center gap-1.5">
+            {colors.map((color) => {
+              const colorInfo = getHeartColor(color);
+              return (
+                <span key={color} title={color}>
+                  {colorInfo.isWhite ? (
+                    <Heart 
+                      className="h-5 w-5"
+                      fill="white"
+                      stroke="#d4d4d4"
+                      strokeWidth={1.5}
+                    />
+                  ) : (
+                    <Heart 
+                      className={`h-5 w-5 ${colorInfo.class} fill-current`}
+                      strokeWidth={0}
+                    />
+                  )}
+                </span>
+              );
+            })}
           </div>
         )}
       </div>

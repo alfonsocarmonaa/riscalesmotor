@@ -159,13 +159,20 @@ export default function ProductsPage() {
               }`}
               title={color.name}
             >
-              <Heart 
-                className={`w-full h-full ${color.class} transition-colors`}
-                fill="currentColor"
-                strokeWidth={color.id === 'blanco' ? 1 : 0}
-              />
-              {selectedColors.includes(color.id) && (
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-accent rounded-full" />
+              {color.id === 'blanco' ? (
+                <Heart 
+                  className="w-full h-full"
+                  fill="white"
+                  stroke={selectedColors.includes(color.id) ? 'black' : '#d4d4d4'}
+                  strokeWidth={selectedColors.includes(color.id) ? 3 : 1.5}
+                />
+              ) : (
+                <Heart 
+                  className={`w-full h-full ${color.class}`}
+                  fill="currentColor"
+                  stroke={selectedColors.includes(color.id) ? 'black' : 'currentColor'}
+                  strokeWidth={selectedColors.includes(color.id) ? 3 : 0}
+                />
               )}
               <span className="sr-only">{color.name}</span>
             </button>
