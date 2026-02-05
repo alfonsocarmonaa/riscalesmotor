@@ -13,18 +13,18 @@ const collections = [
     image: collectionRiscales,
   },
   {
-    id: 'coches',
-    name: 'Leyendas del Asfalto',
-    description: 'Clásicos sobre cuatro ruedas',
-    href: '/productos?collection=coches',
-    image: collectionCars,
+    id: 'leyendas',
+    name: 'Leyendas del Motor',
+    description: 'Máquinas legendarias que hicieron historia',
+    href: '/productos?collection=leyendas',
+    image: collectionMotos,
   },
   {
-    id: 'motos',
-    name: 'Espíritu Dos Ruedas',
-    description: 'Iconos moteros históricos',
-    href: '/productos?collection=motos',
-    image: collectionMotos,
+    id: 'espiritu',
+    name: 'Espíritu',
+    description: 'Para los que sienten la llamada del asfalto',
+    href: '/productos?collection=espiritu',
+    image: collectionCars,
   },
 ];
 
