@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import collectionRiscales from "@/assets/collection-riscales.jpg";
+import collectionCars from "@/assets/collection-cars.jpg";
+import collectionMotos from "@/assets/collection-motos.jpg";
 
 const collections = [
   {
@@ -7,21 +10,21 @@ const collections = [
     name: 'Ediciones Riscales',
     description: 'Diseños exclusivos de la marca',
     href: '/productos?collection=ediciones-riscales',
-    image: null, // Placeholder - will show gradient
+    image: collectionRiscales,
   },
   {
     id: 'coches',
     name: 'Leyendas del Asfalto',
     description: 'Clásicos sobre cuatro ruedas',
     href: '/productos?collection=coches',
-    image: null,
+    image: collectionCars,
   },
   {
     id: 'motos',
     name: 'Espíritu Dos Ruedas',
     description: 'Iconos moteros históricos',
     href: '/productos?collection=motos',
-    image: null,
+    image: collectionMotos,
   },
 ];
 
@@ -39,31 +42,23 @@ export function ShopByCollection() {
 
         {/* Collections Grid */}
         <div className="grid md:grid-cols-3 gap-6">
-          {collections.map((collection, index) => (
+          {collections.map((collection) => (
             <Link 
               key={collection.id} 
               to={collection.href}
               className="collection-card group relative aspect-[3/4] rounded-lg overflow-hidden"
             >
-              {/* Background */}
+              {/* Background Image */}
               <div 
-                className={`absolute inset-0 collection-image transition-transform duration-500 ${
-                  collection.image 
-                    ? '' 
-                    : index === 0 
-                      ? 'bg-gradient-to-br from-neutral-dark via-neutral to-neutral-dark'
-                      : index === 1
-                        ? 'bg-gradient-to-br from-tertiary via-tertiary/80 to-tertiary'
-                        : 'bg-gradient-to-br from-foreground via-neutral-dark to-foreground'
-                }`}
-                style={collection.image ? { backgroundImage: `url(${collection.image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+                className="absolute inset-0 collection-image transition-transform duration-500 bg-cover bg-center"
+                style={{ backgroundImage: `url(${collection.image})` }}
               />
               
               {/* Overlay */}
               <div className="collection-overlay" />
               
               {/* Gradient Overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/30 to-transparent" />
 
               {/* Content */}
               <div className="absolute inset-0 flex flex-col justify-end p-6 text-background">
