@@ -93,10 +93,9 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="group inline-flex items-center gap-0 text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-300"
+                    className="link-underline text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors"
                   >
-                    <BrandHeart size="xs" className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -111,10 +110,9 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="group inline-flex items-center gap-0 text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-300"
+                    className="link-underline text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors"
                   >
-                    <BrandHeart size="xs" className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -129,10 +127,9 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="group inline-flex items-center gap-0 text-sidebar-foreground/80 hover:text-sidebar-foreground transition-all duration-300"
+                    className="link-underline text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors"
                   >
-                    <BrandHeart size="xs" className="opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                    <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -179,7 +176,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-sidebar-border mt-8 pt-8 text-center text-sm text-sidebar-foreground/60">
-          <p className="inline-flex items-center gap-1">© 2026 Riscales Motor Co. | Hecho con <BrandHeart size="xs" /> en España</p>
+          <p className="inline-flex items-center gap-1">© 2026 Riscales Motor Co. | Hecho con <BrandHeart size="xs" className="text-accent" /> en España</p>
         </div>
       </div>
     </footer>
