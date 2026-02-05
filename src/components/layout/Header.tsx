@@ -177,7 +177,7 @@ export function Header() {
                   <User className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button variant="ghost" size="icon" className="relative hover-heartbeat" asChild>
+              <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors" asChild>
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
                 </Link>

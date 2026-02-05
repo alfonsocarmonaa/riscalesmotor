@@ -17,7 +17,7 @@ const sizeClasses = {
 export function BrandHeart({ className, size = "md" }: BrandHeartProps) {
   return (
     <Heart 
-      className={cn(sizeClasses[size], "text-foreground", className)} 
+      className={cn(sizeClasses[size], className)} 
       strokeWidth={1.5}
     />
   );
