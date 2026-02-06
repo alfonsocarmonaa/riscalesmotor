@@ -124,10 +124,10 @@ export function ProductCard({ product }: ProductCardProps) {
             onClick={handleAddToCart}
             disabled={isLoading || !firstVariant?.availableForSale}
             size="sm"
-            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-[9px] sm:text-xs tracking-wide h-7 sm:h-9 px-2 sm:px-4 touch-manipulation"
+            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-xs tracking-wide h-8 sm:h-9 px-3 sm:px-4 touch-manipulation"
           >
-            <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
-            <span className="truncate">{!firstVariant?.availableForSale ? "Agotado" : "Añadir"}</span>
+            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-2 flex-shrink-0" />
+            <span className="hidden sm:inline">{!firstVariant?.availableForSale ? "Agotado" : "Añadir"}</span>
           </Button>
         </div>
       </div>
