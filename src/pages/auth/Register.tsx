@@ -39,9 +39,9 @@ export default function Register() {
       return;
     }
 
-    // Subscribe to newsletter if opted in
+    // Subscribe to newsletter if opted in (don't block on failure)
     if (newsletter) {
-      await subscribe(email, "register");
+      subscribe(email, "register").catch(console.warn);
     }
 
     setSuccess(true);
