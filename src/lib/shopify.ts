@@ -62,10 +62,10 @@ export interface ShopifyProduct {
   };
 }
 
-// GraphQL Queries with @inContext for localization
+// GraphQL Queries - hardcoded to Spanish locale
 const PRODUCTS_QUERY = `
-  query GetProducts($first: Int!, $query: String, $country: CountryCode, $language: LanguageCode) 
-  @inContext(country: $country, language: $language) {
+  query GetProducts($first: Int!, $query: String) 
+  @inContext(country: ES, language: ES) {
     products(first: $first, query: $query) {
       edges {
         node {
@@ -126,8 +126,8 @@ const PRODUCTS_QUERY = `
 `;
 
 const PRODUCT_BY_HANDLE_QUERY = `
-  query GetProductByHandle($handle: String!, $country: CountryCode, $language: LanguageCode)
-  @inContext(country: $country, language: $language) {
+  query GetProductByHandle($handle: String!)
+  @inContext(country: ES, language: ES) {
     productByHandle(handle: $handle) {
       id
       title
@@ -267,36 +267,24 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
   return data;
 }
 
-// Locale context type
-export interface LocaleContext {
-  country?: string;
-  language?: string;
-}
-
-// Fetch Products with locale context
+// Fetch Products
 export async function fetchProducts(
   first: number = 20, 
-  query?: string, 
-  locale?: LocaleContext
+  query?: string
 ): Promise<ShopifyProduct[]> {
   const data = await storefrontApiRequest(PRODUCTS_QUERY, { 
     first, 
-    query,
-    country: locale?.country || 'ES',
-    language: locale?.language || 'ES'
+    query
   });
   return data?.data?.products?.edges || [];
 }
 
-// Fetch Single Product by Handle with locale context
+// Fetch Single Product by Handle
 export async function fetchProductByHandle(
-  handle: string,
-  locale?: LocaleContext
+  handle: string
 ): Promise<ShopifyProduct['node'] | null> {
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { 
-    handle,
-    country: locale?.country || 'ES',
-    language: locale?.language || 'ES'
+    handle
   });
   return data?.data?.productByHandle || null;
 }

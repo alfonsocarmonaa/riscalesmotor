@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "./ProductCard";
 import { ProductGridSkeleton } from "./ProductCardSkeleton";
@@ -9,8 +8,6 @@ interface ProductGridProps {
 }
 
 export function ProductGrid({ products, isLoading }: ProductGridProps) {
-  const { t } = useTranslation();
-
   if (isLoading) {
     return <ProductGridSkeleton />;
   }
@@ -19,10 +16,10 @@ export function ProductGrid({ products, isLoading }: ProductGridProps) {
     return (
       <div className="text-center py-16">
         <p className="text-muted-foreground text-lg mb-4">
-          {t('product.noProducts')}
+          No se encontraron productos
         </p>
         <p className="text-sm text-muted-foreground">
-          {t('product.noProductsDescription')}
+          Prueba con otros filtros o explora todas nuestras camisetas
         </p>
       </div>
     );

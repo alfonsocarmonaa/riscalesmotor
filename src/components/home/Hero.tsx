@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export function Hero() {
-  const { t } = useTranslation();
-
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 lg:pt-0">
       {/* Background - Fixed on desktop, scroll on mobile for better performance */}
@@ -26,11 +23,11 @@ export function Hero() {
           Riscales Motor Co. <span className="text-accent">♥</span>
         </p>
         <p className="font-body text-background/80 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
-          {t('hero.subtitle')}
+          Camisetas artesanales que celebran la cultura del motor clásico
         </p>
         <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-body font-bold uppercase tracking-wide px-8 sm:px-10 py-5 sm:py-6 text-base sm:text-lg btn-cta touch-manipulation">
           <Link to="/productos">
-            {t('hero.cta')}
+            Explorar colección
           </Link>
         </Button>
       </div>

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { Heart, ShoppingCart } from "lucide-react";
 import { ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
@@ -12,7 +11,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { t } = useTranslation();
   const { node } = product;
   const addItem = useCartStore(state => state.addItem);
   const isLoading = useCartStore(state => state.isLoading);
@@ -49,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
       selectedOptions: firstVariant.selectedOptions || []
     });
     
-    toast.success(t('product.addedToCart'), {
+    toast.success("Añadido al carrito", {
       description: node.title,
     });
   };
@@ -58,7 +56,7 @@ export function ProductCard({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? t('favorites.removedFromFavorites') : t('favorites.addedToFavorites'));
+    toast.success(isWishlisted ? "Eliminado de favoritos" : "Añadido a favoritos");
   };
 
   const getHeartColor = (color: string) => {
@@ -120,7 +118,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-xs tracking-wide py-2.5 sm:py-2 touch-manipulation"
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
-            {!firstVariant?.availableForSale ? t('common.soldOut') : t('common.addToCart')}
+            {!firstVariant?.availableForSale ? "Agotado" : "Añadir al carrito"}
           </Button>
         </div>
       </div>
