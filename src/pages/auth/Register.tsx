@@ -1,185 +1,25 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { SEOHead } from "@/components/SEOHead";
 import { Footer } from "@/components/layout/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useShopifyAuth } from "@/hooks/useShopifyAuth";
-import { useNewsletterSubscribe } from "@/hooks/useNewsletterSubscribe";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { SHOPIFY_ACCOUNT_URL } from "@/lib/shopify";
 
 export default function Register() {
-  const navigate = useNavigate();
-  const register = useShopifyAuth((s) => s.register);
-  const loading = useShopifyAuth((s) => s.loading);
-  const { subscribe } = useNewsletterSubscribe();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [acceptMarketing, setAcceptMarketing] = useState(false);
-
-  const validatePassword = (pwd: string): string | null => {
-    if (pwd.length < 8) return "La contraseña debe tener al menos 8 caracteres";
-    if (!/[A-Z]/.test(pwd)) return "Debe incluir al menos una letra mayúscula";
-    if (!/[a-z]/.test(pwd)) return "Debe incluir al menos una letra minúscula";
-    if (!/[0-9]/.test(pwd)) return "Debe incluir al menos un número";
-    return null;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!acceptTerms) {
-      toast.error("Debes aceptar los términos y condiciones");
-      return;
-    }
-
-    const passwordError = validatePassword(password);
-    if (passwordError) {
-      toast.error(passwordError);
-      return;
-    }
-
-    const { error } = await register({ firstName, lastName, email, password });
-
-    if (error) {
-      toast.error("Error al crear la cuenta", { description: error });
-    } else {
-      // Subscribe to newsletter if opted in
-      if (acceptMarketing) {
-        await subscribe(email, "register");
-      }
-      toast.success("¡Cuenta creada! Bienvenido a Riscales.");
-      navigate("/cuenta");
-    }
-  };
+  useEffect(() => {
+    window.location.href = `${SHOPIFY_ACCOUNT_URL}/register`;
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
-      <SEOHead
-        title="Crear Cuenta"
-        description="Crea tu cuenta en Riscales Motor Co."
-        noIndex
-      />
+      <SEOHead title="Crear Cuenta" description="Redirigiendo a crear tu cuenta..." noIndex />
       <Header />
-
-      <main className="flex-1 flex items-center justify-center py-12 px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="font-display text-3xl">Crear Cuenta</CardTitle>
-            <CardDescription>Únete a la familia Riscales Motor Co.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">Nombre</Label>
-                  <Input
-                    id="firstName"
-                    type="text"
-                    placeholder="Tu nombre"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Apellidos</Label>
-                  <Input
-                    id="lastName"
-                    type="text"
-                    placeholder="Tus apellidos"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="tu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Mínimo 8 caracteres"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={8}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Mínimo 8 caracteres, una mayúscula, una minúscula y un número
-                </p>
-              </div>
-
-              <div className="flex items-start space-x-2">
-                <Checkbox
-                  id="terms"
-                  checked={acceptTerms}
-                  onCheckedChange={(checked) => setAcceptTerms(checked as boolean)}
-                />
-                <label
-                  htmlFor="terms"
-                  className="text-sm text-muted-foreground leading-tight"
-                >
-                  Acepto los{" "}
-                  <Link to="/terminos" className="text-accent hover:underline">
-                    términos y condiciones
-                  </Link>{" "}
-                  y la{" "}
-                  <Link to="/privacidad" className="text-accent hover:underline">
-                    política de privacidad
-                  </Link>
-                </label>
-              </div>
-
-              <div className="flex items-start space-x-2">
-                <Checkbox
-                  id="marketing"
-                  checked={acceptMarketing}
-                  onCheckedChange={(checked) => setAcceptMarketing(checked as boolean)}
-                />
-                <label
-                  htmlFor="marketing"
-                  className="text-sm text-muted-foreground leading-tight"
-                >
-                  Quiero recibir novedades, ofertas exclusivas y contenido sobre motor clásico
-                </label>
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-                Crear Cuenta
-              </Button>
-            </form>
-
-            <p className="text-center text-sm text-muted-foreground">
-              ¿Ya tienes cuenta?{" "}
-              <Link to="/login" className="text-accent hover:underline font-medium">
-                Iniciar sesión
-              </Link>
-            </p>
-          </CardContent>
-        </Card>
+      <main className="flex-1 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-accent" />
+          <p className="text-muted-foreground">Redirigiendo a crear tu cuenta...</p>
+        </div>
       </main>
-
       <Footer />
     </div>
   );

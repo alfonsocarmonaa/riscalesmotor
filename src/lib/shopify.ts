@@ -6,6 +6,9 @@ const SHOPIFY_STORE_PERMANENT_DOMAIN = '3hxjb2-ht.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 const SHOPIFY_STOREFRONT_TOKEN = '13cb14b3e084fad2d70f004df765f096';
 
+// Shopify Customer Account URL (external redirect)
+export const SHOPIFY_ACCOUNT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/account`;
+
 // Types
 export interface ShopifyProduct {
   node: {

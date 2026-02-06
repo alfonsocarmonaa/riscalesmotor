@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, ChevronDown, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
-import { useShopifyAuth } from "@/hooks/useShopifyAuth";
+import { SHOPIFY_ACCOUNT_URL } from "@/lib/shopify";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
@@ -30,7 +30,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const totalItems = useCartStore(state => state.getTotalItems());
-  const customer = useShopifyAuth(s => s.customer);
+  
   const location = useLocation();
   
   const isHomePage = location.pathname === "/";
@@ -99,14 +99,16 @@ export function Header() {
                   </nav>
                   
                   <div className="mt-8 pt-6 border-t">
-                    <Link 
-                      to={customer ? "/cuenta" : "/login"}
+                    <a 
+                      href={SHOPIFY_ACCOUNT_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-3 py-3 px-2 -mx-2 font-body font-medium hover:text-accent hover:bg-secondary/50 rounded-lg transition-colors touch-manipulation"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <User className="h-5 w-5" />
-                      {customer ? "Mi Cuenta" : "Iniciar Sesión"}
-                    </Link>
+                      Mi Cuenta
+                    </a>
                   </div>
                 </div>
               </SheetContent>
@@ -176,9 +178,9 @@ export function Header() {
 
             <div className="flex items-center gap-1">
               <Button variant="ghost" size="icon" asChild>
-                <Link to={customer ? "/cuenta" : "/login"}>
+                <a href={SHOPIFY_ACCOUNT_URL} target="_blank" rel="noopener noreferrer">
                   <User className="h-5 w-5" />
-                </Link>
+                </a>
               </Button>
               <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors" asChild>
                 <Link to="/favoritos">
