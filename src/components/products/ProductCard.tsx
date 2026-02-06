@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import { ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
-import { useFavorites } from "@/hooks/useFavorites";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -14,8 +13,6 @@ export function ProductCard({ product }: ProductCardProps) {
   const { node } = product;
   const addItem = useCartStore(state => state.addItem);
   const isLoading = useCartStore(state => state.isLoading);
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const isWishlisted = isFavorite(node.id);
 
   const firstVariant = node.variants.edges[0]?.node;
   const mainImage = node.images.edges[0]?.node;
@@ -53,18 +50,6 @@ export function ProductCard({ product }: ProductCardProps) {
     });
   };
 
-  const handleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleFavorite({
-      id: node.id,
-      handle: node.handle,
-      title: node.title,
-      image: mainImage?.url,
-      price: currentPrice?.amount,
-    });
-  };
-
   const getHeartColor = (color: string) => {
     const c = color.toLowerCase();
     if (c.includes('blanco') || c.includes('white')) return { type: 'white' };
@@ -83,18 +68,6 @@ export function ProductCard({ product }: ProductCardProps) {
             -{discountPercentage}%
           </span>
         )}
-        
-        {/* Wishlist Button - Larger touch target on mobile */}
-        <button
-          onClick={handleWishlist}
-          className={`absolute top-2 right-2 z-10 p-2.5 sm:p-2 rounded-full transition-all duration-200 touch-manipulation ${
-            isWishlisted 
-              ? 'bg-accent text-accent-foreground' 
-              : 'bg-background/90 hover:bg-accent hover:text-accent-foreground active:bg-accent active:text-accent-foreground'
-          }`}
-        >
-          <Heart className={`h-5 w-5 sm:h-4 sm:w-4 ${isWishlisted ? 'fill-current' : ''}`} />
-        </button>
 
         {/* Product Images */}
         <div className="relative w-full h-full">

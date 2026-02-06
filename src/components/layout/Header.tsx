@@ -1,11 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Search, User, Menu, X, ChevronDown } from "lucide-react";
+import { ShoppingCart, Menu, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
-import { BrandHeart } from "@/components/BrandHeart";
 import logoImage from "@/assets/logo.png";
 
 const navLinks = [
@@ -101,18 +100,6 @@ export function Header() {
                       </div>
                     ))}
                   </nav>
-                  
-                  {/* Mobile menu footer with account link */}
-                  <div className="mt-8 pt-6 border-t">
-                    <Link 
-                      to="/cuenta" 
-                      className="flex items-center gap-3 py-3 px-2 -mx-2 font-body font-medium hover:text-accent hover:bg-secondary/50 rounded-lg transition-colors touch-manipulation"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <User className="h-5 w-5" />
-                      Mi Cuenta
-                    </Link>
-                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -126,11 +113,6 @@ export function Header() {
             </Link>
 
             <div className="flex items-center">
-              <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" asChild>
-                <Link to="/favoritos">
-                  <BrandHeart size="md" />
-                </Link>
-              </Button>
               <CartDrawer />
             </div>
           </div>
@@ -184,16 +166,6 @@ export function Header() {
 
             {/* Icons - Right */}
             <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" asChild>
-                <Link to="/cuenta">
-                  <User className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors" asChild>
-                <Link to="/favoritos">
-                  <BrandHeart size="md" />
-                </Link>
-              </Button>
               <CartDrawer />
             </div>
           </div>
