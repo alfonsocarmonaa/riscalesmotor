@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useCartStore } from '@/stores/cartStore';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -8,11 +8,10 @@ import { supabase } from '@/integrations/supabase/client';
  * so the customer arrives identified at Shopify checkout.
  */
 export function useCartSync() {
-  const { syncCart, setBuyerEmail, cartId } = useCartStore(state => ({
-    syncCart: state.syncCart,
-    setBuyerEmail: state.setBuyerEmail,
-    cartId: state.cartId,
-  }));
+  const syncCart = useCartStore(state => state.syncCart);
+  const setBuyerEmail = useCartStore(state => state.setBuyerEmail);
+  const cartId = useCartStore(state => state.cartId);
+  const emailSyncedRef = useRef(false);
 
   // Cart freshness sync
   useEffect(() => {
@@ -28,23 +27,17 @@ export function useCartSync() {
 
   // Auto-set buyer email when user is authenticated and cart exists
   useEffect(() => {
-    if (!cartId) return;
+    if (!cartId) {
+      emailSyncedRef.current = false;
+      return;
+    }
+    if (emailSyncedRef.current) return;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session?.user?.email) {
-          setBuyerEmail(session.user.email);
-        }
-      }
-    );
-
-    // Also check current session immediately
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user?.email) {
+      if (session?.user?.email && !emailSyncedRef.current) {
+        emailSyncedRef.current = true;
         setBuyerEmail(session.user.email);
       }
     });
-
-    return () => subscription.unsubscribe();
   }, [cartId, setBuyerEmail]);
 }
