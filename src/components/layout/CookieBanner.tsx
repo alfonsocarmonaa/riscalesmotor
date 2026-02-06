@@ -34,6 +34,8 @@ export function CookieBanner() {
   const savePreferences = (prefs: CookiePreferences) => {
     localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(prefs));
     setIsVisible(false);
+    // Activate/deactivate trackers based on new consent
+    onConsentChange();
   };
 
   const acceptAll = () => {

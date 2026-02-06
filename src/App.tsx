@@ -39,6 +39,7 @@ const queryClient = new QueryClient();
 // Cart sync wrapper component
 function AppProviders({ children }: { children: React.ReactNode }) {
   useCartSync();
+  useAnalytics();
   return <>{children}</>;
 }
 

@@ -22,9 +22,20 @@ export const CartDrawer = () => {
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
-      // Always ensure the checkout URL points to Shopify's domain, not the custom domain
+      // Track begin_checkout event
+      trackBeginCheckout(
+        items.map(i => ({
+          name: i.product.node.title,
+          id: i.variantId,
+          price: i.price.amount,
+          quantity: i.quantity,
+          currency: i.price.currencyCode,
+        }))
+      );
+      // Ensure correct domain + forward UTMs and GA4 client ID
       const safeUrl = getShopifyCheckoutUrl(checkoutUrl);
-      window.open(safeUrl, '_blank');
+      const enrichedUrl = enrichCheckoutUrl(safeUrl);
+      window.open(enrichedUrl, '_blank');
       setIsOpen(false);
     }
   };
