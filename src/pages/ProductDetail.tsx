@@ -547,6 +547,18 @@ export default function ProductDetail() {
       </main>
 
       <Footer />
+
+      {/* Sticky Add to Cart for Mobile */}
+      {product && selectedVariant && (
+        <StickyAddToCart
+          productTitle={product.title}
+          price={selectedVariant.price}
+          isLoading={isAddingToCart}
+          isAvailable={selectedVariant.availableForSale}
+          onAddToCart={handleAddToCart}
+          isVisible={showStickyCart}
+        />
+      )}
     </div>
   );
 }
