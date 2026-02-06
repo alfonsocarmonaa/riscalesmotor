@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import { ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { useFavorites } from "@/hooks/useFavorites";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useState } from "react";
 
 interface ProductCardProps {
   product: ShopifyProduct;
@@ -14,7 +14,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const { node } = product;
   const addItem = useCartStore(state => state.addItem);
   const isLoading = useCartStore(state => state.isLoading);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const isWishlisted = isFavorite(node.id);
 
   const firstVariant = node.variants.edges[0]?.node;
   const mainImage = node.images.edges[0]?.node;
@@ -55,8 +56,13 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? "Eliminado de favoritos" : "Añadido a favoritos");
+    toggleFavorite({
+      id: node.id,
+      handle: node.handle,
+      title: node.title,
+      image: mainImage?.url,
+      price: currentPrice?.amount,
+    });
   };
 
   const getHeartColor = (color: string) => {
