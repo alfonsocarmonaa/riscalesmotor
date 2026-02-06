@@ -21,7 +21,9 @@ export const CartDrawer = () => {
   const handleCheckout = () => {
     const checkoutUrl = getCheckoutUrl();
     if (checkoutUrl) {
-      window.open(checkoutUrl, '_blank');
+      // Always ensure the checkout URL points to Shopify's domain, not the custom domain
+      const safeUrl = getShopifyCheckoutUrl(checkoutUrl);
+      window.open(safeUrl, '_blank');
       setIsOpen(false);
     }
   };
