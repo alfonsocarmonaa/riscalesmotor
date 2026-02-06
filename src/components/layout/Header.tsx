@@ -26,6 +26,7 @@ const navLinks = [
   { name: "SOBRE RISCALES", href: "/sobre-riscales" },
 ];
 
+// Force clean re-mount after hook changes
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
