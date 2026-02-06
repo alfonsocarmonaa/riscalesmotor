@@ -10,21 +10,22 @@ import { BrandHeart } from "@/components/BrandHeart";
 import { LocaleSelector } from "@/components/LocaleSelector";
 import logoImage from "@/assets/logo.png";
 
-const navLinks = [
-  { name: "INICIO", href: "/" },
+// Navigation links use translation keys
+const getNavLinks = (t: (key: string) => string) => [
+  { name: t('nav.home'), href: "/" },
   { 
-    name: "CAMISETAS", 
+    name: t('nav.tshirts'), 
     href: "/productos",
     submenu: [
-      { name: "Ediciones Riscales", href: "/productos?collection=ediciones-riscales" },
-      { name: "Leyendas del Asfalto", href: "/productos?collection=coches" },
-      { name: "Espíritu Dos Ruedas", href: "/productos?collection=motos" },
-      { name: "Ver Todas", href: "/productos" },
+      { name: t('nav.edicionesRiscales'), href: "/productos?collection=ediciones-riscales" },
+      { name: t('nav.leyendasAsfalto'), href: "/productos?collection=coches" },
+      { name: t('nav.espirituDosRuedas'), href: "/productos?collection=motos" },
+      { name: t('nav.viewAll'), href: "/productos" },
     ]
   },
-  { name: "SUDADERAS", href: "/proximamente/sudaderas" },
-  { name: "ACCESORIOS", href: "/proximamente/accesorios" },
-  { name: "SOBRE RISCALES", href: "/sobre-riscales" },
+  { name: t('nav.hoodies'), href: "/proximamente/sudaderas" },
+  { name: t('nav.accessories'), href: "/proximamente/accesorios" },
+  { name: t('nav.about'), href: "/sobre-riscales" },
 ];
 
 export function Header() {
