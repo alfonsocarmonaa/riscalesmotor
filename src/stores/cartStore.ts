@@ -7,7 +7,8 @@ import {
   createShopifyCart,
   addLineToShopifyCart,
   updateShopifyCartLine,
-  removeLineFromShopifyCart
+  removeLineFromShopifyCart,
+  updateCartBuyerIdentity
 } from '@/lib/shopify';
 
 export interface CartItem {
@@ -34,6 +35,7 @@ interface CartStore {
   getCheckoutUrl: () => string | null;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  setBuyerEmail: (email: string) => Promise<void>;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -138,6 +140,19 @@ export const useCartStore = create<CartStore>()(
       },
 
       clearCart: () => set({ items: [], cartId: null, checkoutUrl: null }),
+
+      setBuyerEmail: async (email: string) => {
+        const { cartId } = get();
+        if (!cartId || !email) return;
+        try {
+          const result = await updateCartBuyerIdentity(cartId, email);
+          if (result.checkoutUrl) {
+            set({ checkoutUrl: result.checkoutUrl });
+          }
+        } catch (e) {
+          console.error('Failed to set buyer email:', e);
+        }
+      },
       
       getCheckoutUrl: () => get().checkoutUrl,
 

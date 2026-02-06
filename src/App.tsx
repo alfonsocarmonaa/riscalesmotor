@@ -23,6 +23,12 @@ import Shipping from "./pages/Shipping";
 import Returns from "./pages/Returns";
 import Sustainability from "./pages/Sustainability";
 import Favorites from "./pages/Favorites";
+import Account from "./pages/Account";
+
+// Auth Pages
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+
 // Legal Pages
 import Privacy from "./pages/legal/Privacy";
 import Terms from "./pages/legal/Terms";
@@ -59,7 +65,10 @@ const App = () => (
             <Route path="/sostenibilidad" element={<Sustainability />} />
             
             {/* Account Pages */}
+            <Route path="/cuenta" element={<Account />} />
             <Route path="/favoritos" element={<Favorites />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Register />} />
             
             {/* Legal Pages */}
             <Route path="/privacidad" element={<Privacy />} />
