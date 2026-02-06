@@ -1,5 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
+import { SEOHead } from "@/components/SEOHead";
+import { ProductSchema, BreadcrumbSchema } from "@/components/JsonLd";
 import { Footer } from "@/components/layout/Footer";
 import { useProductByHandle, useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/shopify";
