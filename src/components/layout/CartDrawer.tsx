@@ -142,7 +142,7 @@ export const CartDrawer = () => {
                   <div className="flex justify-between text-sm">
                     <span>Envío</span>
                     <span className={remainingForFreeShipping <= 0 ? "text-accent font-medium" : ""}>
-                      {remainingForFreeShipping <= 0 ? "Gratis ✅" : "Calculado en checkout"}
+                      {remainingForFreeShipping <= 0 ? "Gratis" : "Calculado en checkout"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-2 border-t">
