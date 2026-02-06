@@ -166,7 +166,7 @@ export const CartDrawer = () => {
                   )}
                 </Button>
                 <p className="text-xs text-center text-muted-foreground">
-                  🔒 Pago 100% seguro
+                  Pago 100% seguro
                 </p>
               </div>
             </>
