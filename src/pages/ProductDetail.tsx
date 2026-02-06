@@ -6,7 +6,6 @@ import { Footer } from "@/components/layout/Footer";
 import { useProductByHandle, useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/shopify";
 import { trackViewProduct, trackAddToCart } from "@/lib/analytics";
-import { useFavorites } from "@/hooks/useFavorites";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -34,8 +33,6 @@ export default function ProductDetail() {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const isWishlisted = product ? isFavorite(product.id) : false;
   const [showStickyCart, setShowStickyCart] = useState(false);
   const addToCartRef = useRef<HTMLDivElement>(null);
 
@@ -109,16 +106,6 @@ export default function ProductDetail() {
     });
   };
 
-  const handleWishlist = () => {
-    if (!product) return;
-    toggleFavorite({
-      id: product.id,
-      handle: product.handle,
-      title: product.title,
-      image: images[0]?.node.url,
-      price: selectedVariant?.price.amount,
-    });
-  };
 
 
   if (isLoading) {
@@ -458,22 +445,14 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Add to Cart & Wishlist */}
-              <div ref={addToCartRef} className="flex gap-3">
+              {/* Add to Cart */}
+              <div ref={addToCartRef}>
                 <Button
                   onClick={handleAddToCart}
                   disabled={isAddingToCart || !selectedVariant?.availableForSale}
-                  className="flex-1 bg-accent text-white hover:bg-accent/90 active:bg-accent/80 font-bold uppercase tracking-wide py-5 sm:py-6 text-sm sm:text-base touch-manipulation"
+                  className="w-full bg-accent text-white hover:bg-accent/90 active:bg-accent/80 font-bold uppercase tracking-wide py-5 sm:py-6 text-sm sm:text-base touch-manipulation"
                 >
                   {isAddingToCart ? 'Añadiendo...' : 'Añadir al Carrito'}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleWishlist}
-                  className={`h-12 w-12 sm:h-14 sm:w-14 touch-manipulation ${isWishlisted ? 'text-accent border-accent' : ''}`}
-                >
-                  <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-current' : ''}`} />
                 </Button>
               </div>
 
