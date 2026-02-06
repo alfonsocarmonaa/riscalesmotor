@@ -82,14 +82,14 @@ export function BestSellers() {
           </div>
         </div>
 
-        {/* View All Link */}
+        {/* View All CTA */}
         {products && products.length > 0 && (
           <div className="text-center mt-10">
             <Link 
-              to="/productos" 
-              className="inline-flex items-center text-foreground hover:text-accent transition-colors font-medium link-underline"
+              to="/productos?sort=best-selling" 
+              className="inline-block bg-accent text-accent-foreground px-8 py-3 font-body font-bold uppercase tracking-wide text-sm hover:bg-accent/90 transition-colors"
             >
-              Ver todos los más vendidos →
+              Explorar Más Vendidos
             </Link>
           </div>
         )}

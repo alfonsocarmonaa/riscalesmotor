@@ -39,7 +39,8 @@ const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const collection = searchParams.get('collection');
-  const [sortBy, setSortBy] = useState('featured');
+  const sortFromUrl = searchParams.get('sort');
+  const [sortBy, setSortBy] = useState(sortFromUrl || 'featured');
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
