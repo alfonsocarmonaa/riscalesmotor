@@ -2,11 +2,19 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const SHOPIFY_STORE_PERMANENT_DOMAIN = "3hxjb2-ht.myshopify.com";
+const SHOPIFY_ACCOUNT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/account`;
 
 /**
- * Intercepts Shopify checkout/cart/account paths that land on our domain
- * (because Shopify redirects to the custom domain) and sends the
- * user to the Shopify permanent domain or back to the landing page.
+ * Unified redirect handler for all Shopify-related paths that land on our domain.
+ * 
+ * Architecture:
+ * - Our React app runs on riscalesmotor.com / lovable.app
+ * - Shopify store runs on 3hxjb2-ht.myshopify.com
+ * - When Shopify redirects back to the custom domain, we intercept and route correctly
+ * 
+ * Handled paths:
+ * - /checkouts/*, /cart/*, /orders/* → Shopify permanent domain (checkout flow)
+ * - /account/*, /login, /registro, /cuenta → Shopify account or home (auth flow)
  */
 export const ShopifyRedirect = () => {
   const location = useLocation();
@@ -16,10 +24,13 @@ export const ShopifyRedirect = () => {
     const path = location.pathname;
     const params = new URLSearchParams(location.search);
 
-    // Anti-loop: if we already redirected once, don't do it again
-    if (params.get("ref") === "lovable") return;
+    // Anti-loop: if we already redirected once, go home
+    if (params.get("ref") === "lovable") {
+      navigate("/", { replace: true });
+      return;
+    }
 
-    // Shopify checkout/cart/orders paths → redirect to Shopify
+    // --- Checkout paths → Shopify permanent domain ---
     const isShopifyCheckoutPath =
       path.startsWith("/checkouts/") ||
       path.startsWith("/cart/") ||
@@ -32,20 +43,19 @@ export const ShopifyRedirect = () => {
       return;
     }
 
-    // Shopify account paths (login, logout, register, reset, activate, etc.)
-    // → redirect to landing page instead of showing 404
-    const isShopifyAccountPath =
-      path.startsWith("/account/") ||
-      path === "/account";
-
-    // Exclude our own known account routes
-    const isOurRoute =
-      path === "/cuenta" ||
+    // --- Auth/Account paths → redirect to home ---
+    // These paths arrive when Shopify redirects back after login/logout/register
+    // or when the user navigates to old internal auth routes
+    const isAuthPath =
+      path.startsWith("/account") ||
       path === "/login" ||
       path === "/registro" ||
-      path === "/favoritos";
+      path === "/cuenta";
 
-    if (isShopifyAccountPath && !isOurRoute) {
+    // Don't intercept our own app routes
+    const isOwnRoute = path === "/favoritos";
+
+    if (isAuthPath && !isOwnRoute) {
       navigate("/", { replace: true });
       return;
     }

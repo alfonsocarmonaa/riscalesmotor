@@ -321,7 +321,10 @@ function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message
 
 export async function createShopifyCart(item: { variantId: string; quantity: number }): Promise<{ cartId: string; checkoutUrl: string; lineId: string } | null> {
   const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
-    input: { lines: [{ quantity: item.quantity, merchandiseId: item.variantId }] },
+    input: {
+      lines: [{ quantity: item.quantity, merchandiseId: item.variantId }],
+      buyerIdentity: { countryCode: "ES" },
+    },
   });
 
   if (data?.data?.cartCreate?.userErrors?.length > 0) {
