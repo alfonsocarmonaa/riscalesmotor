@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 import { Heart, Leaf, Pencil, Flag, Target, Eye } from "lucide-react";
 import aboutClassicCar from "@/assets/about-classic-car.jpg";
 import aboutDesignProcess from "@/assets/about-design-process.jpg";
@@ -8,6 +9,10 @@ import aboutHeroWorkshop from "@/assets/about-hero-workshop.jpg";
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Sobre Riscales Motor Co."
+        description="Conoce la historia de Riscales Motor Co. Arte, pasión y motor clásico en cada camiseta artesanal. Diseño español, fabricación responsable."
+      />
       <Header />
       
       <main className="flex-1">
