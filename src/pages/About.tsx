@@ -19,6 +19,8 @@ export default function AboutPage() {
         {/* Hero */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
           <div 
+            role="img"
+            aria-label="Taller artesanal de Riscales Motor Co. con diseños de vehículos clásicos"
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${aboutHeroWorkshop})` }}
           />
