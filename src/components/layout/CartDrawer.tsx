@@ -152,7 +152,7 @@ export const CartDrawer = () => {
                 </div>
                 <Button 
                   onClick={handleCheckout} 
-                  className="w-full bg-foreground hover:bg-foreground/90 text-background font-bold uppercase tracking-wide" 
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase tracking-wide" 
                   size="lg" 
                   disabled={items.length === 0 || isLoading || isSyncing}
                 >
