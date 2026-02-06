@@ -49,6 +49,7 @@ const App = () => (
       <BrowserRouter>
         <AppProviders>
           <ScrollToTop />
+          <ShopifyRedirect />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/productos" element={<Products />} />
