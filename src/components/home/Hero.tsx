@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export function Hero() {
-  return <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
+  const { t } = useTranslation();
+
+  return (
+    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
       {/* Background with Parallax Effect */}
       <div className="absolute inset-0 parallax-bg" style={{
-      backgroundImage: `url(${heroBg})`
-    }}>
+        backgroundImage: `url(${heroBg})`
+      }}>
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-hero" />
       </div>
@@ -21,11 +25,11 @@ export function Hero() {
           Riscales Motor Co. <span className="text-accent">♥</span>
         </p>
         <p className="font-body text-background/80 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
-          Camisetas artesanales inspiradas en leyendas del motor
+          {t('hero.subtitle')}
         </p>
         <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta">
           <Link to="/productos">
-            Descubre la Colección
+            {t('hero.cta')}
           </Link>
         </Button>
       </div>
@@ -34,5 +38,6 @@ export function Hero() {
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
         
       </div>
-    </section>;
+    </section>
+  );
 }
