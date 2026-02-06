@@ -180,9 +180,9 @@ export default function AboutPage() {
                         generaciones y fronteras.
                       </p>
                       <p className="text-background/80 leading-relaxed">
-                        Aspiramos a crear una comunidad global de amantes del motor que visten 
-                        con orgullo su pasión, sabiendo que llevan una pieza fabricada con 
-                        responsabilidad, amor y el saber hacer de un taller artesanal español.
+                        Aspiramos a crear una comunidad global de amantes del motor que 
+                        visten con orgullo su pasión, con piezas fabricadas con amor 
+                        en nuestro taller artesanal español.
                       </p>
                     </div>
                   </div>
