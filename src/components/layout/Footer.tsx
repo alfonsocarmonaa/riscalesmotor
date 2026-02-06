@@ -50,9 +50,9 @@ export function Footer() {
     } else if (result?.error) {
       toast.error("Error al suscribirse", { description: result.error });
     } else {
-      toast.success("¡Revisa tu correo!", {
-        description: "Te hemos enviado un email de confirmación. Confirma tu alta para recibir un 10% de descuento.",
-        duration: 8000,
+      toast.success("¡Bienvenido al club!", {
+        description: "Ya formas parte de la familia Riscales. Pronto recibirás novedades y ofertas exclusivas.",
+        duration: 5000,
       });
     }
     setEmail("");
