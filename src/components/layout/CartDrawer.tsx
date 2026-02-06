@@ -33,16 +33,16 @@ export const CartDrawer = () => {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors group">
+        <Button variant="ghost" size="icon" className="relative h-10 w-10 hover:bg-accent hover:text-accent-foreground transition-colors group touch-manipulation">
           <ShoppingCart className="h-5 w-5 text-accent group-hover:text-accent-foreground" />
           {totalItems > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-accent text-accent-foreground border-0">
+            <Badge className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-accent text-accent-foreground border-0">
               {totalItems}
             </Badge>
           )}
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-lg flex flex-col h-full">
+      <SheetContent className="w-full sm:max-w-lg flex flex-col h-full pb-safe">
         <SheetHeader className="flex-shrink-0">
           <SheetTitle className="font-display text-2xl">{t('cart.title')}</SheetTitle>
           <SheetDescription>
