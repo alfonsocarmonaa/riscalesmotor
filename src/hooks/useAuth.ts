@@ -1,24 +1,54 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
+
+/**
+ * Creates a Shopify customer record via the Admin API edge function.
+ * Called on login/register to ensure the customer exists natively in Shopify.
+ * Non-blocking — errors are logged but don't affect the auth flow.
+ */
+async function ensureShopifyCustomer(fullName?: string) {
+  try {
+    await supabase.functions.invoke("shopify-create-customer", {
+      body: { fullName: fullName || "" },
+    });
+  } catch (e) {
+    console.warn("Shopify customer sync (non-blocking):", e);
+  }
+}
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const shopifySyncedRef = useRef(false);
 
   useEffect(() => {
-    // Set up listener FIRST (as per Supabase best practice)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
         setLoading(false);
+
+        // Ensure Shopify customer exists when user signs in
+        if (session?.user && !shopifySyncedRef.current) {
+          shopifySyncedRef.current = true;
+          const name = session.user.user_metadata?.full_name || "";
+          ensureShopifyCustomer(name);
+        }
+        if (!session?.user) {
+          shopifySyncedRef.current = false;
+        }
       }
     );
 
-    // THEN check existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
+
+      if (session?.user && !shopifySyncedRef.current) {
+        shopifySyncedRef.current = true;
+        const name = session.user.user_metadata?.full_name || "";
+        ensureShopifyCustomer(name);
+      }
     });
 
     return () => subscription.unsubscribe();
