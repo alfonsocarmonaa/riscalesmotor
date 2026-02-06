@@ -51,7 +51,6 @@ const App = () => (
       <BrowserRouter>
         <AppProviders>
           <ScrollToTop />
-          <ShopifyRedirect />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/productos" element={<Products />} />
@@ -75,6 +74,12 @@ const App = () => (
             <Route path="/privacidad" element={<Privacy />} />
             <Route path="/terminos" element={<Terms />} />
             <Route path="/cookies" element={<Cookies />} />
+            
+            {/* Shopify redirect routes — MUST be before the catch-all */}
+            <Route path="/checkouts/*" element={<ShopifyRedirect />} />
+            <Route path="/cart/*" element={<ShopifyRedirect />} />
+            <Route path="/orders/*" element={<ShopifyRedirect />} />
+            <Route path="/account/*" element={<ShopifyRedirect />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
