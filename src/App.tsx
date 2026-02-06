@@ -79,6 +79,7 @@ const App = () => (
             <Route path="/checkouts/*" element={<ShopifyRedirect />} />
             <Route path="/cart/*" element={<ShopifyRedirect />} />
             <Route path="/orders/*" element={<ShopifyRedirect />} />
+            {/* Account routes from Shopify checkout → redirect to OUR pages */}
             <Route path="/account/*" element={<ShopifyRedirect />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

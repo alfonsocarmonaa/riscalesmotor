@@ -1,43 +1,79 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2, LogIn, UserX } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice, getShopifyCheckoutUrl } from "@/lib/shopify";
 import { enrichCheckoutUrl, trackBeginCheckout } from "@/lib/analytics";
+import { supabase } from "@/integrations/supabase/client";
 
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart, getTotalItems, getTotalPrice } = useCartStore();
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart, getTotalItems, getTotalPrice, setBuyerEmail } = useCartStore();
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
   const FREE_SHIPPING_THRESHOLD = 50;
   const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
 
-  useEffect(() => { 
-    if (isOpen) syncCart(); 
+  // Check auth state when drawer opens
+  useEffect(() => {
+    if (isOpen) {
+      syncCart();
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setUserEmail(session?.user?.email ?? null);
+      });
+    } else {
+      setShowLoginPrompt(false);
+    }
   }, [isOpen, syncCart]);
 
-  const handleCheckout = () => {
+  const proceedToCheckout = async () => {
     const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) {
-      // Track begin_checkout event
-      trackBeginCheckout(
-        items.map(i => ({
-          name: i.product.node.title,
-          id: i.variantId,
-          price: i.price.amount,
-          quantity: i.quantity,
-          currency: i.price.currencyCode,
-        }))
-      );
-      // Ensure correct domain + forward UTMs and GA4 client ID
-      const safeUrl = getShopifyCheckoutUrl(checkoutUrl);
-      const enrichedUrl = enrichCheckoutUrl(safeUrl);
-      window.open(enrichedUrl, '_blank');
-      setIsOpen(false);
+    if (!checkoutUrl) return;
+
+    // Ensure buyer email is set right before checkout
+    if (userEmail) {
+      await setBuyerEmail(userEmail);
     }
+
+    // Track begin_checkout event
+    trackBeginCheckout(
+      items.map(i => ({
+        name: i.product.node.title,
+        id: i.variantId,
+        price: i.price.amount,
+        quantity: i.quantity,
+        currency: i.price.currencyCode,
+      }))
+    );
+
+    // Ensure correct domain + forward UTMs and GA4 client ID
+    const safeUrl = getShopifyCheckoutUrl(checkoutUrl);
+    const enrichedUrl = enrichCheckoutUrl(safeUrl);
+    window.open(enrichedUrl, '_blank');
+    setIsOpen(false);
+    setShowLoginPrompt(false);
+  };
+
+  const handleCheckout = () => {
+    // If user is logged in, go directly to checkout
+    if (userEmail) {
+      proceedToCheckout();
+      return;
+    }
+    // If not logged in, show prompt
+    setShowLoginPrompt(true);
+  };
+
+  const handleLoginRedirect = () => {
+    setIsOpen(false);
+    setShowLoginPrompt(false);
+    navigate("/login");
   };
 
   return (
@@ -168,21 +204,51 @@ export const CartDrawer = () => {
                     <span className="text-xl font-bold">{formatPrice(totalPrice.toString(), 'EUR')}</span>
                   </div>
                 </div>
-                <Button 
-                  onClick={handleCheckout} 
-                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase tracking-wide" 
-                  size="lg" 
-                  disabled={items.length === 0 || isLoading || isSyncing}
-                >
-                  {isLoading || isSyncing ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Finalizar compra
-                    </>
-                  )}
-                </Button>
+
+                {/* Login prompt for unauthenticated users */}
+                {showLoginPrompt && !userEmail ? (
+                  <div className="space-y-3 p-4 border border-accent/30 rounded-lg bg-accent/5">
+                    <p className="text-sm font-medium text-center">
+                      ¿Quieres iniciar sesión para guardar tu pedido y pre-rellenar tus datos?
+                    </p>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handleLoginRedirect}
+                        variant="default"
+                        className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground"
+                        size="sm"
+                      >
+                        <LogIn className="w-4 h-4 mr-2" />
+                        Iniciar sesión
+                      </Button>
+                      <Button 
+                        onClick={proceedToCheckout}
+                        variant="outline"
+                        className="flex-1"
+                        size="sm"
+                      >
+                        <UserX className="w-4 h-4 mr-2" />
+                        Seguir como invitado
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button 
+                    onClick={handleCheckout} 
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase tracking-wide" 
+                    size="lg" 
+                    disabled={items.length === 0 || isLoading || isSyncing}
+                  >
+                    {isLoading || isSyncing ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Finalizar compra
+                      </>
+                    )}
+                  </Button>
+                )}
               </div>
             </>
           )}
