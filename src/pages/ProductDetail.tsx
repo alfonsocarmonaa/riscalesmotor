@@ -7,6 +7,7 @@ import { useProductByHandle, useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/shopify";
 import { trackViewProduct, trackAddToCart } from "@/lib/analytics";
 import { useCartStore } from "@/stores/cartStore";
+import { useWishlist } from "@/hooks/useWishlist";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Minus, Plus, Truck, Package, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
@@ -29,6 +30,7 @@ export default function ProductDetail() {
   const { data: relatedProducts } = useProducts(4);
   const addItem = useCartStore(state => state.addItem);
   const isAddingToCart = useCartStore(state => state.isLoading);
+  const { isFavorite, toggleItem } = useWishlist();
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -445,14 +447,32 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Add to Cart */}
-              <div ref={addToCartRef}>
+              {/* Add to Cart & Wishlist */}
+              <div ref={addToCartRef} className="flex gap-3">
                 <Button
                   onClick={handleAddToCart}
                   disabled={isAddingToCart || !selectedVariant?.availableForSale}
-                  className="w-full bg-accent text-white hover:bg-accent/90 active:bg-accent/80 font-bold uppercase tracking-wide py-5 sm:py-6 text-sm sm:text-base touch-manipulation"
+                  className="flex-1 bg-accent text-white hover:bg-accent/90 active:bg-accent/80 font-bold uppercase tracking-wide py-5 sm:py-6 text-sm sm:text-base touch-manipulation"
                 >
                   {isAddingToCart ? 'Añadiendo...' : 'Añadir al Carrito'}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    if (!product) return;
+                    toggleItem({
+                      productId: product.id,
+                      handle: product.handle,
+                      title: product.title,
+                      image: images[0]?.node.url,
+                      price: selectedVariant?.price.amount,
+                      currencyCode: selectedVariant?.price.currencyCode,
+                    });
+                  }}
+                  className={`h-12 w-12 sm:h-14 sm:w-14 touch-manipulation ${product && isFavorite(product.id) ? 'text-accent border-accent' : ''}`}
+                >
+                  <Heart className={`h-5 w-5 ${product && isFavorite(product.id) ? 'fill-current' : ''}`} />
                 </Button>
               </div>
 

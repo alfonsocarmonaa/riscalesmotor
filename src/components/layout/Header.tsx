@@ -1,10 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, ChevronDown } from "lucide-react";
+import { ShoppingCart, Menu, ChevronDown, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
+import { useShopifyAuth } from "@/hooks/useShopifyAuth";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
+import { BrandHeart } from "@/components/BrandHeart";
 import logoImage from "@/assets/logo.png";
 
 const navLinks = [
@@ -28,32 +30,27 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const totalItems = useCartStore(state => state.getTotalItems());
+  const customer = useShopifyAuth(s => s.customer);
   const location = useLocation();
   
-  // Only apply transparent header on homepage
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
-    // Check initial scroll position
     handleScroll();
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const headerPosition = isHomePage ? "fixed inset-x-0 top-0" : "sticky top-0";
-
   const headerBg = isHomePage
     ? (isScrolled ? "bg-background" : "bg-transparent")
     : "bg-background";
 
   return (
     <header className={`${headerPosition} z-50 transition-all duration-300 ${headerBg}`}> 
-      {/* Main Header */}
       <div className={`${isScrolled || !isHomePage ? "border-b" : "border-b border-transparent"}`}>
         <div className="container py-4">
           {/* Mobile Header */}
@@ -69,7 +66,7 @@ export function Header() {
                   <Link to="/" className="block mb-8" onClick={() => setMobileMenuOpen(false)}>
                     <img 
                       src={logoImage} 
-                      alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
+                      alt="Riscales Motor Co." 
                       className="h-14 w-auto"
                     />
                   </Link>
@@ -100,6 +97,17 @@ export function Header() {
                       </div>
                     ))}
                   </nav>
+                  
+                  <div className="mt-8 pt-6 border-t">
+                    <Link 
+                      to={customer ? "/cuenta" : "/login"}
+                      className="flex items-center gap-3 py-3 px-2 -mx-2 font-body font-medium hover:text-accent hover:bg-secondary/50 rounded-lg transition-colors touch-manipulation"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <User className="h-5 w-5" />
+                      {customer ? "Mi Cuenta" : "Iniciar Sesión"}
+                    </Link>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
@@ -107,28 +115,31 @@ export function Header() {
             <Link to="/" className="flex items-center flex-shrink-0">
               <img 
                 src={logoImage} 
-                alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
+                alt="Riscales Motor Co." 
                 className="h-12 sm:h-14 w-auto"
               />
             </Link>
 
             <div className="flex items-center">
+              <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" asChild>
+                <Link to="/favoritos">
+                  <BrandHeart size="md" />
+                </Link>
+              </Button>
               <CartDrawer />
             </div>
           </div>
 
-          {/* Desktop Header - Single Line */}
+          {/* Desktop Header */}
           <div className="hidden lg:flex items-center justify-between">
-            {/* Logo Left */}
             <Link to="/" className="flex-shrink-0">
               <img 
                 src={logoImage} 
-                alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
+                alt="Riscales Motor Co." 
                 className="h-[72px] w-auto"
               />
             </Link>
 
-            {/* Navigation - Center */}
             <nav className="flex-1 flex justify-center">
               <ul className="flex items-center gap-6">
                 {navLinks.map((link) => (
@@ -141,7 +152,6 @@ export function Header() {
                       {link.submenu && <ChevronDown className="h-3 w-3" />}
                     </Link>
                     
-                    {/* Mega Menu */}
                     {link.submenu && (
                       <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 pt-2">
                         <div className="bg-background border shadow-lg rounded-lg p-4 min-w-[240px]">
@@ -164,8 +174,17 @@ export function Header() {
               </ul>
             </nav>
 
-            {/* Icons - Right */}
             <div className="flex items-center gap-1">
+              <Button variant="ghost" size="icon" asChild>
+                <Link to={customer ? "/cuenta" : "/login"}>
+                  <User className="h-5 w-5" />
+                </Link>
+              </Button>
+              <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors" asChild>
+                <Link to="/favoritos">
+                  <BrandHeart size="md" />
+                </Link>
+              </Button>
               <CartDrawer />
             </div>
           </div>
