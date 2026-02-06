@@ -65,39 +65,39 @@ export function Header() {
       <div className={`${isScrolled || !isHomePage ? "border-b" : "border-b border-transparent"}`}>
         <div className="container py-4">
           {/* Mobile Header */}
-          <div className="flex lg:hidden items-center justify-between">
+          <div className="flex lg:hidden items-center justify-between gap-2">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
+                <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation">
+                  <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] p-0">
-                <div className="p-6">
+              <SheetContent side="left" className="w-[85vw] max-w-[320px] p-0">
+                <div className="p-6 pb-safe">
                   <Link to="/" className="block mb-8" onClick={() => setMobileMenuOpen(false)}>
                     <img 
                       src={logoImage} 
                       alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
-                      className="h-16 w-auto"
+                      className="h-14 w-auto"
                     />
                   </Link>
-                  <nav className="space-y-4">
+                  <nav className="space-y-1">
                     {navLinks.map((link) => (
                       <div key={link.name}>
                         <Link 
                           to={link.href} 
-                          className="block py-2 font-body font-medium hover:text-accent transition-colors"
+                          className="flex items-center py-3 px-2 -mx-2 font-body font-medium text-base hover:text-accent hover:bg-secondary/50 rounded-lg transition-colors touch-manipulation"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           {link.name}
                         </Link>
                         {link.submenu && (
-                          <div className="pl-4 space-y-2 mt-2">
+                          <div className="pl-4 space-y-1 mt-1 mb-2">
                             {link.submenu.map((sub) => (
                               <Link
                                 key={sub.name}
                                 to={sub.href}
-                                className="block py-1 text-sm text-muted-foreground hover:text-accent transition-colors"
+                                className="block py-2.5 px-2 text-sm text-muted-foreground hover:text-accent hover:bg-secondary/50 rounded-lg transition-colors touch-manipulation"
                                 onClick={() => setMobileMenuOpen(false)}
                               >
                                 {sub.name}
@@ -108,21 +108,33 @@ export function Header() {
                       </div>
                     ))}
                   </nav>
+                  
+                  {/* Mobile menu footer with account link */}
+                  <div className="mt-8 pt-6 border-t">
+                    <Link 
+                      to="/cuenta" 
+                      className="flex items-center gap-3 py-3 px-2 -mx-2 font-body font-medium hover:text-accent hover:bg-secondary/50 rounded-lg transition-colors touch-manipulation"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <User className="h-5 w-5" />
+                      Mi Cuenta
+                    </Link>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
 
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center flex-shrink-0">
               <img 
                 src={logoImage} 
                 alt="Riscales Motor Co." 
-                className="h-16 w-auto"
+                className="h-12 sm:h-14 w-auto"
               />
             </Link>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center">
               <LocaleSelector />
-              <Button variant="ghost" size="icon" asChild>
+              <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" asChild>
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
                 </Link>

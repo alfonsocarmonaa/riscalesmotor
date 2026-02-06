@@ -71,7 +71,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link to={`/producto/${node.handle}`} className="group product-card block">
+    <Link to={`/producto/${node.handle}`} className="group product-card block touch-manipulation">
       <div className="relative overflow-hidden rounded-lg bg-secondary aspect-[4/5]">
         {/* Discount Badge */}
         {hasDiscount && (
@@ -80,16 +80,16 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
         
-        {/* Wishlist Button */}
+        {/* Wishlist Button - Larger touch target on mobile */}
         <button
           onClick={handleWishlist}
-          className={`absolute top-2 right-2 z-10 p-2 rounded-full transition-all duration-200 ${
+          className={`absolute top-2 right-2 z-10 p-2.5 sm:p-2 rounded-full transition-all duration-200 touch-manipulation ${
             isWishlisted 
               ? 'bg-accent text-accent-foreground' 
-              : 'bg-background/80 hover:bg-accent hover:text-accent-foreground'
+              : 'bg-background/90 hover:bg-accent hover:text-accent-foreground active:bg-accent active:text-accent-foreground'
           }`}
         >
-          <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} />
+          <Heart className={`h-5 w-5 sm:h-4 sm:w-4 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
 
         {/* Product Images */}
@@ -99,23 +99,25 @@ export function ProductCard({ product }: ProductCardProps) {
               src={mainImage.url}
               alt={mainImage.altText || node.title}
               className="product-image absolute inset-0 w-full h-full object-cover transition-all duration-500"
+              loading="lazy"
             />
           )}
           {secondImage && (
             <img
               src={secondImage.url}
               alt={secondImage.altText || node.title}
-              className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 hidden sm:block"
+              loading="lazy"
             />
           )}
         </div>
 
-        {/* Quick Add Button */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {/* Quick Add Button - Always visible on mobile, hover on desktop */}
+        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <Button 
             onClick={handleAddToCart}
             disabled={isLoading || !firstVariant?.availableForSale}
-            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase text-xs tracking-wide"
+            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-xs tracking-wide py-2.5 sm:py-2 touch-manipulation"
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
             {!firstVariant?.availableForSale ? t('common.soldOut') : t('common.addToCart')}

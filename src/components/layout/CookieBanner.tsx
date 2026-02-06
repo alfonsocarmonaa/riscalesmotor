@@ -63,45 +63,43 @@ export function CookieBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[100] p-4 md:p-6">
+    <div className="fixed inset-x-0 bottom-8 sm:bottom-0 z-[100] p-3 sm:p-6">
       <div className="container max-w-4xl">
-        <div className="bg-background border rounded-lg shadow-lg p-6">
+        <div className="bg-background border rounded-xl sm:rounded-lg shadow-lg p-4 sm:p-6">
           {!showSettings ? (
             <>
               {/* Main Banner */}
-              <div className="flex items-start gap-4 mb-6">
-                <span className="text-2xl">🍪</span>
+              <div className="flex items-start gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <span className="text-xl sm:text-2xl">🍪</span>
                 <div>
-                  <h3 className="font-bold text-lg mb-2">Usamos cookies</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Utilizamos cookies propias y de terceros para mejorar tu experiencia, 
-                    analizar el tráfico y mostrarte contenido personalizado. Al continuar 
-                    navegando, aceptas su uso conforme a nuestra{" "}
+                  <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">Usamos cookies</h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    Utilizamos cookies para mejorar tu experiencia y analizar el tráfico.{" "}
                     <Link to="/cookies" className="text-accent hover:underline">
-                      Política de Cookies
-                    </Link>.
+                      Más info
+                    </Link>
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-end">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-end">
                 <Button
                   variant="outline"
                   onClick={() => setShowSettings(true)}
-                  className="order-3 sm:order-1"
+                  className="order-3 sm:order-1 h-11 sm:h-10 text-sm touch-manipulation"
                 >
                   Configurar
                 </Button>
                 <Button
                   variant="outline"
                   onClick={rejectAll}
-                  className="order-2"
+                  className="order-2 h-11 sm:h-10 text-sm touch-manipulation"
                 >
                   Rechazar
                 </Button>
                 <Button
                   onClick={acceptAll}
-                  className="bg-foreground text-background hover:bg-foreground/90 font-bold order-1 sm:order-3"
+                  className="bg-foreground text-background hover:bg-foreground/90 active:bg-foreground/80 font-bold order-1 sm:order-3 h-11 sm:h-10 text-sm touch-manipulation"
                 >
                   Aceptar Todas
                 </Button>

@@ -7,10 +7,11 @@ import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Minus, Plus, Truck, Package, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProductCard } from "@/components/products/ProductCard";
+import { StickyAddToCart } from "@/components/products/StickyAddToCart";
 import {
   Dialog,
   DialogContent,
@@ -30,12 +31,30 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [showStickyCart, setShowStickyCart] = useState(false);
+  const addToCartRef = useRef<HTMLDivElement>(null);
 
   // Set default variant
   useEffect(() => {
     if (product?.variants.edges.length) {
       setSelectedVariantId(product.variants.edges[0].node.id);
     }
+  }, [product]);
+
+  // Show sticky cart when main button scrolls out of view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowStickyCart(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: '-100px 0px 0px 0px' }
+    );
+
+    if (addToCartRef.current) {
+      observer.observe(addToCartRef.current);
+    }
+
+    return () => observer.disconnect();
   }, [product]);
 
   const selectedVariant = product?.variants.edges.find(v => v.node.id === selectedVariantId)?.node;
@@ -385,11 +404,11 @@ export default function ProductDetail() {
               </div>
 
               {/* Add to Cart & Wishlist */}
-              <div className="flex gap-3">
+              <div ref={addToCartRef} className="flex gap-3">
                 <Button
                   onClick={handleAddToCart}
                   disabled={isAddingToCart || !selectedVariant?.availableForSale}
-                  className="flex-1 bg-accent text-white hover:bg-accent/90 font-bold uppercase tracking-wide py-6 text-base"
+                  className="flex-1 bg-accent text-white hover:bg-accent/90 active:bg-accent/80 font-bold uppercase tracking-wide py-5 sm:py-6 text-sm sm:text-base touch-manipulation"
                 >
                   {isAddingToCart ? 'Añadiendo...' : 'Añadir al Carrito'}
                 </Button>
@@ -397,7 +416,7 @@ export default function ProductDetail() {
                   variant="outline"
                   size="icon"
                   onClick={handleWishlist}
-                  className={`h-14 w-14 ${isWishlisted ? 'text-accent border-accent' : ''}`}
+                  className={`h-12 w-12 sm:h-14 sm:w-14 touch-manipulation ${isWishlisted ? 'text-accent border-accent' : ''}`}
                 >
                   <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-current' : ''}`} />
                 </Button>
@@ -528,6 +547,18 @@ export default function ProductDetail() {
       </main>
 
       <Footer />
+
+      {/* Sticky Add to Cart for Mobile */}
+      {product && selectedVariant && (
+        <StickyAddToCart
+          productTitle={product.title}
+          price={selectedVariant.price}
+          isLoading={isAddingToCart}
+          isAvailable={selectedVariant.availableForSale}
+          onAddToCart={handleAddToCart}
+          isVisible={showStickyCart}
+        />
+      )}
     </div>
   );
 }

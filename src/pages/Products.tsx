@@ -247,15 +247,15 @@ export default function ProductsPage() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pb-16 sm:pb-0">
       <Header />
       
       <main className="flex-1">
         {/* Breadcrumb */}
-        <div className="bg-secondary py-4">
+        <div className="bg-secondary py-3 sm:py-4">
           <div className="container">
-            <nav className="text-sm text-muted-foreground">
-              <a href="/" className="hover:text-accent transition-colors">Inicio</a>
+            <nav className="text-xs sm:text-sm text-muted-foreground">
+              <a href="/" className="hover:text-accent active:text-accent transition-colors touch-manipulation">Inicio</a>
               <span className="mx-2">/</span>
               <span className="text-foreground">Camisetas</span>
               {collection && (
@@ -269,16 +269,16 @@ export default function ProductsPage() {
         </div>
 
         {/* Page Header */}
-        <div className="container py-8 md:py-12">
-          <div className="text-center max-w-2xl mx-auto">
-            <h1 className="font-display text-4xl md:text-5xl mb-4">{getPageTitle()}</h1>
-            <p className="text-muted-foreground text-lg">{getPageDescription()}</p>
+        <div className="container py-6 sm:py-8 md:py-12">
+          <div className="text-center max-w-2xl mx-auto px-2">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">{getPageTitle()}</h1>
+            <p className="text-muted-foreground text-base sm:text-lg">{getPageDescription()}</p>
           </div>
         </div>
 
         {/* Products Section */}
-        <div className="container pb-16 md:pb-24">
-          <div className="flex flex-col lg:flex-row gap-8">
+        <div className="container pb-12 sm:pb-16 md:pb-24">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
             {/* Sidebar Filters - Desktop */}
             <aside className="hidden lg:block w-64 flex-shrink-0">
               <div className="sticky top-32">
@@ -290,41 +290,51 @@ export default function ProductsPage() {
             {/* Main Content */}
             <div className="flex-1">
               {/* Toolbar */}
-              <div className="flex items-center justify-between mb-8 pb-4 border-b">
+              <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8 pb-4 border-b">
                 {/* Mobile Filter Button */}
                 <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
                   <SheetTrigger asChild>
-                    <Button variant="outline" className="lg:hidden">
+                    <Button variant="outline" className="lg:hidden h-10 px-3 touch-manipulation">
                       <Filter className="h-4 w-4 mr-2" />
                       Filtrar
+                      {(selectedColors.length > 0 || selectedSizes.length > 0 || collection) && (
+                        <span className="ml-1.5 bg-accent text-accent-foreground rounded-full h-5 w-5 text-xs flex items-center justify-center">
+                          {selectedColors.length + selectedSizes.length + (collection ? 1 : 0)}
+                        </span>
+                      )}
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="left" className="w-[300px]">
+                  <SheetContent side="left" className="w-[85vw] max-w-[320px]">
                     <SheetHeader>
                       <SheetTitle>Filtrar por</SheetTitle>
                     </SheetHeader>
-                    <div className="mt-6">
+                    <div className="mt-6 pb-safe">
                       <FilterContent />
                     </div>
                   </SheetContent>
                 </Sheet>
 
-                <span className="text-sm text-muted-foreground hidden lg:block">
+                <span className="text-xs sm:text-sm text-muted-foreground hidden lg:block">
+                  {filteredProducts.length} productos
+                </span>
+                
+                {/* Mobile product count */}
+                <span className="text-xs text-muted-foreground lg:hidden">
                   {filteredProducts.length} productos
                 </span>
 
                 {/* Sort Dropdown */}
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground hidden sm:block">Ordenar por:</span>
+                  <span className="text-sm text-muted-foreground hidden sm:block">Ordenar:</span>
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-[140px] sm:w-[180px] h-10 text-sm touch-manipulation">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="featured">Destacados</SelectItem>
                       <SelectItem value="best-selling">Más vendidos</SelectItem>
-                      <SelectItem value="price-asc">Precio: Menor a mayor</SelectItem>
-                      <SelectItem value="price-desc">Precio: Mayor a menor</SelectItem>
+                      <SelectItem value="price-asc">Precio ↑</SelectItem>
+                      <SelectItem value="price-desc">Precio ↓</SelectItem>
                       <SelectItem value="newest">Novedades</SelectItem>
                     </SelectContent>
                   </Select>
