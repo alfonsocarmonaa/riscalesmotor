@@ -1,6 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { SEOHead } from "@/components/SEOHead";
+import { BreadcrumbSchema } from "@/components/JsonLd";
 import { useProducts } from "@/hooks/useProducts";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
