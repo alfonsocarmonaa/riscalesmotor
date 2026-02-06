@@ -62,9 +62,10 @@ export interface ShopifyProduct {
   };
 }
 
-// GraphQL Queries
+// GraphQL Queries with @inContext for localization
 const PRODUCTS_QUERY = `
-  query GetProducts($first: Int!, $query: String) {
+  query GetProducts($first: Int!, $query: String, $country: CountryCode, $language: LanguageCode) 
+  @inContext(country: $country, language: $language) {
     products(first: $first, query: $query) {
       edges {
         node {
