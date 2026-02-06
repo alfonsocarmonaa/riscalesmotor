@@ -7,6 +7,10 @@ import { useCartSync } from "@/hooks/useCartSync";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { TickerBanner } from "@/components/layout/TickerBanner";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocaleStore } from "@/stores/localeStore";
+import "@/i18n";
 
 // Pages
 import Index from "./pages/Index";
