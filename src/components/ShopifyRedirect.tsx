@@ -6,17 +6,18 @@ const SHOPIFY_STORE_PERMANENT_DOMAIN = "3hxjb2-ht.myshopify.com";
 /**
  * Full-page redirect component rendered as a <Route element>.
  *
- * Handles Shopify paths that land on our domain when Shopify redirects
- * back to the custom domain (e.g. after checkout, account actions).
+ * Handles two categories of paths:
  *
- * - /checkouts/*, /cart/*, /orders/* → Shopify permanent domain (same path)
- * - /account/*                      → Shopify permanent domain (same path)
- *     This is critical: Shopify checkout's "Iniciar sesión" link points to
- *     /account/login on the custom domain. We must forward it to Shopify's
- *     native account login, NOT to our home page.
+ * 1. ACCOUNT paths (/account/*):
+ *    Shopify checkout's "Iniciar sesión" link points to /account/login on the
+ *    custom domain. Since our users authenticate via Lovable Cloud (not Shopify
+ *    native accounts), we redirect these to OUR internal pages:
+ *      /account/login    → /login
+ *      /account/register → /registro
+ *      /account/*        → /cuenta
  *
- * Because this is a Route element (not a side-effect), it renders a
- * loading spinner INSTEAD of the 404 page — eliminating the flash.
+ * 2. CHECKOUT / CART / ORDER paths:
+ *    These are forwarded to Shopify's permanent domain preserving path + query.
  */
 export const ShopifyRedirect = () => {
   const location = useLocation();
@@ -26,15 +27,27 @@ export const ShopifyRedirect = () => {
     const path = location.pathname;
     const search = location.search;
 
-    // Anti-loop: if we already redirected once, go home
+    // ── ACCOUNT ROUTES → redirect to our internal pages ──
+    if (path.startsWith("/account")) {
+      if (path.startsWith("/account/login")) {
+        navigate("/login", { replace: true });
+      } else if (path.startsWith("/account/register")) {
+        navigate("/registro", { replace: true });
+      } else {
+        navigate("/cuenta", { replace: true });
+      }
+      return;
+    }
+
+    // ── SHOPIFY ROUTES (checkout, cart, orders) → forward to Shopify ──
     const params = new URLSearchParams(search);
+
+    // Anti-loop: if we already redirected once, go home
     if (params.get("ref") === "lovable") {
       navigate("/", { replace: true });
       return;
     }
 
-    // All Shopify paths get forwarded to the permanent domain
-    // preserving the original path and query string.
     params.set("ref", "lovable");
     const shopifyUrl = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}${path}?${params.toString()}`;
     window.location.replace(shopifyUrl);
