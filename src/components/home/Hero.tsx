@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { BrandHeart } from "@/components/BrandHeart";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export function Hero() {
@@ -21,8 +22,8 @@ export function Hero() {
         <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-background mb-4 sm:mb-6 leading-tight text-balance">
           Nuestras miradas taparon<br className="hidden sm:block" /><span className="sm:hidden"> </span>nuestros secretos...
         </h1>
-        <p className="font-display text-xl sm:text-2xl md:text-3xl text-background/90 mb-2">
-          Riscales Motor Co. <span className="text-accent">♥</span>
+        <p className="font-display text-xl sm:text-2xl md:text-3xl text-background/90 mb-2 inline-flex items-center justify-center gap-2">
+          Riscales Motor Co. <BrandHeart size="lg" className="text-accent" />
         </p>
         <p className="font-body text-background/80 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
           Camisetas artesanales que celebran la cultura del motor clásico

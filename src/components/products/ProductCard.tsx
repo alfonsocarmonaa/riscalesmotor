@@ -119,21 +119,21 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Quick Add Button - Always visible on mobile, hover on desktop */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <Button 
             onClick={handleAddToCart}
             disabled={isLoading || !firstVariant?.availableForSale}
-            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-xs tracking-wide py-2.5 sm:py-2 touch-manipulation"
+            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-[10px] sm:text-xs tracking-wide py-2 sm:py-2 touch-manipulation"
           >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            {!firstVariant?.availableForSale ? "Agotado" : "Añadir al carrito"}
+            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="truncate">{!firstVariant?.availableForSale ? "Agotado" : "Añadir"}</span>
           </Button>
         </div>
       </div>
 
       {/* Product Info */}
-      <div className="mt-4 space-y-2">
-        <h3 className="font-body font-medium text-foreground line-clamp-2 group-hover:text-accent transition-colors">
+      <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2 px-1">
+        <h3 className="font-body font-medium text-sm sm:text-base text-foreground line-clamp-2 group-hover:text-accent transition-colors">
           {node.title}
         </h3>
 

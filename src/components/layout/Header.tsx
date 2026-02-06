@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, ChevronDown, User, LogIn } from "lucide-react";
+import { ShoppingCart, Menu, ChevronDown, User, LogIn, Heart } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
@@ -21,8 +21,8 @@ const navLinks = [
       { name: "Ver Todas", href: "/productos" },
     ]
   },
-  { name: "SUDADERAS", href: "/proximamente/sudaderas" },
-  { name: "ACCESORIOS", href: "/proximamente/accesorios" },
+  { name: "SUDADERAS", href: "/sudaderas" },
+  { name: "ACCESORIOS", href: "/accesorios" },
   { name: "SOBRE RISCALES", href: "/sobre-riscales" },
 ];
 
@@ -56,8 +56,9 @@ export function Header() {
       <div className={`${isScrolled || !isHomePage ? "border-b" : "border-b border-transparent"}`}>
         <div className="container py-4">
           {/* Mobile Header */}
-          <div className="flex lg:hidden items-center justify-between gap-2">
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <div className="flex lg:hidden items-center">
+             <div className="flex-1 flex justify-start">
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation">
                   <Menu className="h-5 w-5" />
@@ -113,6 +114,7 @@ export function Header() {
                 </div>
               </SheetContent>
             </Sheet>
+             </div>
 
             <Link to="/" className="flex items-center flex-shrink-0">
               <img 
@@ -122,7 +124,7 @@ export function Header() {
               />
             </Link>
 
-            <div className="flex items-center">
+            <div className="flex-1 flex justify-end items-center">
               <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" asChild>
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
@@ -157,14 +159,15 @@ export function Header() {
                     {link.submenu && (
                       <div className="mega-menu absolute top-full left-1/2 -translate-x-1/2 pt-2">
                         <div className="bg-background border shadow-lg rounded-lg p-4 min-w-[240px]">
-                          <div className="space-y-2">
+                          <div className="space-y-1">
                             {link.submenu.map((sub) => (
                               <Link
                                 key={sub.name}
                                 to={sub.href}
-                                className="block py-2 px-3 text-sm rounded hover:bg-secondary transition-colors"
+                                className="group/item flex items-center gap-0 py-2 px-3 text-sm rounded hover:bg-secondary transition-all duration-200"
                               >
-                                {sub.name}
+                                <Heart className="h-3.5 w-3.5 text-accent fill-accent opacity-0 group-hover/item:opacity-100 transition-all duration-200 -ml-1 mr-0 group-hover/item:mr-2 w-0 group-hover/item:w-3.5 overflow-hidden flex-shrink-0" />
+                                <span className="transition-transform duration-200">{sub.name}</span>
                               </Link>
                             ))}
                           </div>

@@ -57,7 +57,8 @@ const App = () => (
             <Route path="/productos" element={<Products />} />
             <Route path="/producto/:handle" element={<ProductDetail />} />
             <Route path="/sobre-riscales" element={<About />} />
-            <Route path="/proximamente/:category" element={<ComingSoon />} />
+            <Route path="/sudaderas" element={<ComingSoon />} />
+            <Route path="/accesorios" element={<ComingSoon />} />
             <Route path="/contacto" element={<Contact />} />
             <Route path="/guia-tallas" element={<SizeGuide />} />
             <Route path="/envios" element={<Shipping />} />

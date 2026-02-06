@@ -14,8 +14,8 @@ export function Footer() {
   const footerLinks = {
     shop: [
       { name: "Camisetas", href: "/productos" },
-      { name: "Sudaderas", href: "/proximamente/sudaderas" },
-      { name: "Accesorios", href: "/proximamente/accesorios" },
+      { name: "Sudaderas", href: "/sudaderas" },
+      { name: "Accesorios", href: "/accesorios" },
       { name: "Guía de Tallas", href: "/guia-tallas" },
     ],
     support: [
@@ -99,7 +99,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="block py-1 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground active:text-accent transition-colors touch-manipulation"
+                    className="inline-block py-1 text-sm text-sidebar-foreground/80 hover:text-accent active:text-accent transition-colors touch-manipulation link-underline"
                   >
                     {link.name}
                   </Link>
@@ -116,7 +116,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="block py-1 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground active:text-accent transition-colors touch-manipulation"
+                    className="inline-block py-1 text-sm text-sidebar-foreground/80 hover:text-accent active:text-accent transition-colors touch-manipulation link-underline"
                   >
                     {link.name}
                   </Link>
@@ -133,7 +133,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="block py-1 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground active:text-accent transition-colors touch-manipulation"
+                    className="inline-block py-1 text-sm text-sidebar-foreground/80 hover:text-accent active:text-accent transition-colors touch-manipulation link-underline"
                   >
                     {link.name}
                   </Link>
