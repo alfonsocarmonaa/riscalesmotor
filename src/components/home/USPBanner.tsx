@@ -6,17 +6,17 @@ export function USPBanner() {
     {
       icon: Truck,
       title: "Envío gratis +50€",
-      description: "+50€",
+      description: "Península y Baleares",
     },
     {
       icon: Palette,
       title: "Calidad premium",
-      description: "Hecho a mano",
+      description: "100% algodón orgánico",
     },
     {
       icon: Leaf,
       title: "Devolución 30 días",
-      description: "",
+      description: "Sin preguntas",
     },
   ];
 

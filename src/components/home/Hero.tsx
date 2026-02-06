@@ -4,18 +4,18 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 lg:pt-0">
+    <section className="relative min-h-[100svh] flex items-end sm:items-center justify-center overflow-hidden">
       {/* Background - Fixed on desktop, scroll on mobile for better performance */}
       <div 
-        className="absolute inset-0 bg-cover bg-center lg:bg-fixed" 
+        className="absolute inset-0 bg-cover bg-[center_30%] sm:bg-center lg:bg-fixed" 
         style={{ backgroundImage: `url(${heroBg})` }}
       >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-hero" />
+        {/* Overlay - lighter on mobile so car is more visible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 sm:bg-gradient-hero" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 sm:px-8 max-w-4xl mx-auto animate-fade-in-up py-12">
+      <div className="relative z-10 text-center px-6 sm:px-8 max-w-4xl mx-auto animate-fade-in-up pb-20 sm:pb-12 pt-24 sm:py-12">
         <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-background mb-4 sm:mb-6 leading-tight text-balance">
           Nuestras miradas taparon<br className="hidden sm:block" /><span className="sm:hidden"> </span>nuestros secretos...
         </h1>
