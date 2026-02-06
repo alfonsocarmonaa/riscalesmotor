@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
+import { SEOHead } from "@/components/SEOHead";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -74,6 +75,11 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Crear Cuenta"
+        description="Crea tu cuenta en Riscales Motor Co. Guarda tus favoritos y accede a ofertas exclusivas."
+        noIndex
+      />
       <Header />
 
       <main className="flex-1 flex items-center justify-center py-12 px-4">

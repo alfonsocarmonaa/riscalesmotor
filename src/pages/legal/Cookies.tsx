@@ -1,9 +1,14 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function CookiesPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Política de Cookies"
+        description="Política de cookies de Riscales Motor Co. Tipos de cookies, gestión de preferencias y configuración del navegador."
+      />
       <Header />
       
       <main className="flex-1">

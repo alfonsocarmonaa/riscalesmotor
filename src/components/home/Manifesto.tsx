@@ -12,6 +12,7 @@ export function Manifesto() {
             <img 
               src={manifestoImage} 
               alt="Persona con camiseta Riscales en un garaje vintage"
+              loading="lazy"
               className="w-full h-full object-cover"
             />
             {/* Subtle overlay */}

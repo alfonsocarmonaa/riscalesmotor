@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
+import { SEOHead } from "@/components/SEOHead";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,11 +33,17 @@ export default function ComingSoonPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title={`${title} - Próximamente`}
+        description={`${description}. Próximamente en Riscales Motor Co. Suscríbete para ser el primero en saberlo.`}
+      />
       <Header />
       
       <main className="flex-1 flex items-center justify-center relative">
         {/* Background Image */}
         <div 
+          role="img"
+          aria-label={`${title} de Riscales Motor Co. - Próximamente`}
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${comingSoonBg})` }}
         >

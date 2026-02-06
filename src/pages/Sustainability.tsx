@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Leaf, Recycle, Factory, Heart, Sparkles, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -49,6 +50,10 @@ const impactNumbers = [
 export default function Sustainability() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Compromiso Sostenible"
+        description="Compromiso sostenible de Riscales Motor Co. Fabricación bajo demanda, cero desperdicio, algodón 100% natural. Moda responsable hecha en España."
+      />
       <Header />
       
       <main className="flex-1">

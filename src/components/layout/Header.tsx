@@ -120,7 +120,7 @@ export function Header() {
             <Link to="/" className="flex items-center flex-shrink-0">
               <img 
                 src={logoImage} 
-                alt="Riscales Motor Co." 
+                alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
                 className="h-12 sm:h-14 w-auto"
               />
             </Link>
@@ -141,7 +141,7 @@ export function Header() {
             <Link to="/" className="flex-shrink-0">
               <img 
                 src={logoImage} 
-                alt="Riscales Motor Co." 
+                alt="Riscales Motor Co. - Camisetas Artesanales de Vehículos Clásicos" 
                 className="h-[72px] w-auto"
               />
             </Link>

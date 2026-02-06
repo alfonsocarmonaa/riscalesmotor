@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Truck, Clock, Package, MapPin, RefreshCw, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -61,6 +62,10 @@ const processSteps = [
 export default function Shipping() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Envíos"
+        description="Información de envíos de Riscales Motor Co. Envío gratis en pedidos +50€. España Península 48-72h. Seguimiento incluido."
+      />
       <Header />
       
       <main className="flex-1">

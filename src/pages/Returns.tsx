@@ -1,5 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
+import { FAQSchema } from "@/components/JsonLd";
 import { Card, CardContent } from "@/components/ui/card";
 import { RefreshCw, Package, Mail, Truck, CheckCircle, XCircle, Clock, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -56,6 +58,16 @@ const notAcceptedConditions = [
 export default function Returns() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Devoluciones y Cambios"
+        description="Política de devoluciones de Riscales Motor Co. 30 días para devolver. Cambios de talla gratuitos. Reembolso en 5-7 días laborables."
+      />
+      <FAQSchema faqs={[
+        { question: "¿Puedo cambiar la talla de mi camiseta?", answer: "Sí, puedes solicitar un cambio de talla dentro del plazo de 30 días. El primer cambio es gratuito (solo pagas el envío de devolución)." },
+        { question: "¿Cuánto tarda el proceso de devolución?", answer: "Desde que recibimos el producto hasta que procesamos el reembolso, el proceso completo tarda entre 5-10 días laborables." },
+        { question: "¿Puedo devolver un producto en oferta?", answer: "Sí, los productos en oferta tienen las mismas condiciones de devolución que los productos a precio regular." },
+        { question: "¿Qué pasa si no tengo el embalaje original?", answer: "No es imprescindible, pero te pedimos que uses un embalaje similar que proteja bien el producto durante el transporte." },
+      ]} />
       <Header />
       
       <main className="flex-1">

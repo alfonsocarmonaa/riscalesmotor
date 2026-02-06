@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 import { Heart, Leaf, Pencil, Flag, Target, Eye } from "lucide-react";
 import aboutClassicCar from "@/assets/about-classic-car.jpg";
 import aboutDesignProcess from "@/assets/about-design-process.jpg";
@@ -8,12 +9,18 @@ import aboutHeroWorkshop from "@/assets/about-hero-workshop.jpg";
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Sobre Riscales Motor Co."
+        description="Conoce la historia de Riscales Motor Co. Arte, pasión y motor clásico en cada camiseta artesanal. Diseño español, fabricación responsable."
+      />
       <Header />
       
       <main className="flex-1">
         {/* Hero */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
           <div 
+            role="img"
+            aria-label="Taller artesanal de Riscales Motor Co. con diseños de vehículos clásicos"
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${aboutHeroWorkshop})` }}
           />
@@ -41,6 +48,7 @@ export default function AboutPage() {
                 <img 
                   src={aboutClassicCar} 
                   alt="Detalle de coche clásico vintage" 
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -77,6 +85,7 @@ export default function AboutPage() {
                 <img 
                   src={aboutDesignProcess} 
                   alt="Proceso de diseño artesanal" 
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>

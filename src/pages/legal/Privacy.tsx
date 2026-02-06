@@ -1,9 +1,14 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Política de Privacidad"
+        description="Política de privacidad de Riscales Motor Co. Información sobre el tratamiento de datos personales conforme al RGPD."
+      />
       <Header />
       
       <main className="flex-1">

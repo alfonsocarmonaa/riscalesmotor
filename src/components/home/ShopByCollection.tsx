@@ -50,6 +50,8 @@ export function ShopByCollection() {
             >
               {/* Background Image */}
               <div 
+                role="img"
+                aria-label={`Colección ${collection.name} - ${collection.description}`}
                 className="absolute inset-0 collection-image transition-transform duration-500 bg-cover bg-center"
                 style={{ backgroundImage: `url(${collection.image})` }}
               />
