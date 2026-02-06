@@ -38,9 +38,19 @@ import Cookies from "./pages/legal/Cookies";
 
 const queryClient = new QueryClient();
 
-// Cart sync wrapper component
-function CartSyncProvider({ children }: { children: React.ReactNode }) {
+// Cart sync and locale wrapper component
+function AppProviders({ children }: { children: React.ReactNode }) {
   useCartSync();
+  const language = useLocaleStore(state => state.language);
+  const { i18n } = useTranslation();
+
+  // Sync i18n language with locale store
+  useEffect(() => {
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
+  }, [language, i18n]);
+
   return <>{children}</>;
 }
 
