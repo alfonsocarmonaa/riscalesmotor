@@ -72,7 +72,7 @@ export const CartDrawer = () => {
                   </>
                 ) : (
                   <p className="text-sm text-center">
-                    🎉 <strong>¡Envío gratis desbloqueado!</strong>
+                    <strong>¡Envío gratis desbloqueado!</strong>
                   </p>
                 )}
               </div>
