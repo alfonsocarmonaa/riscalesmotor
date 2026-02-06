@@ -293,6 +293,11 @@ export async function fetchProductByHandle(
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
+    // Replace custom domain with Shopify's permanent domain to avoid
+    // routing through the React app (which would show a 404)
+    if (url.hostname !== SHOPIFY_STORE_PERMANENT_DOMAIN) {
+      url.hostname = SHOPIFY_STORE_PERMANENT_DOMAIN;
+    }
     url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
