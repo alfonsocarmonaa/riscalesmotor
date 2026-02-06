@@ -5,6 +5,7 @@ import { ProductSchema, BreadcrumbSchema } from "@/components/JsonLd";
 import { Footer } from "@/components/layout/Footer";
 import { useProductByHandle, useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/shopify";
+import { trackViewProduct, trackAddToCart } from "@/lib/analytics";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
