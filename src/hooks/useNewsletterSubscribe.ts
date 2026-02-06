@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { subscribeToKlaviyo, isKlaviyoConfigured } from "@/lib/klaviyo";
 
 type SubscribeSource = "register" | "footer" | "coming_soon";
 
@@ -12,17 +12,29 @@ export function useNewsletterSubscribe() {
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase
-        .from("newsletter_subscribers" as any)
-        .insert({ email: email.trim().toLowerCase(), source } as any);
+      const normalizedEmail = email.trim().toLowerCase();
 
-      if (error) {
-        // Duplicate = already subscribed, treat as success
-        if (error.code === "23505") {
-          return { alreadySubscribed: true };
+      // Save to database as backup/local record
+      const { error: dbError } = await supabase
+        .from("newsletter_subscribers" as any)
+        .insert({ email: normalizedEmail, source } as any);
+
+      const alreadySubscribed = dbError?.code === "23505";
+
+      if (dbError && !alreadySubscribed) {
+        console.error("Newsletter DB error:", dbError);
+      }
+
+      // Send to Klaviyo if configured
+      if (isKlaviyoConfigured()) {
+        const klaviyoResult = await subscribeToKlaviyo(normalizedEmail, source);
+        if (klaviyoResult.error) {
+          console.warn("Klaviyo warning:", klaviyoResult.error);
         }
-        console.error("Newsletter subscribe error:", error);
-        return { error: error.message };
+      }
+
+      if (alreadySubscribed) {
+        return { alreadySubscribed: true };
       }
 
       return { success: true };
