@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { toast } from "sonner";
+import { z } from "zod";
 
 export interface Profile {
   id: string;
@@ -18,6 +19,32 @@ export interface Profile {
   created_at: string;
   updated_at: string;
 }
+
+// Validation schema for profile updates
+const profileUpdateSchema = z.object({
+  full_name: z.string().trim().max(100, "El nombre no puede exceder 100 caracteres").optional().nullable(),
+  avatar_url: z.string().url("URL de avatar inválida").max(500).optional().nullable(),
+  phone: z.string()
+    .trim()
+    .regex(/^(\+?[0-9\s\-()]{0,20})?$/, "Formato de teléfono inválido")
+    .max(20, "El teléfono no puede exceder 20 caracteres")
+    .optional()
+    .nullable()
+    .transform(val => val === "" ? null : val),
+  address_line1: z.string().trim().max(200, "La dirección no puede exceder 200 caracteres").optional().nullable(),
+  address_line2: z.string().trim().max(200, "La dirección no puede exceder 200 caracteres").optional().nullable(),
+  city: z.string().trim().max(100, "La ciudad no puede exceder 100 caracteres").optional().nullable(),
+  postal_code: z.string()
+    .trim()
+    .regex(/^([0-9]{5})?$/, "El código postal debe tener 5 dígitos")
+    .optional()
+    .nullable()
+    .transform(val => val === "" ? null : val),
+  province: z.string().trim().max(100, "La provincia no puede exceder 100 caracteres").optional().nullable(),
+  country: z.string().trim().max(100, "El país no puede exceder 100 caracteres").optional().nullable(),
+});
+
+export type ProfileUpdateData = z.infer<typeof profileUpdateSchema>;
 
 export function useProfile() {
   const { user } = useAuth();
@@ -55,10 +82,19 @@ export function useProfile() {
     async (updates: Partial<Omit<Profile, "id" | "user_id" | "created_at" | "updated_at">>) => {
       if (!user) return { error: new Error("No user logged in") };
 
+      // Validate input before sending to database
+      const validationResult = profileUpdateSchema.safeParse(updates);
+      
+      if (!validationResult.success) {
+        const errorMessages = validationResult.error.errors.map(e => e.message).join(", ");
+        toast.error("Error de validación", { description: errorMessages });
+        return { data: null, error: new Error(errorMessages) };
+      }
+
       try {
         const { data, error } = await supabase
           .from("profiles")
-          .update(updates)
+          .update(validationResult.data)
           .eq("user_id", user.id)
           .select()
           .single();
