@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { onConsentChange } from "@/lib/analytics";
 
 const COOKIE_CONSENT_KEY = "riscales-cookie-consent";
 
@@ -33,6 +34,8 @@ export function CookieBanner() {
   const savePreferences = (prefs: CookiePreferences) => {
     localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(prefs));
     setIsVisible(false);
+    // Activate/deactivate trackers based on new consent
+    onConsentChange();
   };
 
   const acceptAll = () => {

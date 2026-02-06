@@ -5,6 +5,7 @@ import { ProductSchema, BreadcrumbSchema } from "@/components/JsonLd";
 import { Footer } from "@/components/layout/Footer";
 import { useProductByHandle, useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/shopify";
+import { trackViewProduct, trackAddToCart } from "@/lib/analytics";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,6 +44,20 @@ export default function ProductDetail() {
     }
   }, [product]);
 
+  // Track view_item on product load
+  useEffect(() => {
+    if (product && selectedVariant) {
+      trackViewProduct({
+        id: product.id,
+        name: product.title,
+        price: selectedVariant.price.amount,
+        currency: selectedVariant.price.currencyCode,
+        variant: selectedVariant.title,
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.id]);
+
   // Show sticky cart when main button scrolls out of view
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -67,6 +82,16 @@ export default function ProductDetail() {
 
   const handleAddToCart = async () => {
     if (!product || !selectedVariant) return;
+
+    // Track add_to_cart event
+    trackAddToCart({
+      id: product.id,
+      name: product.title,
+      price: selectedVariant.price.amount,
+      currency: selectedVariant.price.currencyCode,
+      variant: selectedVariant.title,
+      quantity,
+    });
 
     await addItem({
       product: { node: product },

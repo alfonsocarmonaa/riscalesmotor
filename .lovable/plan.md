@@ -1,70 +1,93 @@
 
-# Plan: Arreglar el Checkout de Shopify
+# Plan: Tracking y Checkout de Shopify – Estado Actual
 
-## El Problema Real
+## ✅ COMPLETADO (Código)
 
-Shopify tiene `riscalesmotor.com` configurado como dominio principal. Cada vez que alguien intenta hacer checkout, Shopify genera URLs que apuntan a `riscalesmotor.com`. Pero como ese dominio apunta a Lovable (tu web), el checkout nunca llega a Shopify. Se crea un bucle infinito de redirecciones.
+### Checkout
+- `formatCheckoutUrl` corregida: solo reescribe hostname si es `riscalesmotor.com`
+- `ShopifyRedirect` con protección anti-bucle (`ref=lovable`)
+- Limpieza automática de carritos corruptos en `syncCart`
 
-## La Solucion (2 pasos)
+### Tracking (Google Analytics GA4)
+- Cross-domain linker configurado para `3hxjb2-ht.myshopify.com`
+- Eventos GA4: `view_item`, `add_to_cart`, `begin_checkout`, `page_view`
+- UTMs capturados al llegar y reenviados en la URL de checkout
+- GA4 client ID (`_ga`) reenviado en la URL de checkout
+- Todo respeta el consentimiento de cookies
 
-### Paso 1: Quitar `riscalesmotor.com` de Shopify (accion manual tuya, 2 minutos)
+### Tracking (Meta Pixel)
+- Infraestructura lista: `ViewContent`, `AddToCart`, `InitiateCheckout`
+- **Pendiente**: Añadir el Pixel ID en `src/lib/analytics.ts` línea 4 (`META_PIXEL_ID`)
+- Respeta el consentimiento de cookies de marketing
 
-1. Ve a [Shopify Admin > Dominios](https://admin.shopify.com/store/3hxjb2-ht/settings/domains)
-2. En `riscalesmotor.com`, haz clic en "Eliminar" o "Remove"
-3. Confirma la eliminacion
+## ⚠️ PENDIENTE (Configuración manual – 15 minutos total)
 
-**Esto NO afecta a tu web.** Tu web sigue funcionando en `riscalesmotor.com` porque los DNS apuntan a Lovable. Lo unico que cambia es que Shopify deja de intentar usar ese dominio para el checkout.
+### 1. Quitar `riscalesmotor.com` de Shopify Domains (CRÍTICO)
 
-Resultado: Shopify generara URLs de checkout en `3hxjb2-ht.myshopify.com` y el checkout funcionara sin bucles.
+1. Ve a https://admin.shopify.com/store/3hxjb2-ht/settings/domains
+2. En `riscalesmotor.com`, haz clic en "Eliminar" / "Remove"
+3. Confirma
 
-### Paso 2: Corregir bugs en el codigo (lo hago yo)
+> Tu web NO se ve afectada. Solo evita que Shopify use ese dominio para checkout.
 
-Hay dos bugs en el codigo que tambien necesitan arreglarse:
+### 2. Añadir GA4 en Shopify (para tracking de compras)
 
-**Bug 1 - `formatCheckoutUrl` demasiado agresiva:**
-La funcion reemplaza CUALQUIER hostname con el dominio permanente de Shopify. Si Shopify devuelve una URL en `checkout.shopify.com` (formato moderno), la funcion la rompe. La correccion: solo reemplazar el hostname si es `riscalesmotor.com`.
+1. Ve a https://admin.shopify.com/store/3hxjb2-ht/settings/customer_events
+2. Haz clic en "Add custom pixel" (o "Añadir pixel personalizado")
+3. Nombre: `Google Analytics 4`
+4. Pega este código:
 
-**Bug 2 - Cart corrupto en localStorage:**
-El carrito guardado en el navegador tiene URLs antiguas y datos de sesiones rotas. Al corregir el codigo, se limpiara automaticamente al detectar un cart invalido.
+```javascript
+// GA4 Tracking for Shopify Checkout
+const GA4_ID = 'G-7ZNHBTFH4B';
 
-## Cambios Tecnicos
+const script = document.createElement('script');
+script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+script.async = true;
+document.head.appendChild(script);
 
-### Archivo: `src/lib/shopify.ts`
+script.onload = function() {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', GA4_ID, {
+    linker: { accept_incoming: true }
+  });
 
-Modificar `formatCheckoutUrl` para que solo reemplace el hostname cuando sea el dominio personalizado (el que causa el conflicto), no cualquier dominio:
-
-```text
-Antes:
-  if (url.hostname !== SHOPIFY_STORE_PERMANENT_DOMAIN) {
-    url.hostname = SHOPIFY_STORE_PERMANENT_DOMAIN;
-  }
-
-Despues:
-  const CUSTOM_DOMAIN = 'riscalesmotor.com';
-  if (url.hostname === CUSTOM_DOMAIN || url.hostname === 'www.riscalesmotor.com') {
-    url.hostname = SHOPIFY_STORE_PERMANENT_DOMAIN;
-  }
+  analytics.subscribe('checkout_completed', (event) => {
+    const checkout = event.data.checkout;
+    gtag('event', 'purchase', {
+      transaction_id: checkout.order?.id || checkout.token,
+      value: parseFloat(checkout.totalPrice?.amount || 0),
+      currency: checkout.currencyCode,
+      items: checkout.lineItems.map(item => ({
+        item_name: item.title,
+        item_variant: item.variant?.title,
+        price: parseFloat(item.variant?.price?.amount || 0),
+        quantity: item.quantity
+      }))
+    });
+  });
+};
 ```
 
-### Archivo: `src/components/ShopifyRedirect.tsx`
+5. Haz clic en "Save" y luego "Connect"
 
-Actualizar el dominio a `3hxjb2-ht.myshopify.com` (confirmado como el dominio permanente real) y agregar proteccion anti-bucle:
+### 3. Configurar cross-domain en GA4 Admin
 
-- Agregar un parametro `?ref=lovable` al redirigir
-- Si ese parametro ya esta presente, NO redirigir (rompe el bucle)
-- Esto es una red de seguridad, no la solucion principal
+1. Ve a https://analytics.google.com
+2. Admin (⚙️) → Data Streams → tu stream web
+3. Configure tag settings → Configure your domains
+4. Añade: `3hxjb2-ht.myshopify.com`
+5. Guarda
 
-### Archivo: `src/stores/cartStore.ts`
+### 4. Meta Pixel (cuando lo tengas)
 
-Agregar validacion en `syncCart` para limpiar carritos con URLs invalidas (que apunten a `riscalesmotor.com`).
-
-## Resumen
-
-| Accion | Quien | Resultado |
-|---|---|---|
-| Quitar `riscalesmotor.com` de Shopify Domains | Tu (2 min) | Shopify deja de redirigir al dominio equivocado |
-| Corregir `formatCheckoutUrl` | Yo | URLs de checkout correctas |
-| Proteccion anti-bucle en ShopifyRedirect | Yo | Red de seguridad contra loops |
-| Limpiar cart corrupto | Yo | Sesiones de carrito limpias |
-
-Tu web sigue en `riscalesmotor.com`. El checkout se abre en pestaña nueva en `3hxjb2-ht.myshopify.com`. El usuario ni lo nota porque es el flujo estandar de cualquier tienda headless con Shopify.
+1. Crea un Pixel en https://business.facebook.com/events_manager
+2. Copia el Pixel ID (número tipo `123456789012345`)
+3. Abre `src/lib/analytics.ts` y pon el ID en la línea 4:
+   ```
+   const META_PIXEL_ID = 'TU_PIXEL_ID';
+   ```
+4. En Shopify Admin: Canales de venta → Facebook & Instagram → Instalar
+   (esto trackea `Purchase` automáticamente desde el checkout)

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { TickerBanner } from "@/components/layout/TickerBanner";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -38,6 +39,7 @@ const queryClient = new QueryClient();
 // Cart sync wrapper component
 function AppProviders({ children }: { children: React.ReactNode }) {
   useCartSync();
+  useAnalytics();
   return <>{children}</>;
 }
 
