@@ -94,7 +94,7 @@ const App = () => (
           
           {/* Bottom Ticker Banner */}
           <TickerBanner />
-        </CartSyncProvider>
+        </AppProviders>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
