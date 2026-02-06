@@ -33,6 +33,10 @@ export default function ComingSoonPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title={`${title} - Próximamente`}
+        description={`${description}. Próximamente en Riscales Motor Co. Suscríbete para ser el primero en saberlo.`}
+      />
       <Header />
       
       <main className="flex-1 flex items-center justify-center relative">
