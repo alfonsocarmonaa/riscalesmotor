@@ -1,5 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
+import { FAQSchema } from "@/components/JsonLd";
 import { Card, CardContent } from "@/components/ui/card";
 import { RefreshCw, Package, Mail, Truck, CheckCircle, XCircle, Clock, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
