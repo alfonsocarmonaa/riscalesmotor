@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { useProductByHandle, useProducts } from "@/hooks/useProducts";
 import { formatPrice } from "@/lib/shopify";
 import { trackViewProduct, trackAddToCart } from "@/lib/analytics";
+import { useFavorites } from "@/hooks/useFavorites";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,7 +34,8 @@ export default function ProductDetail() {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const isWishlisted = product ? isFavorite(product.id) : false;
   const [showStickyCart, setShowStickyCart] = useState(false);
   const addToCartRef = useRef<HTMLDivElement>(null);
 
@@ -108,8 +110,14 @@ export default function ProductDetail() {
   };
 
   const handleWishlist = () => {
-    setIsWishlisted(!isWishlisted);
-    toast.success(isWishlisted ? "Eliminado de favoritos" : "Añadido a favoritos ♥");
+    if (!product) return;
+    toggleFavorite({
+      id: product.id,
+      handle: product.handle,
+      title: product.title,
+      image: images[0]?.node.url,
+      price: selectedVariant?.price.amount,
+    });
   };
 
 
