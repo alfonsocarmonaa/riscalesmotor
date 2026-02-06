@@ -60,7 +60,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <CartSyncProvider>
+        <AppProviders>
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
