@@ -1,0 +1,163 @@
+{
+  "nav": {
+    "home": "HOME",
+    "tshirts": "T-SHIRTS",
+    "hoodies": "HOODIES",
+    "accessories": "ACCESSORIES",
+    "about": "ABOUT RISCALES",
+    "viewAll": "View All",
+    "edicionesRiscales": "Riscales Editions",
+    "leyendasAsfalto": "Asphalt Legends",
+    "espirituDosRuedas": "Two-Wheel Spirit"
+  },
+  "common": {
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "checkout": "Checkout",
+    "continueShopping": "Continue shopping",
+    "viewProduct": "View product",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sortBy": "Sort by",
+    "price": "Price",
+    "size": "Size",
+    "color": "Color",
+    "quantity": "Quantity",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "freeShipping": "Free shipping",
+    "tax": "Tax",
+    "outOfStock": "Out of stock",
+    "inStock": "In stock",
+    "soldOut": "Sold out",
+    "new": "New",
+    "sale": "Sale",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyDescription": "Add products to get started",
+    "items": "{{count}} item",
+    "items_plural": "{{count}} items",
+    "freeShippingMessage": "Free shipping on orders over {{amount}}!",
+    "freeShippingProgress": "{{amount}} away from free shipping",
+    "freeShippingAchieved": "You've got free shipping!",
+    "checkoutWithShopify": "Checkout",
+    "remove": "Remove",
+    "update": "Update"
+  },
+  "product": {
+    "addedToCart": "Added to cart",
+    "addedToCartDescription": "{{product}} has been added to your cart",
+    "selectSize": "Select a size",
+    "sizeGuide": "Size guide",
+    "description": "Description",
+    "details": "Details",
+    "care": "Care",
+    "materials": "Materials",
+    "noProducts": "No products found",
+    "noProductsDescription": "Try different filters or explore all our t-shirts"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Join the Riscales family",
+      "description": "Subscribe and get 10% off your first order",
+      "placeholder": "Your email",
+      "button": "Subscribe",
+      "success": "Welcome to the Riscales family!",
+      "successDescription": "You'll receive 10% off your first order."
+    },
+    "sections": {
+      "shop": "Shop",
+      "support": "Support",
+      "about": "About Us",
+      "social": "Follow Us"
+    },
+    "links": {
+      "tshirts": "T-Shirts",
+      "hoodies": "Hoodies",
+      "accessories": "Accessories",
+      "sizeGuide": "Size Guide",
+      "contact": "Contact",
+      "shipping": "Shipping",
+      "returns": "Returns",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "cookies": "Cookie Policy",
+      "aboutRiscales": "About Riscales",
+      "sustainability": "Sustainability"
+    },
+    "payment": "Payment methods:",
+    "shippingRegions": "Shipping to Spain and Europe",
+    "copyright": "© 2026 Riscales Motor Co. | Made with",
+    "inSpain": "in Spain"
+  },
+  "hero": {
+    "title": "Wear your passion on wheels",
+    "subtitle": "Artisan t-shirts celebrating classic motor culture",
+    "cta": "Explore collection",
+    "secondary": "Our story"
+  },
+  "bestSellers": {
+    "title": "Best Sellers",
+    "subtitle": "Designs that inspire"
+  },
+  "manifesto": {
+    "title": "The art of motors",
+    "description": "Each t-shirt is a tribute to the machines that defined generations"
+  },
+  "collections": {
+    "title": "Explore by collection",
+    "edicionesRiscales": "Riscales Editions",
+    "cars": "Asphalt Legends",
+    "motos": "Two-Wheel Spirit"
+  },
+  "usp": {
+    "freeShipping": "Free shipping +50€",
+    "quality": "Premium quality",
+    "returns": "30-day returns",
+    "handmade": "Handmade"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Sign up",
+    "logout": "Log out",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createAccount": "Create account",
+    "continueWithGoogle": "Continue with Google"
+  },
+  "account": {
+    "title": "My Account",
+    "profile": "Profile",
+    "orders": "Orders",
+    "favorites": "Favorites",
+    "settings": "Settings"
+  },
+  "favorites": {
+    "title": "My Favorites",
+    "empty": "You don't have any favorites yet",
+    "emptyDescription": "Explore our collection and save your favorite products",
+    "addedToFavorites": "Added to favorites",
+    "removedFromFavorites": "Removed from favorites"
+  },
+  "locale": {
+    "title": "Country / Language",
+    "country": "Country",
+    "language": "Language",
+    "currency": "Currency"
+  }
+}

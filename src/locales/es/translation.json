@@ -1,0 +1,163 @@
+{
+  "nav": {
+    "home": "INICIO",
+    "tshirts": "CAMISETAS",
+    "hoodies": "SUDADERAS",
+    "accessories": "ACCESORIOS",
+    "about": "SOBRE RISCALES",
+    "viewAll": "Ver Todas",
+    "edicionesRiscales": "Ediciones Riscales",
+    "leyendasAsfalto": "Leyendas del Asfalto",
+    "espirituDosRuedas": "Espíritu Dos Ruedas"
+  },
+  "common": {
+    "addToCart": "Añadir al carrito",
+    "buyNow": "Comprar ahora",
+    "checkout": "Finalizar compra",
+    "continueShopping": "Seguir comprando",
+    "viewProduct": "Ver producto",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sortBy": "Ordenar por",
+    "price": "Precio",
+    "size": "Talla",
+    "color": "Color",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "shipping": "Envío",
+    "freeShipping": "Envío gratis",
+    "tax": "Impuestos",
+    "outOfStock": "Agotado",
+    "inStock": "En stock",
+    "soldOut": "Agotado",
+    "new": "Nuevo",
+    "sale": "Oferta",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior"
+  },
+  "cart": {
+    "title": "Carrito",
+    "empty": "Tu carrito está vacío",
+    "emptyDescription": "Añade productos para empezar",
+    "items": "{{count}} artículo",
+    "items_plural": "{{count}} artículos",
+    "freeShippingMessage": "¡Envío gratis en pedidos superiores a {{amount}}!",
+    "freeShippingProgress": "Te faltan {{amount}} para envío gratis",
+    "freeShippingAchieved": "¡Tienes envío gratis!",
+    "checkoutWithShopify": "Finalizar compra",
+    "remove": "Eliminar",
+    "update": "Actualizar"
+  },
+  "product": {
+    "addedToCart": "Añadido al carrito",
+    "addedToCartDescription": "{{product}} se ha añadido a tu carrito",
+    "selectSize": "Selecciona una talla",
+    "sizeGuide": "Guía de tallas",
+    "description": "Descripción",
+    "details": "Detalles",
+    "care": "Cuidados",
+    "materials": "Materiales",
+    "noProducts": "No se encontraron productos",
+    "noProductsDescription": "Prueba con otros filtros o explora todas nuestras camisetas"
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Únete a la familia Riscales",
+      "description": "Suscríbete y recibe un 10% de descuento en tu primera compra",
+      "placeholder": "Tu email",
+      "button": "Suscribir",
+      "success": "¡Bienvenido a la familia Riscales!",
+      "successDescription": "Recibirás un 10% de descuento en tu primera compra."
+    },
+    "sections": {
+      "shop": "Tienda",
+      "support": "Soporte",
+      "about": "Sobre Nosotros",
+      "social": "Síguenos"
+    },
+    "links": {
+      "tshirts": "Camisetas",
+      "hoodies": "Sudaderas",
+      "accessories": "Accesorios",
+      "sizeGuide": "Guía de Tallas",
+      "contact": "Contacto",
+      "shipping": "Envíos",
+      "returns": "Devoluciones",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos y Condiciones",
+      "cookies": "Política de Cookies",
+      "aboutRiscales": "Sobre Riscales",
+      "sustainability": "Compromiso Sostenible"
+    },
+    "payment": "Métodos de pago:",
+    "shippingRegions": "Envíos a España y Europa",
+    "copyright": "© 2026 Riscales Motor Co. | Hecho con",
+    "inSpain": "en España"
+  },
+  "hero": {
+    "title": "Lleva tu pasión sobre ruedas",
+    "subtitle": "Camisetas artesanales que celebran la cultura del motor clásico",
+    "cta": "Explorar colección",
+    "secondary": "Nuestra historia"
+  },
+  "bestSellers": {
+    "title": "Más vendidos",
+    "subtitle": "Diseños que enamoran"
+  },
+  "manifesto": {
+    "title": "El arte del motor",
+    "description": "Cada camiseta es un homenaje a las máquinas que definieron generaciones"
+  },
+  "collections": {
+    "title": "Explora por colección",
+    "edicionesRiscales": "Ediciones Riscales",
+    "cars": "Leyendas del Asfalto",
+    "motos": "Espíritu Dos Ruedas"
+  },
+  "usp": {
+    "freeShipping": "Envío gratis +50€",
+    "quality": "Calidad premium",
+    "returns": "Devolución 30 días",
+    "handmade": "Hecho a mano"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "email": "Email",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "createAccount": "Crear cuenta",
+    "continueWithGoogle": "Continuar con Google"
+  },
+  "account": {
+    "title": "Mi cuenta",
+    "profile": "Perfil",
+    "orders": "Pedidos",
+    "favorites": "Favoritos",
+    "settings": "Ajustes"
+  },
+  "favorites": {
+    "title": "Mis Favoritos",
+    "empty": "Aún no tienes favoritos",
+    "emptyDescription": "Explora nuestra colección y guarda tus productos favoritos",
+    "addedToFavorites": "Añadido a favoritos",
+    "removedFromFavorites": "Eliminado de favoritos"
+  },
+  "locale": {
+    "title": "País / Idioma",
+    "country": "País",
+    "language": "Idioma",
+    "currency": "Moneda"
+  }
+}
