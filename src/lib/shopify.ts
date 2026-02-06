@@ -305,6 +305,11 @@ function formatCheckoutUrl(checkoutUrl: string): string {
   }
 }
 
+// Public version for use at checkout time (ensures cached URLs are also fixed)
+export function getShopifyCheckoutUrl(checkoutUrl: string): string {
+  return formatCheckoutUrl(checkoutUrl);
+}
+
 function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message: string }>): boolean {
   return userErrors.some(e => e.message.toLowerCase().includes('cart not found') || e.message.toLowerCase().includes('does not exist'));
 }
