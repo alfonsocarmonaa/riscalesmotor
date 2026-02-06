@@ -119,13 +119,14 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Quick Add Button - Always visible on mobile, hover on desktop */}
-        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-4 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
           <Button 
             onClick={handleAddToCart}
             disabled={isLoading || !firstVariant?.availableForSale}
-            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-[10px] sm:text-xs tracking-wide py-2 sm:py-2 touch-manipulation"
+            size="sm"
+            className="w-full bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase text-[9px] sm:text-xs tracking-wide h-7 sm:h-9 px-2 sm:px-4 touch-manipulation"
           >
-            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 flex-shrink-0" />
             <span className="truncate">{!firstVariant?.availableForSale ? "Agotado" : "Añadir"}</span>
           </Button>
         </div>
