@@ -138,11 +138,20 @@ export const useShopifyAuth = create<ShopifyAuthState>()(
             },
           });
 
+          if (!data) {
+            set({ loading: false });
+            return { error: "No se pudo conectar con el servidor" };
+          }
+
           const errors = data?.data?.customerCreate?.customerUserErrors || [];
           if (errors.length > 0) {
             set({ loading: false });
             const msg = errors[0].code === "TAKEN"
               ? "Este email ya está registrado"
+              : errors[0].code === "TOO_SHORT"
+              ? "La contraseña es demasiado corta"
+              : errors[0].code === "TOO_LONG"
+              ? "La contraseña es demasiado larga"
               : errors[0].message;
             return { error: msg };
           }
@@ -150,9 +159,11 @@ export const useShopifyAuth = create<ShopifyAuthState>()(
           // Auto-login after register
           set({ loading: false });
           return await get().login(input.email, input.password);
-        } catch (e) {
+        } catch (e: any) {
           set({ loading: false });
-          return { error: "Error de conexión" };
+          const message = e?.message || "Error de conexión";
+          console.error("Shopify register error:", e);
+          return { error: message };
         }
       },
 

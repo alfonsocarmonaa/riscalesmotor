@@ -25,6 +25,14 @@ export default function Register() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [acceptMarketing, setAcceptMarketing] = useState(false);
 
+  const validatePassword = (pwd: string): string | null => {
+    if (pwd.length < 8) return "La contraseña debe tener al menos 8 caracteres";
+    if (!/[A-Z]/.test(pwd)) return "Debe incluir al menos una letra mayúscula";
+    if (!/[a-z]/.test(pwd)) return "Debe incluir al menos una letra minúscula";
+    if (!/[0-9]/.test(pwd)) return "Debe incluir al menos un número";
+    return null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -33,8 +41,9 @@ export default function Register() {
       return;
     }
 
-    if (password.length < 5) {
-      toast.error("La contraseña debe tener al menos 5 caracteres");
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      toast.error(passwordError);
       return;
     }
 
@@ -109,12 +118,15 @@ export default function Register() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Mínimo 5 caracteres"
+                  placeholder="Mínimo 8 caracteres"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={5}
+                  minLength={8}
                 />
+                <p className="text-xs text-muted-foreground">
+                  Mínimo 8 caracteres, una mayúscula, una minúscula y un número
+                </p>
               </div>
 
               <div className="flex items-start space-x-2">
