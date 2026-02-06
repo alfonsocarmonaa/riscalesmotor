@@ -236,6 +236,15 @@ export const CART_LINES_REMOVE_MUTATION = `
   }
 `;
 
+export const CART_BUYER_IDENTITY_UPDATE = `
+  mutation cartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+      cart { id checkoutUrl }
+      userErrors { field message }
+    }
+  }
+`;
+
 // API Helper Function
 export async function storefrontApiRequest(query: string, variables: Record<string, unknown> = {}) {
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
@@ -389,7 +398,28 @@ export async function removeLineFromShopifyCart(cartId: string, lineId: string):
   return { success: true };
 }
 
-// Format price helper
+// Update buyer identity on existing cart (links customer email for checkout pre-fill)
+export async function updateCartBuyerIdentity(
+  cartId: string,
+  email: string
+): Promise<{ success: boolean; checkoutUrl?: string }> {
+  const data = await storefrontApiRequest(CART_BUYER_IDENTITY_UPDATE, {
+    cartId,
+    buyerIdentity: { email, countryCode: "ES" },
+  });
+
+  const userErrors = data?.data?.cartBuyerIdentityUpdate?.userErrors || [];
+  if (userErrors.length > 0) {
+    console.error('Buyer identity update failed:', userErrors);
+    return { success: false };
+  }
+
+  const checkoutUrl = data?.data?.cartBuyerIdentityUpdate?.cart?.checkoutUrl;
+  return {
+    success: true,
+    checkoutUrl: checkoutUrl ? formatCheckoutUrl(checkoutUrl) : undefined,
+  };
+}
 export function formatPrice(amount: string, currencyCode: string = 'EUR'): string {
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',

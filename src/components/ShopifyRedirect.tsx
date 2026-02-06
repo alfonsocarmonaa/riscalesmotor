@@ -47,15 +47,9 @@ export const ShopifyRedirect = () => {
     // These paths arrive when Shopify redirects back after login/logout/register
     // or when the user navigates to old internal auth routes
     const isAuthPath =
-      path.startsWith("/account") ||
-      path === "/login" ||
-      path === "/registro" ||
-      path === "/cuenta";
+      path.startsWith("/account");
 
-    // Don't intercept our own app routes
-    const isOwnRoute = path === "/favoritos";
-
-    if (isAuthPath && !isOwnRoute) {
+    if (isAuthPath) {
       navigate("/", { replace: true });
       return;
     }
