@@ -50,8 +50,9 @@ export function Footer() {
     } else if (result?.error) {
       toast.error("Error al suscribirse", { description: result.error });
     } else {
-      toast.success("¡Bienvenido a la familia Riscales!", {
-        description: "Recibirás un 10% de descuento en tu primera compra.",
+      toast.success("¡Revisa tu correo!", {
+        description: "Te hemos enviado un email de confirmación. Confirma tu alta para recibir un 10% de descuento.",
+        duration: 8000,
       });
     }
     setEmail("");

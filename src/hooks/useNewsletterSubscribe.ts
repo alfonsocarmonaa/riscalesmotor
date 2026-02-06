@@ -2,7 +2,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { subscribeToKlaviyo } from "@/lib/klaviyo";
 
-type SubscribeSource = "register" | "footer" | "coming_soon";
+type SubscribeSource = "register" | "footer" | "coming_soon" | "popup";
 
 export function useNewsletterSubscribe() {
   const [isSubmitting, setIsSubmitting] = useState(false);
