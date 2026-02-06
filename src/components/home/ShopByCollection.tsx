@@ -8,7 +8,7 @@ const collections = [
   {
     id: 'ediciones-riscales',
     name: 'Ediciones Riscales',
-    description: 'Diseños exclusivos de la marca',
+    description: 'Diseños exclusivos para nuestra comunidad',
     href: '/productos?collection=ediciones-riscales',
     image: collectionEdicionesRiscales,
   },
