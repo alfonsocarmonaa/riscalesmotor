@@ -41,6 +41,22 @@ export default function ProductDetail() {
     }
   }, [product]);
 
+  // Show sticky cart when main button scrolls out of view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowStickyCart(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: '-100px 0px 0px 0px' }
+    );
+
+    if (addToCartRef.current) {
+      observer.observe(addToCartRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [product]);
+
   const selectedVariant = product?.variants.edges.find(v => v.node.id === selectedVariantId)?.node;
   const images = product?.images.edges || [];
   const hasDiscount = selectedVariant?.compareAtPrice && 
