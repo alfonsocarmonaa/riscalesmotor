@@ -247,6 +247,10 @@
     @apply scale-x-100 origin-left;
   }
 
+  .link-underline:hover {
+    @apply text-accent;
+  }
+
   /* Badge Styles */
   .badge-discount {
     @apply absolute top-2 left-2 bg-accent text-accent-foreground px-2 py-1 text-xs font-bold uppercase tracking-wide;

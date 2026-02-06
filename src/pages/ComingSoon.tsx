@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { SEOHead } from "@/components/SEOHead";
 import { Footer } from "@/components/layout/Footer";
@@ -10,12 +10,13 @@ import { useNewsletterSubscribe } from "@/hooks/useNewsletterSubscribe";
 import comingSoonBg from "@/assets/coming-soon-bg.jpg";
 
 export default function ComingSoonPage() {
-  const { category } = useParams<{ category: string }>();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const { subscribe, isSubmitting } = useNewsletterSubscribe();
 
-  const title = category === 'sudaderas' ? 'Sudaderas' : 'Accesorios';
-  const description = category === 'sudaderas' 
+  const isSudaderas = location.pathname === '/sudaderas';
+  const title = isSudaderas ? 'Sudaderas' : 'Accesorios';
+  const description = isSudaderas 
     ? 'Sudaderas premium con nuestros diseños artesanales de motor clásico'
     : 'Accesorios exclusivos para los amantes del motor vintage';
 

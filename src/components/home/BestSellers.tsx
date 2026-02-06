@@ -25,7 +25,7 @@ export function BestSellers() {
       <div className="container">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="font-display text-4xl md:text-5xl mb-4">Más vendidos</h2>
+          <h2 className="font-display text-4xl md:text-5xl mb-4">Más populares</h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
             Diseños que enamoran
           </p>
