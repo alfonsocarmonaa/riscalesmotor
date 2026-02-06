@@ -44,6 +44,20 @@ export default function ProductDetail() {
     }
   }, [product]);
 
+  // Track view_item on product load
+  useEffect(() => {
+    if (product && selectedVariant) {
+      trackViewProduct({
+        id: product.id,
+        name: product.title,
+        price: selectedVariant.price.amount,
+        currency: selectedVariant.price.currencyCode,
+        variant: selectedVariant.title,
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product?.id]);
+
   // Show sticky cart when main button scrolls out of view
   useEffect(() => {
     const observer = new IntersectionObserver(
