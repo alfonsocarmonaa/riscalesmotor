@@ -83,6 +83,16 @@ export default function ProductDetail() {
   const handleAddToCart = async () => {
     if (!product || !selectedVariant) return;
 
+    // Track add_to_cart event
+    trackAddToCart({
+      id: product.id,
+      name: product.title,
+      price: selectedVariant.price.amount,
+      currency: selectedVariant.price.currencyCode,
+      variant: selectedVariant.title,
+      quantity,
+    });
+
     await addItem({
       product: { node: product },
       variantId: selectedVariant.id,

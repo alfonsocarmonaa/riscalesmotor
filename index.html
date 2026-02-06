@@ -29,7 +29,13 @@
           var prefs = JSON.parse(consent);
           if (prefs.analytics) {
             gtag('js', new Date());
-            gtag('config', 'G-7ZNHBTFH4B');
+            gtag('config', 'G-7ZNHBTFH4B', {
+              // Cross-domain linking with Shopify checkout
+              linker: {
+                domains: ['3hxjb2-ht.myshopify.com'],
+                accept_incoming: true
+              }
+            });
           }
         }
       })();
