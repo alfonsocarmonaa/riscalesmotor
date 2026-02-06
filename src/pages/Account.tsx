@@ -89,6 +89,11 @@ export default function Account() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Mi Cuenta"
+        description="Gestiona tu cuenta de Riscales Motor Co. Perfil, dirección de envío y favoritos."
+        noIndex
+      />
       <Header />
 
       <main className="flex-1 py-12">

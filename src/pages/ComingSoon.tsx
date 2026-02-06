@@ -42,6 +42,8 @@ export default function ComingSoonPage() {
       <main className="flex-1 flex items-center justify-center relative">
         {/* Background Image */}
         <div 
+          role="img"
+          aria-label={`${title} de Riscales Motor Co. - Próximamente`}
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${comingSoonBg})` }}
         >

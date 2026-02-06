@@ -127,6 +127,26 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title={`${product.title} - Camiseta Artesanal`}
+        description={`${product.description.slice(0, 150)}. Camiseta artesanal de algodón premium por Riscales Motor Co.`}
+        ogImage={images[0]?.node.url}
+        ogType="product"
+      />
+      <ProductSchema
+        name={product.title}
+        description={product.description.slice(0, 200)}
+        image={images[0]?.node.url || ''}
+        price={selectedVariant?.price.amount || '0'}
+        currency={selectedVariant?.price.currencyCode || 'EUR'}
+        availability={selectedVariant?.availableForSale || false}
+        url={`https://riscalesmotor.lovable.app/producto/${handle}`}
+      />
+      <BreadcrumbSchema items={[
+        { name: "Inicio", url: "/" },
+        { name: "Camisetas", url: "/productos" },
+        { name: product.title, url: `/producto/${handle}` },
+      ]} />
       <Header />
       
       <main className="flex-1">

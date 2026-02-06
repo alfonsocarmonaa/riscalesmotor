@@ -50,6 +50,10 @@ const impactNumbers = [
 export default function Sustainability() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Compromiso Sostenible"
+        description="Compromiso sostenible de Riscales Motor Co. Fabricación bajo demanda, cero desperdicio, algodón 100% natural. Moda responsable hecha en España."
+      />
       <Header />
       
       <main className="flex-1">

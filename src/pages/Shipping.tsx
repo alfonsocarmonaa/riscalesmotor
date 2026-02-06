@@ -62,6 +62,10 @@ const processSteps = [
 export default function Shipping() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Envíos"
+        description="Información de envíos de Riscales Motor Co. Envío gratis en pedidos +50€. España Península 48-72h. Seguimiento incluido."
+      />
       <Header />
       
       <main className="flex-1">

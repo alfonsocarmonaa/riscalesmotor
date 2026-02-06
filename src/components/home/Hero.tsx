@@ -7,6 +7,8 @@ export function Hero() {
     <section className="relative min-h-[100svh] flex items-end sm:items-center justify-center overflow-hidden">
       {/* Background - Fixed on desktop, scroll on mobile for better performance */}
       <div 
+        role="img"
+        aria-label="Coche clásico vintage en carretera - Riscales Motor Co."
         className="absolute inset-0 bg-cover bg-[center_30%] sm:bg-center lg:bg-fixed" 
         style={{ backgroundImage: `url(${heroBg})` }}
       >

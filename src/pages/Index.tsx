@@ -11,6 +11,11 @@ import { OrganizationSchema } from "@/components/JsonLd";
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Riscales Motor Co. | Camisetas Artesanales de Vehículos Clásicos"
+        description="Camisetas artesanales ilustradas con vehículos clásicos. Diseños únicos, algodón premium, fabricación responsable. Hecho con amor en España."
+      />
+      <OrganizationSchema />
       <Header />
       
       <main className="flex-1">

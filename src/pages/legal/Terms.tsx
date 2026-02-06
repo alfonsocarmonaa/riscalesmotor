@@ -1,9 +1,14 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 
 export default function TermsPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Términos y Condiciones"
+        description="Términos y condiciones de compra en Riscales Motor Co. Proceso de compra, precios, envíos, devoluciones y garantía."
+      />
       <Header />
       
       <main className="flex-1">

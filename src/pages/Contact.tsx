@@ -41,6 +41,15 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Contacto"
+        description="Contacta con Riscales Motor Co. Atención al cliente, dudas sobre pedidos, envíos y devoluciones. Respuesta en menos de 24 horas."
+      />
+      <FAQSchema faqs={[
+        { question: "¿Cuánto tarda mi pedido?", answer: "3-4 días laborables (fabricación + envío)" },
+        { question: "¿Envíos internacionales?", answer: "Sí, consulta tarifas en checkout" },
+        { question: "¿Cómo lavar las camisetas?", answer: "Máx. 30°C, del revés, sin lejía" },
+      ]} />
       <Header />
       
       <main className="flex-1">

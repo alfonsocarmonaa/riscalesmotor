@@ -16,6 +16,11 @@ export default function Favorites() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Mis Favoritos"
+        description="Tu lista de camisetas favoritas de Riscales Motor Co."
+        noIndex
+      />
       <Header />
 
       <main className="flex-1 py-12">

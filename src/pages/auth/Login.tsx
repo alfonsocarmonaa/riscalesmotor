@@ -59,6 +59,11 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Iniciar Sesión"
+        description="Inicia sesión en tu cuenta de Riscales Motor Co."
+        noIndex
+      />
       <Header />
 
       <main className="flex-1 flex items-center justify-center py-12 px-4">

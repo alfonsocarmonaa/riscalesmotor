@@ -250,6 +250,16 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen flex flex-col pb-16 sm:pb-0">
+      <SEOHead 
+        title={getPageTitle()}
+        description={getPageDescription()}
+        canonical={collection ? undefined : "https://riscalesmotor.lovable.app/productos"}
+      />
+      <BreadcrumbSchema items={[
+        { name: "Inicio", url: "/" },
+        { name: "Camisetas", url: "/productos" },
+        ...(collection ? [{ name: getPageTitle(), url: `/productos?collection=${collection}` }] : []),
+      ]} />
       <Header />
       
       <main className="flex-1">

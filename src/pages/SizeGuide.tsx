@@ -17,6 +17,10 @@ const sizeData = [
 export default function SizeGuide() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead 
+        title="Guía de Tallas"
+        description="Guía de tallas de camisetas Riscales Motor Co. Corte unisex regular fit. Tabla de medidas en cm. Encuentra tu talla perfecta."
+      />
       <Header />
       
       <main className="flex-1">

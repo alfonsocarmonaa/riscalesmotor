@@ -85,6 +85,7 @@ export default function AboutPage() {
                 <img 
                   src={aboutDesignProcess} 
                   alt="Proceso de diseño artesanal" 
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
