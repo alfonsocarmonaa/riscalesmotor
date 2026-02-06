@@ -9,6 +9,7 @@ import { CookieBanner } from "@/components/layout/CookieBanner";
 import { TickerBanner } from "@/components/layout/TickerBanner";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { ShopifyRedirect } from "@/components/ShopifyRedirect";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 
 // Pages
 import Index from "./pages/Index";
@@ -88,6 +89,9 @@ const App = () => (
           
           {/* Cookie Consent Banner */}
           <CookieBanner />
+          
+          {/* Newsletter Popup */}
+          <NewsletterPopup />
           
           {/* Bottom Ticker Banner */}
           <TickerBanner />
