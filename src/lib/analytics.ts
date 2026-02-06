@@ -85,7 +85,7 @@ export function initGA4() {
 /** Disable GA4 tracking (on consent revoke). */
 export function disableGA4() {
   // Setting the window property tells gtag.js to stop collecting
-  (window as Record<string, unknown>)[`ga-disable-${GA4_ID}`] = true;
+  (window as unknown as Record<string, unknown>)[`ga-disable-${GA4_ID}`] = true;
 }
 
 // ─── Meta Pixel helpers ──────────────────────────────────────────
