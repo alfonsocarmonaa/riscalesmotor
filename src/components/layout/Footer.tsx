@@ -86,17 +86,17 @@ export function Footer() {
       </div>
 
       {/* Main Footer */}
-      <div className="container py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="container py-10 sm:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Shop */}
           <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.shop')}</h4>
-            <ul className="space-y-2">
+            <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-3 sm:mb-4">{t('footer.sections.shop')}</h4>
+            <ul className="space-y-2.5 sm:space-y-2">
               {footerLinks.shop.map((link) => (
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="link-underline text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors"
+                    className="block py-1 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground active:text-accent transition-colors touch-manipulation"
                   >
                     {link.name}
                   </Link>
@@ -107,13 +107,13 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.support')}</h4>
-            <ul className="space-y-2">
+            <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-3 sm:mb-4">{t('footer.sections.support')}</h4>
+            <ul className="space-y-2.5 sm:space-y-2">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="link-underline text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors"
+                    className="block py-1 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground active:text-accent transition-colors touch-manipulation"
                   >
                     {link.name}
                   </Link>
@@ -123,14 +123,14 @@ export function Footer() {
           </div>
 
           {/* About */}
-          <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.about')}</h4>
-            <ul className="space-y-2">
+          <div className="col-span-1">
+            <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-3 sm:mb-4">{t('footer.sections.about')}</h4>
+            <ul className="space-y-2.5 sm:space-y-2">
               {footerLinks.about.map((link) => (
                 <li key={link.name}>
                   <Link 
                     to={link.href} 
-                    className="link-underline text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors"
+                    className="block py-1 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground active:text-accent transition-colors touch-manipulation"
                   >
                     {link.name}
                   </Link>
@@ -140,8 +140,8 @@ export function Footer() {
           </div>
 
           {/* Social */}
-          <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.social')}</h4>
+          <div className="col-span-1">
+            <h4 className="font-body font-bold uppercase tracking-wide text-sm mb-3 sm:mb-4">{t('footer.sections.social')}</h4>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <a
@@ -149,7 +149,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="social-icon text-sidebar-foreground"
+                  className="social-icon text-sidebar-foreground p-2.5 sm:p-2 touch-manipulation"
                   aria-label={social.name}
                 >
                   <social.icon className="h-5 w-5" />
@@ -160,26 +160,26 @@ export function Footer() {
         </div>
 
         {/* Payment Methods */}
-        <div className="border-t border-sidebar-border mt-12 pt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4 text-sidebar-foreground/60 text-sm">
-              <span>{t('footer.payment')}</span>
-              <div className="flex gap-2">
-                <span className="px-2 py-1 border border-sidebar-border rounded text-xs">VISA</span>
-                <span className="px-2 py-1 border border-sidebar-border rounded text-xs">Mastercard</span>
-                <span className="px-2 py-1 border border-sidebar-border rounded text-xs">PayPal</span>
-                <span className="px-2 py-1 border border-sidebar-border rounded text-xs">Bizum</span>
+        <div className="border-t border-sidebar-border mt-10 sm:mt-12 pt-6 sm:pt-8">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-sidebar-foreground/60 text-sm">
+              <span className="text-xs sm:text-sm">{t('footer.payment')}</span>
+              <div className="flex flex-wrap justify-center gap-2">
+                <span className="px-2.5 py-1.5 sm:px-2 sm:py-1 border border-sidebar-border rounded text-xs">VISA</span>
+                <span className="px-2.5 py-1.5 sm:px-2 sm:py-1 border border-sidebar-border rounded text-xs">Mastercard</span>
+                <span className="px-2.5 py-1.5 sm:px-2 sm:py-1 border border-sidebar-border rounded text-xs">PayPal</span>
+                <span className="px-2.5 py-1.5 sm:px-2 sm:py-1 border border-sidebar-border rounded text-xs">Bizum</span>
               </div>
             </div>
-            <div className="text-sidebar-foreground/60 text-sm">
+            <div className="text-sidebar-foreground/60 text-xs sm:text-sm">
               {t('footer.shippingRegions')}
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-sidebar-border mt-8 pt-8 text-center text-sm text-sidebar-foreground/60">
-          <p className="inline-flex items-center gap-1">{t('footer.copyright')} <BrandHeart size="xs" className="text-accent" /> {t('footer.inSpain')}</p>
+        <div className="border-t border-sidebar-border mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-sidebar-foreground/60">
+          <p className="inline-flex items-center gap-1 flex-wrap justify-center">{t('footer.copyright')} <BrandHeart size="xs" className="text-accent" /> {t('footer.inSpain')}</p>
         </div>
       </div>
     </footer>
