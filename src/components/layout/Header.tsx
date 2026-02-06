@@ -179,7 +179,8 @@ export function Header() {
             </nav>
 
             {/* Icons - Right */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <LocaleSelector />
               <Button variant="ghost" size="icon" asChild>
                 <Link to="/cuenta">
                   <User className="h-5 w-5" />
