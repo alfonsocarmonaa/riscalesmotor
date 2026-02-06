@@ -1,93 +1,81 @@
 
-# Plan: Tracking y Checkout de Shopify – Estado Actual
+# Fix: Checkout Identity and Account Redirect System
 
-## ✅ COMPLETADO (Código)
+## Problem Diagnosis
 
-### Checkout
-- `formatCheckoutUrl` corregida: solo reescribe hostname si es `riscalesmotor.com`
-- `ShopifyRedirect` con protección anti-bucle (`ref=lovable`)
-- Limpieza automática de carritos corruptos en `syncCart`
+The app has two separate identity systems (Lovable Cloud auth and Shopify native accounts) that are NOT connected. When a user clicks "Iniciar sesion" in Shopify checkout, they get sent to Shopify's native `/account/login` page where they can't log in because they have no Shopify password. This creates a dead-end loop.
 
-### Tracking (Google Analytics GA4)
-- Cross-domain linker configurado para `3hxjb2-ht.myshopify.com`
-- Eventos GA4: `view_item`, `add_to_cart`, `begin_checkout`, `page_view`
-- UTMs capturados al llegar y reenviados en la URL de checkout
-- GA4 client ID (`_ga`) reenviado en la URL de checkout
-- Todo respeta el consentimiento de cookies
+## Solution: Keep Users in Our Ecosystem
 
-### Tracking (Meta Pixel)
-- Infraestructura lista: `ViewContent`, `AddToCart`, `InitiateCheckout`
-- **Pendiente**: Añadir el Pixel ID en `src/lib/analytics.ts` línea 4 (`META_PIXEL_ID`)
-- Respeta el consentimiento de cookies de marketing
+The fix is simple but critical: **never send users to Shopify's account pages**. Instead, intercept those routes and redirect to our own login/account pages. And ensure the cart always carries the buyer's email so checkout fields are pre-filled.
 
-## ⚠️ PENDIENTE (Configuración manual – 15 minutos total)
+---
 
-### 1. Quitar `riscalesmotor.com` de Shopify Domains (CRÍTICO)
+## Changes
 
-1. Ve a https://admin.shopify.com/store/3hxjb2-ht/settings/domains
-2. En `riscalesmotor.com`, haz clic en "Eliminar" / "Remove"
-3. Confirma
+### 1. Fix ShopifyRedirect to route `/account/*` to OUR pages
 
-> Tu web NO se ve afectada. Solo evita que Shopify use ese dominio para checkout.
+Currently, `/account/*` paths forward to Shopify's permanent domain. This must change:
 
-### 2. Añadir GA4 en Shopify (para tracking de compras)
+- `/account/login` and `/account/register` --> redirect to our `/login` page
+- `/account/*` (any other account path) --> redirect to our `/cuenta` page
+- `/checkouts/*`, `/cart/*`, `/orders/*` --> continue forwarding to Shopify (unchanged)
 
-1. Ve a https://admin.shopify.com/store/3hxjb2-ht/settings/customer_events
-2. Haz clic en "Add custom pixel" (o "Añadir pixel personalizado")
-3. Nombre: `Google Analytics 4`
-4. Pega este código:
+This way, when Shopify checkout's "Iniciar sesion" link sends a user to `/account/login`, they land on OUR login page instead of Shopify's broken one.
 
-```javascript
-// GA4 Tracking for Shopify Checkout
-const GA4_ID = 'G-7ZNHBTFH4B';
+**File: `src/components/ShopifyRedirect.tsx`**
 
-const script = document.createElement('script');
-script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
-script.async = true;
-document.head.appendChild(script);
+### 2. Add "login before checkout" prompt in Cart Drawer
 
-script.onload = function() {
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', GA4_ID, {
-    linker: { accept_incoming: true }
-  });
+When a user clicks "Finalizar compra" and is NOT logged in, show a brief prompt suggesting they log in first (for order tracking, pre-filled info). They can still proceed as guest if they want.
 
-  analytics.subscribe('checkout_completed', (event) => {
-    const checkout = event.data.checkout;
-    gtag('event', 'purchase', {
-      transaction_id: checkout.order?.id || checkout.token,
-      value: parseFloat(checkout.totalPrice?.amount || 0),
-      currency: checkout.currencyCode,
-      items: checkout.lineItems.map(item => ({
-        item_name: item.title,
-        item_variant: item.variant?.title,
-        price: parseFloat(item.variant?.price?.amount || 0),
-        quantity: item.quantity
-      }))
-    });
-  });
-};
+This prevents the scenario where the user reaches Shopify checkout without identity and clicks "Iniciar sesion" there.
+
+**File: `src/components/layout/CartDrawer.tsx`**
+
+### 3. Ensure buyer email is set at checkout time (not just on page load)
+
+Currently the email sync happens in `useCartSync` on page load. But if the user logs in AFTER adding items to cart, the email may not be synced to the Shopify cart. Add a check in the checkout handler itself to guarantee the email is set before opening checkout.
+
+**File: `src/components/layout/CartDrawer.tsx`** (within `handleCheckout`)
+
+### 4. Remove `/account/*` from Shopify redirect routes in App.tsx
+
+Since `/account/*` will now route to our own pages (login/account), we need a different approach. We'll create two route groups:
+- Keep `/checkouts/*`, `/cart/*`, `/orders/*` as `ShopifyRedirect` routes  
+- Change `/account/*` to redirect to our pages via a small `AccountRedirect` component, or handle it inside the existing `ShopifyRedirect` logic
+
+**File: `src/App.tsx`**
+
+---
+
+## Technical Details
+
+### ShopifyRedirect.tsx (updated logic)
+```text
+/account/login    --> navigate("/login", { replace: true })
+/account/register --> navigate("/registro", { replace: true })  
+/account/*        --> navigate("/cuenta", { replace: true })
+/checkouts/*      --> window.location.replace(shopify permanent domain)
+/cart/*            --> window.location.replace(shopify permanent domain)
+/orders/*         --> window.location.replace(shopify permanent domain)
 ```
 
-5. Haz clic en "Save" y luego "Connect"
+### CartDrawer.tsx - Login prompt
+When user clicks "Finalizar compra" without being logged in:
+- Show a small inline section with two buttons:
+  - "Iniciar sesion" (links to `/login`)
+  - "Continuar como invitado" (proceeds to Shopify checkout)
+- If already logged in, proceed directly to checkout
 
-### 3. Configurar cross-domain en GA4 Admin
+### CartDrawer.tsx - Email sync at checkout
+Before opening checkout URL, check if user is logged in and if email has been synced to the Shopify cart. If not, call `setBuyerEmail` before proceeding.
 
-1. Ve a https://analytics.google.com
-2. Admin (⚙️) → Data Streams → tu stream web
-3. Configure tag settings → Configure your domains
-4. Añade: `3hxjb2-ht.myshopify.com`
-5. Guarda
+---
 
-### 4. Meta Pixel (cuando lo tengas)
+## What This Fixes
 
-1. Crea un Pixel en https://business.facebook.com/events_manager
-2. Copia el Pixel ID (número tipo `123456789012345`)
-3. Abre `src/lib/analytics.ts` y pon el ID en la línea 4:
-   ```
-   const META_PIXEL_ID = 'TU_PIXEL_ID';
-   ```
-4. En Shopify Admin: Canales de venta → Facebook & Instagram → Instalar
-   (esto trackea `Purchase` automáticamente desde el checkout)
+1. **No more redirect loops**: `/account/login` from Shopify checkout goes to YOUR login, not Shopify's empty account page
+2. **Pre-filled checkout**: Logged-in users will have their email already filled at Shopify checkout
+3. **Login encouragement**: Users are gently prompted to log in before checkout, reducing friction at Shopify's end
+4. **Order history works**: Since the customer is created in Shopify via `shopify-create-customer`, and the same email is used in both systems, the order history lookup in `/cuenta` will find their orders correctly
