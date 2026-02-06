@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Search, User, Menu, X, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
 import { BrandHeart } from "@/components/BrandHeart";
+import { LocaleSelector } from "@/components/LocaleSelector";
 import logoImage from "@/assets/logo.png";
 
 const navLinks = [
