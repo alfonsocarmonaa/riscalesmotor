@@ -5,6 +5,8 @@ import { BestSellers } from "@/components/home/BestSellers";
 import { ShopByCollection } from "@/components/home/ShopByCollection";
 import { Manifesto } from "@/components/home/Manifesto";
 import { USPBanner } from "@/components/home/USPBanner";
+import { SEOHead } from "@/components/SEOHead";
+import { OrganizationSchema } from "@/components/JsonLd";
 
 const Index = () => {
   return (
