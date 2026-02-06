@@ -48,6 +48,7 @@ export default function AboutPage() {
                 <img 
                   src={aboutClassicCar} 
                   alt="Detalle de coche clásico vintage" 
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
