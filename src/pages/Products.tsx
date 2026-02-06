@@ -247,15 +247,15 @@ export default function ProductsPage() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pb-16 sm:pb-0">
       <Header />
       
       <main className="flex-1">
         {/* Breadcrumb */}
-        <div className="bg-secondary py-4">
+        <div className="bg-secondary py-3 sm:py-4">
           <div className="container">
-            <nav className="text-sm text-muted-foreground">
-              <a href="/" className="hover:text-accent transition-colors">Inicio</a>
+            <nav className="text-xs sm:text-sm text-muted-foreground">
+              <a href="/" className="hover:text-accent active:text-accent transition-colors touch-manipulation">Inicio</a>
               <span className="mx-2">/</span>
               <span className="text-foreground">Camisetas</span>
               {collection && (
@@ -269,10 +269,10 @@ export default function ProductsPage() {
         </div>
 
         {/* Page Header */}
-        <div className="container py-8 md:py-12">
-          <div className="text-center max-w-2xl mx-auto">
-            <h1 className="font-display text-4xl md:text-5xl mb-4">{getPageTitle()}</h1>
-            <p className="text-muted-foreground text-lg">{getPageDescription()}</p>
+        <div className="container py-6 sm:py-8 md:py-12">
+          <div className="text-center max-w-2xl mx-auto px-2">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4">{getPageTitle()}</h1>
+            <p className="text-muted-foreground text-base sm:text-lg">{getPageDescription()}</p>
           </div>
         </div>
 
