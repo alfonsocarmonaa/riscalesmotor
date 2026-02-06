@@ -166,18 +166,13 @@ export function NewsletterPopup() {
               </div>
 
               <h2 className="font-display text-3xl sm:text-4xl mb-3">
-                ¡Casi estás!
+                ¡Bienvenido al club!
               </h2>
               <p className="text-foreground font-medium text-base mb-2">
-                Revisa tu bandeja de entrada
+                Ya formas parte de la familia Riscales
               </p>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Te hemos enviado un email de confirmación. 
-                <br />
-                <strong className="text-foreground">Confirma tu suscripción</strong> para activar tu 10% de descuento.
-              </p>
-              <p className="text-xs text-muted-foreground mt-4">
-                ¿No lo ves? Revisa tu carpeta de spam.
+                Recibirás novedades, lanzamientos exclusivos y ofertas especiales directamente en tu bandeja.
               </p>
             </>
           )}
