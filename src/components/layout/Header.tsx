@@ -120,7 +120,8 @@ export function Header() {
               />
             </Link>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <LocaleSelector />
               <Button variant="ghost" size="icon" asChild>
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
