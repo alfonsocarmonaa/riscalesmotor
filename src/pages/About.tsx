@@ -91,10 +91,10 @@ export default function AboutPage() {
               
               <div className="grid md:grid-cols-2 gap-8 md:gap-12">
                 {/* Mission */}
-                <div className="group perspective-1000 min-h-[380px]">
-                  <div className="relative w-full h-full transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
+                <div className="group perspective-1000">
+                  <div className="relative transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
                     {/* Front - White */}
-                    <div className="absolute inset-0 p-8 md:p-12 bg-background border border-foreground/10 rounded-lg backface-hidden shadow-sm flex flex-col">
+                    <div className="p-8 md:p-12 bg-background border border-foreground/10 rounded-lg backface-hidden shadow-sm">
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-12 h-12 rounded-full border border-foreground/30 flex items-center justify-center">
                           <Target className="h-6 w-6" strokeWidth={1} />
@@ -115,7 +115,7 @@ export default function AboutPage() {
                       </p>
                     </div>
                     {/* Back - Black */}
-                    <div className="absolute inset-0 p-8 md:p-12 bg-foreground text-background rounded-lg backface-hidden rotate-y-180 flex flex-col">
+                    <div className="absolute inset-0 p-8 md:p-12 bg-foreground text-background rounded-lg backface-hidden rotate-y-180">
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-12 h-12 rounded-full border border-background/30 flex items-center justify-center">
                           <Target className="h-6 w-6" strokeWidth={1} />
@@ -139,10 +139,10 @@ export default function AboutPage() {
                 </div>
                 
                 {/* Vision */}
-                <div className="group perspective-1000 min-h-[380px]">
-                  <div className="relative w-full h-full transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
+                <div className="group perspective-1000">
+                  <div className="relative transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
                     {/* Front - White */}
-                    <div className="absolute inset-0 p-8 md:p-12 bg-background border border-foreground/10 rounded-lg backface-hidden shadow-sm flex flex-col">
+                    <div className="p-8 md:p-12 bg-background border border-foreground/10 rounded-lg backface-hidden shadow-sm">
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-12 h-12 rounded-full border border-foreground/30 flex items-center justify-center">
                           <Eye className="h-6 w-6" strokeWidth={1} />
@@ -164,7 +164,7 @@ export default function AboutPage() {
                       </p>
                     </div>
                     {/* Back - Black */}
-                    <div className="absolute inset-0 p-8 md:p-12 bg-foreground text-background rounded-lg backface-hidden rotate-y-180 flex flex-col">
+                    <div className="absolute inset-0 p-8 md:p-12 bg-foreground text-background rounded-lg backface-hidden rotate-y-180">
                       <div className="flex items-center gap-3 mb-6">
                         <div className="w-12 h-12 rounded-full border border-background/30 flex items-center justify-center">
                           <Eye className="h-6 w-6" strokeWidth={1} />
