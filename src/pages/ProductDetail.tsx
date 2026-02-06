@@ -7,10 +7,11 @@ import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Heart, Minus, Plus, Truck, Package, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProductCard } from "@/components/products/ProductCard";
+import { StickyAddToCart } from "@/components/products/StickyAddToCart";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +31,8 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [showStickyCart, setShowStickyCart] = useState(false);
+  const addToCartRef = useRef<HTMLDivElement>(null);
 
   // Set default variant
   useEffect(() => {
