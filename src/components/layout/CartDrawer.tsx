@@ -72,7 +72,7 @@ export const CartDrawer = () => {
                   </>
                 ) : (
                   <p className="text-sm text-center">
-                    🎉 <strong>¡Envío gratis desbloqueado!</strong>
+                    <strong>¡Envío gratis desbloqueado!</strong>
                   </p>
                 )}
               </div>
@@ -142,7 +142,7 @@ export const CartDrawer = () => {
                   <div className="flex justify-between text-sm">
                     <span>Envío</span>
                     <span className={remainingForFreeShipping <= 0 ? "text-accent font-medium" : ""}>
-                      {remainingForFreeShipping <= 0 ? "Gratis ✅" : "Calculado en checkout"}
+                      {remainingForFreeShipping <= 0 ? "Gratis" : "Calculado en checkout"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-2 border-t">
@@ -152,7 +152,7 @@ export const CartDrawer = () => {
                 </div>
                 <Button 
                   onClick={handleCheckout} 
-                  className="w-full bg-foreground hover:bg-foreground/90 text-background font-bold uppercase tracking-wide" 
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase tracking-wide" 
                   size="lg" 
                   disabled={items.length === 0 || isLoading || isSyncing}
                 >
@@ -166,7 +166,7 @@ export const CartDrawer = () => {
                   )}
                 </Button>
                 <p className="text-xs text-center text-muted-foreground">
-                  🔒 Pago 100% seguro
+                  Pago 100% seguro
                 </p>
               </div>
             </>
