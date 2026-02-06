@@ -4,14 +4,14 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 lg:pt-0">
+    <section className="relative min-h-[100svh] flex items-end sm:items-center justify-center overflow-hidden">
       {/* Background - Fixed on desktop, scroll on mobile for better performance */}
       <div 
-        className="absolute inset-0 bg-cover bg-center lg:bg-fixed" 
+        className="absolute inset-0 bg-cover bg-[center_30%] sm:bg-center lg:bg-fixed" 
         style={{ backgroundImage: `url(${heroBg})` }}
       >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-hero" />
+        {/* Overlay - lighter on mobile so car is more visible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 sm:bg-gradient-hero" />
       </div>
 
       {/* Content */}
