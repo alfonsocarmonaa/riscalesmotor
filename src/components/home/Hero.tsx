@@ -7,27 +7,28 @@ export function Hero() {
   const { t } = useTranslation();
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
-      {/* Background with Parallax Effect */}
-      <div className="absolute inset-0 parallax-bg" style={{
-        backgroundImage: `url(${heroBg})`
-      }}>
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-16 lg:pt-0">
+      {/* Background - Fixed on desktop, scroll on mobile for better performance */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center lg:bg-fixed" 
+        style={{ backgroundImage: `url(${heroBg})` }}
+      >
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-hero" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto animate-fade-in-up">
-        <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-background mb-6 leading-tight">
-          Nuestras miradas taparon<br />nuestros secretos...
+      <div className="relative z-10 text-center px-6 sm:px-8 max-w-4xl mx-auto animate-fade-in-up py-12">
+        <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-background mb-4 sm:mb-6 leading-tight text-balance">
+          Nuestras miradas taparon<br className="hidden sm:block" /><span className="sm:hidden"> </span>nuestros secretos...
         </h1>
-        <p className="font-display text-2xl sm:text-3xl text-background/90 mb-2">
+        <p className="font-display text-xl sm:text-2xl md:text-3xl text-background/90 mb-2">
           Riscales Motor Co. <span className="text-accent">♥</span>
         </p>
-        <p className="font-body text-background/80 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
+        <p className="font-body text-background/80 text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
           {t('hero.subtitle')}
         </p>
-        <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-body font-bold uppercase tracking-wide px-10 py-6 text-lg btn-cta">
+        <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-body font-bold uppercase tracking-wide px-8 sm:px-10 py-5 sm:py-6 text-base sm:text-lg btn-cta touch-manipulation">
           <Link to="/productos">
             {t('hero.cta')}
           </Link>

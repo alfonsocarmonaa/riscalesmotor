@@ -55,27 +55,27 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-neutral-dark text-sidebar-foreground">
+    <footer className="bg-neutral-dark text-sidebar-foreground pb-16 sm:pb-0">
       {/* Newsletter Section */}
       <div className="border-b border-sidebar-border">
-        <div className="container py-12">
-          <div className="max-w-xl mx-auto text-center">
-            <h3 className="font-display text-3xl mb-2">{t('footer.newsletter.title')}</h3>
-            <p className="text-sidebar-foreground/80 mb-6">
+        <div className="container py-10 sm:py-12">
+          <div className="max-w-xl mx-auto text-center px-2">
+            <h3 className="font-display text-2xl sm:text-3xl mb-2">{t('footer.newsletter.title')}</h3>
+            <p className="text-sidebar-foreground/80 mb-5 sm:mb-6 text-sm sm:text-base">
               {t('footer.newsletter.description')}
             </p>
-            <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
+            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-2">
               <Input
                 type="email"
                 placeholder={t('footer.newsletter.placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/50"
+                className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/50 h-12 sm:h-10 text-base sm:text-sm"
                 required
               />
               <Button 
                 type="submit" 
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase tracking-wide"
+                className="bg-accent hover:bg-accent/90 active:bg-accent/80 text-accent-foreground font-bold uppercase tracking-wide h-12 sm:h-10 px-6 touch-manipulation"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "..." : t('footer.newsletter.button')}
