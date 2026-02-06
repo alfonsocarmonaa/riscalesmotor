@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useShopifyAuth } from "@/hooks/useShopifyAuth";
+import { useNewsletterSubscribe } from "@/hooks/useNewsletterSubscribe";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -16,11 +17,13 @@ export default function Register() {
   const navigate = useNavigate();
   const register = useShopifyAuth((s) => s.register);
   const loading = useShopifyAuth((s) => s.loading);
+  const { subscribe } = useNewsletterSubscribe();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [acceptMarketing, setAcceptMarketing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +43,10 @@ export default function Register() {
     if (error) {
       toast.error("Error al crear la cuenta", { description: error });
     } else {
+      // Subscribe to newsletter if opted in
+      if (acceptMarketing) {
+        await subscribe(email, "register");
+      }
       toast.success("¡Cuenta creada! Bienvenido a Riscales.");
       navigate("/cuenta");
     }
@@ -128,6 +135,20 @@ export default function Register() {
                   <Link to="/privacidad" className="text-accent hover:underline">
                     política de privacidad
                   </Link>
+                </label>
+              </div>
+
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="marketing"
+                  checked={acceptMarketing}
+                  onCheckedChange={(checked) => setAcceptMarketing(checked as boolean)}
+                />
+                <label
+                  htmlFor="marketing"
+                  className="text-sm text-muted-foreground leading-tight"
+                >
+                  Quiero recibir novedades, ofertas exclusivas y contenido sobre motor clásico
                 </label>
               </div>
 

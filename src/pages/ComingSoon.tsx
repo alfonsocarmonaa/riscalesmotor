@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useNewsletterSubscribe } from "@/hooks/useNewsletterSubscribe";
 import comingSoonBg from "@/assets/coming-soon-bg.jpg";
 
 export default function ComingSoonPage() {
   const { category } = useParams<{ category: string }>();
   const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { subscribe, isSubmitting } = useNewsletterSubscribe();
 
   const title = category === 'sudaderas' ? 'Sudaderas' : 'Accesorios';
   const description = category === 'sudaderas' 
@@ -22,13 +23,18 @@ export default function ComingSoonPage() {
     e.preventDefault();
     if (!email) return;
     
-    setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("¡Te avisaremos!", {
-      description: `Serás el primero en conocer nuestros nuevos ${title.toLowerCase()}.`,
-    });
+    const result = await subscribe(email, "coming_soon");
+    
+    if (result?.alreadySubscribed) {
+      toast.info("Ya estás suscrito", { description: "Este email ya está en nuestra lista." });
+    } else if (result?.error) {
+      toast.error("Error al suscribirse", { description: result.error });
+    } else {
+      toast.success("¡Te avisaremos!", {
+        description: `Serás el primero en conocer nuestros nuevos ${title.toLowerCase()}.`,
+      });
+    }
     setEmail("");
-    setIsSubmitting(false);
   };
 
   return (
