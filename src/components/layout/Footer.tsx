@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { BrandHeart } from "@/components/BrandHeart";
+import { useNewsletterSubscribe } from "@/hooks/useNewsletterSubscribe";
 
 export function Footer() {
   const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { subscribe, isSubmitting } = useNewsletterSubscribe();
 
   const footerLinks = {
     shop: [
@@ -42,13 +43,18 @@ export function Footer() {
     e.preventDefault();
     if (!email) return;
     
-    setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("¡Bienvenido a la familia Riscales!", {
-      description: "Recibirás un 10% de descuento en tu primera compra.",
-    });
+    const result = await subscribe(email, "footer");
+    
+    if (result?.alreadySubscribed) {
+      toast.info("Ya estás suscrito", { description: "Este email ya está en nuestra lista." });
+    } else if (result?.error) {
+      toast.error("Error al suscribirse", { description: result.error });
+    } else {
+      toast.success("¡Bienvenido a la familia Riscales!", {
+        description: "Recibirás un 10% de descuento en tu primera compra.",
+      });
+    }
     setEmail("");
-    setIsSubmitting(false);
   };
 
   return (
