@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SEOHead } from "@/components/SEOHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Leaf, Recycle, Factory, Heart, Sparkles, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
