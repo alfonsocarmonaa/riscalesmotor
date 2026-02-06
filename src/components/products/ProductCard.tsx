@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import { ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { useWishlist } from "@/hooks/useWishlist";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -13,6 +14,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const { node } = product;
   const addItem = useCartStore(state => state.addItem);
   const isLoading = useCartStore(state => state.isLoading);
+  const { isFavorite, toggleItem } = useWishlist();
 
   const firstVariant = node.variants.edges[0]?.node;
   const mainImage = node.images.edges[0]?.node;
@@ -59,6 +61,21 @@ export function ProductCard({ product }: ProductCardProps) {
     return { type: 'default' };
   };
 
+  const isWishlisted = isFavorite(node.id);
+
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleItem({
+      productId: node.id,
+      handle: node.handle,
+      title: node.title,
+      image: mainImage?.url,
+      price: currentPrice?.amount,
+      currencyCode: currentPrice?.currencyCode,
+    });
+  };
+
   return (
     <Link to={`/producto/${node.handle}`} className="group product-card block touch-manipulation">
       <div className="relative overflow-hidden rounded-lg bg-secondary aspect-[4/5]">
@@ -68,6 +85,18 @@ export function ProductCard({ product }: ProductCardProps) {
             -{discountPercentage}%
           </span>
         )}
+
+        {/* Wishlist Button */}
+        <button
+          onClick={handleWishlist}
+          className={`absolute top-2 right-2 z-10 p-2.5 sm:p-2 rounded-full transition-all duration-200 touch-manipulation ${
+            isWishlisted 
+              ? 'bg-accent text-accent-foreground' 
+              : 'bg-background/90 hover:bg-accent hover:text-accent-foreground active:bg-accent active:text-accent-foreground'
+          }`}
+        >
+          <Heart className={`h-5 w-5 sm:h-4 sm:w-4 ${isWishlisted ? 'fill-current' : ''}`} />
+        </button>
 
         {/* Product Images */}
         <div className="relative w-full h-full">
