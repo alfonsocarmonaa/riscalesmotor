@@ -75,6 +75,7 @@ export function initGA4() {
   gtag('js', new Date());
   gtag('config', GA4_ID, {
     linker: {
+
       domains: ['3hxjb2-ht.myshopify.com'],
       accept_incoming: true,
     },
