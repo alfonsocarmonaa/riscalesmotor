@@ -1,7 +1,7 @@
 // Klaviyo Client API Configuration
 // Public API key (company_id) - safe for client-side use
-const KLAVIYO_PUBLIC_KEY = ''; // TODO: User needs to provide this
-const KLAVIYO_LIST_ID = ''; // TODO: User needs to provide this
+const KLAVIYO_PUBLIC_KEY = 'YdYKhb';
+const KLAVIYO_LIST_ID = 'RwYZem';
 
 const KLAVIYO_API_REVISION = '2024-10-15';
 
