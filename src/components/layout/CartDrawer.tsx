@@ -61,12 +61,16 @@ export const CartDrawer = () => {
                 {remainingForFreeShipping > 0 ? (
                   <>
                     <p className="text-sm mb-2">
-                      💰 Te faltan <strong>{formatPrice(remainingForFreeShipping.toString())}</strong> para envío gratis
+                      Te faltan <strong>{formatPrice(remainingForFreeShipping.toString())}</strong> para envío gratis
                     </p>
-                    <div className="w-full bg-muted rounded-full h-2">
+                    <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                       <div 
-                        className="bg-accent h-2 rounded-full transition-all duration-300" 
-                        style={{ width: `${Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)}%` }}
+                        className="bg-accent h-2 rounded-full transition-all duration-300 relative animate-shimmer"
+                        style={{ 
+                          width: `${Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)}%`,
+                          backgroundImage: 'linear-gradient(90deg, hsl(var(--accent)) 0%, hsl(var(--accent)) 40%, hsl(0 100% 65%) 50%, hsl(var(--accent)) 60%, hsl(var(--accent)) 100%)',
+                          backgroundSize: '200% 100%',
+                        }}
                       />
                     </div>
                   </>
