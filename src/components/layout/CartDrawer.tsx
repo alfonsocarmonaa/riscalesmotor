@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/shopify";
+import { useLocale } from "@/stores/localeStore";
 
 export const CartDrawer = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
+  const { currency } = useLocale();
   const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart, getTotalItems, getTotalPrice } = useCartStore();
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
@@ -40,9 +44,9 @@ export const CartDrawer = () => {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full">
         <SheetHeader className="flex-shrink-0">
-          <SheetTitle className="font-display text-2xl">Tu Carrito</SheetTitle>
+          <SheetTitle className="font-display text-2xl">{t('cart.title')}</SheetTitle>
           <SheetDescription>
-            {totalItems === 0 ? "Tu carrito está vacío" : `${totalItems} producto${totalItems !== 1 ? 's' : ''} en tu carrito`}
+            {totalItems === 0 ? t('cart.empty') : t('cart.items', { count: totalItems })}
           </SheetDescription>
         </SheetHeader>
         <div className="flex flex-col flex-1 pt-6 min-h-0">
@@ -50,8 +54,8 @@ export const CartDrawer = () => {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground mb-4">Tu carrito está vacío</p>
-                <p className="text-sm text-muted-foreground">Descubre nuestras camisetas artesanales</p>
+                <p className="text-muted-foreground mb-4">{t('cart.empty')}</p>
+                <p className="text-sm text-muted-foreground">{t('cart.emptyDescription')}</p>
               </div>
             </div>
           ) : (
@@ -61,7 +65,9 @@ export const CartDrawer = () => {
                 {remainingForFreeShipping > 0 ? (
                   <>
                     <p className="text-sm mb-2">
-                      Te faltan <strong>{formatPrice(remainingForFreeShipping.toString())}</strong> para envío gratis
+                      {t('cart.freeShippingProgress', { 
+                        amount: formatPrice(remainingForFreeShipping.toString(), currency.code) 
+                      })}
                     </p>
                     <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                       <div 
@@ -76,7 +82,7 @@ export const CartDrawer = () => {
                   </>
                 ) : (
                   <p className="text-sm text-center">
-                    <strong>¡Envío gratis desbloqueado!</strong>
+                    <strong>{t('cart.freeShippingAchieved')}</strong>
                   </p>
                 )}
               </div>
@@ -140,18 +146,18 @@ export const CartDrawer = () => {
               <div className="flex-shrink-0 space-y-4 pt-4 border-t bg-background mt-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Subtotal</span>
-                    <span>{formatPrice(totalPrice.toString())}</span>
+                    <span>{t('common.subtotal')}</span>
+                    <span>{formatPrice(totalPrice.toString(), currency.code)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Envío</span>
+                    <span>{t('common.shipping')}</span>
                     <span className={remainingForFreeShipping <= 0 ? "text-accent font-medium" : ""}>
-                      {remainingForFreeShipping <= 0 ? "Gratis" : "Calculado en checkout"}
+                      {remainingForFreeShipping <= 0 ? t('common.freeShipping') : t('common.loading')}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-2 border-t">
-                    <span className="text-lg font-semibold">Total</span>
-                    <span className="text-xl font-bold">{formatPrice(totalPrice.toString())}</span>
+                    <span className="text-lg font-semibold">{t('common.total')}</span>
+                    <span className="text-xl font-bold">{formatPrice(totalPrice.toString(), currency.code)}</span>
                   </div>
                 </div>
                 <Button 
@@ -165,13 +171,10 @@ export const CartDrawer = () => {
                   ) : (
                     <>
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Finalizar Compra
+                      {t('cart.checkoutWithShopify')}
                     </>
                   )}
                 </Button>
-                <p className="text-xs text-center text-muted-foreground">
-                  Pago 100% seguro
-                </p>
               </div>
             </>
           )}

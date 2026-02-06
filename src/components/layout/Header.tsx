@@ -1,35 +1,42 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Search, User, Menu, X, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartDrawer } from "./CartDrawer";
 import { BrandHeart } from "@/components/BrandHeart";
+import { LocaleSelector } from "@/components/LocaleSelector";
 import logoImage from "@/assets/logo.png";
 
-const navLinks = [
-  { name: "INICIO", href: "/" },
+// Navigation links use translation keys
+const getNavLinks = (t: (key: string) => string) => [
+  { name: t('nav.home'), href: "/" },
   { 
-    name: "CAMISETAS", 
+    name: t('nav.tshirts'), 
     href: "/productos",
     submenu: [
-      { name: "Ediciones Riscales", href: "/productos?collection=ediciones-riscales" },
-      { name: "Leyendas del Asfalto", href: "/productos?collection=coches" },
-      { name: "Espíritu Dos Ruedas", href: "/productos?collection=motos" },
-      { name: "Ver Todas", href: "/productos" },
+      { name: t('nav.edicionesRiscales'), href: "/productos?collection=ediciones-riscales" },
+      { name: t('nav.leyendasAsfalto'), href: "/productos?collection=coches" },
+      { name: t('nav.espirituDosRuedas'), href: "/productos?collection=motos" },
+      { name: t('nav.viewAll'), href: "/productos" },
     ]
   },
-  { name: "SUDADERAS", href: "/proximamente/sudaderas" },
-  { name: "ACCESORIOS", href: "/proximamente/accesorios" },
-  { name: "SOBRE RISCALES", href: "/sobre-riscales" },
+  { name: t('nav.hoodies'), href: "/proximamente/sudaderas" },
+  { name: t('nav.accessories'), href: "/proximamente/accesorios" },
+  { name: t('nav.about'), href: "/sobre-riscales" },
 ];
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { t } = useTranslation();
   const totalItems = useCartStore(state => state.getTotalItems());
   const location = useLocation();
+  
+  // Get nav links with current translations
+  const navLinks = getNavLinks(t);
   
   // Only apply transparent header on homepage
   const isHomePage = location.pathname === "/";
@@ -113,7 +120,8 @@ export function Header() {
               />
             </Link>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <LocaleSelector />
               <Button variant="ghost" size="icon" asChild>
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
@@ -171,7 +179,8 @@ export function Header() {
             </nav>
 
             {/* Icons - Right */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <LocaleSelector />
               <Button variant="ghost" size="icon" asChild>
                 <Link to="/cuenta">
                   <User className="h-5 w-5" />

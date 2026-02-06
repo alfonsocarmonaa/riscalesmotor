@@ -1,189 +1,117 @@
 
-# Plan: Integración de Multi-idioma y Multi-moneda
+# Plan: Integración de Multi-idioma y Multi-moneda ✅ COMPLETADO
 
-## Alcance
+## Estado: Implementado
 
-Implementar un sistema completo de internacionalización que permita:
-- Cambiar entre español e inglés (expandible a más idiomas)
-- Mostrar precios en la moneda local del usuario
-- Productos traducidos desde Shopify
-- UI traducida con un selector de idioma/país
+Todas las fases han sido implementadas:
 
 ---
 
-## Fase 1: Infraestructura de Localización
+## ✅ Fase 1: Infraestructura de Localización
 
 ### 1.1 Store de Localización (Zustand)
-Crear `src/stores/localeStore.ts`:
-- Estado persistido: `country` (ES, US, GB, DE...) y `language` (ES, EN)
-- Detectar ubicación inicial del usuario (o usar ES por defecto)
-- Métodos para cambiar país/idioma
-
-### 1.2 Contexto de Localización
-- Wrapper provider que inyecte el locale en toda la app
+- Creado `src/stores/localeStore.ts`
+- Estado persistido: `country` (ES, US, GB, DE, FR, IT, PT) y `language` (ES, EN)
 - Hook `useLocale()` para acceder al idioma/país actual
 
 ---
 
-## Fase 2: Integración con Shopify API
+## ✅ Fase 2: Integración con Shopify API
 
-### 2.1 Actualizar consultas GraphQL
-Modificar `src/lib/shopify.ts`:
+### 2.1 Queries GraphQL actualizadas
+Modificado `src/lib/shopify.ts`:
+- Añadido `@inContext(country: $country, language: $language)` a todas las queries
+- `fetchProducts()` y `fetchProductByHandle()` ahora aceptan locale context
 
-```graphql
-query GetProducts($first: Int!, $query: String) @inContext(country: $country, language: $language) {
-  products(first: $first, query: $query) {
-    edges {
-      node {
-        title           # Traducido automáticamente
-        description     # Traducido automáticamente
-        priceRange {
-          minVariantPrice {
-            amount       # Precio localizado
-            currencyCode # Moneda del país
-          }
-        }
-        ...
-      }
-    }
-  }
-}
-```
-
-### 2.2 Query de localizaciones disponibles
-Añadir query para obtener países/idiomas activos en la tienda:
-
-```graphql
-query Localization @inContext(language: ES) {
-  localization {
-    availableCountries {
-      isoCode
-      name
-      currency { isoCode symbol }
-      availableLanguages { isoCode endonymName }
-    }
-    country { isoCode name currency { isoCode } }
-    language { isoCode endonymName }
-  }
-}
-```
-
-### 2.3 Actualizar funciones de productos
-- `fetchProducts()` y `fetchProductByHandle()` recibirán `country` y `language` como parámetros
-- El hook `useProducts()` leerá del store de localización
+### 2.2 Hooks actualizados
+- `useProducts()` lee automáticamente del store de localización
+- Las queries incluyen country/language en queryKey para refetch automático
 
 ---
 
-## Fase 3: Traducciones del Frontend (i18n)
+## ✅ Fase 3: Traducciones del Frontend (i18n)
 
-### 3.1 Instalar react-i18next
-```bash
-npm install i18next react-i18next
-```
+### 3.1 Instalado i18next + react-i18next
+### 3.2 Archivos de traducción creados
+- `src/locales/es/translation.json` (Español completo)
+- `src/locales/en/translation.json` (Inglés completo)
 
-### 3.2 Crear archivos de traducción
-```
-src/locales/
-├── es/
-│   └── translation.json   # Español (idioma base)
-└── en/
-    └── translation.json   # Inglés
-```
-
-### 3.3 Contenido a traducir
-- Navegación (Inicio, Camisetas, Sobre Riscales...)
-- Botones (Añadir al carrito, Comprar, Finalizar compra...)
-- Footer completo
-- Mensajes de toast
-- Páginas estáticas (Envíos, Devoluciones, Sobre Nosotros...)
-
-### 3.4 Configuración i18next
-Crear `src/i18n.ts`:
-- Detección automática de idioma del navegador
-- Fallback a español
-- Namespace para separar por secciones
+### 3.3 Contenido traducido
+- Navegación 
+- Botones
+- Footer
+- Carrito
+- Mensajes toast
+- Componentes de producto
 
 ---
 
-## Fase 4: Selector de País/Idioma
+## ✅ Fase 4: Selector de País/Idioma
 
 ### 4.1 Componente LocaleSelector
-Ubicación: Header (desktop) y menú móvil
-- Dropdown con bandera + idioma actual
-- Al cambiar: actualiza store → recarga productos con nuevo contexto
+- Creado `src/components/LocaleSelector.tsx`
+- Integrado en Header (desktop y mobile)
+- Dropdown con bandera + moneda
 
 ### 4.2 Diseño visual
 ```
 [🇪🇸 ES / EUR ▼]
   ├── 🇪🇸 España (EUR)
-  ├── 🇬🇧 UK (GBP)
   ├── 🇺🇸 USA (USD)
+  ├── 🇬🇧 UK (GBP)
   └── 🇩🇪 Germany (EUR)
+  └── 🇫🇷 France (EUR)
+  └── 🇮🇹 Italia (EUR)
+  └── 🇵🇹 Portugal (EUR)
 ```
 
 ---
 
-## Fase 5: Actualización del Carrito
+## ✅ Fase 5: Actualización del Carrito
 
-### 5.1 Crear carrito con contexto
-Modificar `createShopifyCart()`:
-
-```graphql
-mutation cartCreate($input: CartInput!) @inContext(country: $country, language: $language) {
-  cartCreate(input: $input) {
-    cart {
-      checkoutUrl  # URL ya localizada
-      ...
-    }
-  }
-}
-```
-
-### 5.2 Checkout localizado
-El `checkoutUrl` que devuelve Shopify ya estará en el idioma/moneda correctos.
+### 5.1 Carrito traducido
+- `CartDrawer.tsx` usa traducciones
+- Muestra moneda según país seleccionado
 
 ---
 
-## Archivos a crear/modificar
+## Archivos creados/modificados
 
-| Archivo | Acción |
+| Archivo | Estado |
 |---------|--------|
-| `src/stores/localeStore.ts` | **Crear** - Store de localización |
-| `src/i18n.ts` | **Crear** - Config i18next |
-| `src/locales/es/translation.json` | **Crear** - Traducciones ES |
-| `src/locales/en/translation.json` | **Crear** - Traducciones EN |
-| `src/lib/shopify.ts` | **Modificar** - Añadir @inContext a queries |
-| `src/hooks/useProducts.ts` | **Modificar** - Leer locale del store |
-| `src/components/LocaleSelector.tsx` | **Crear** - Selector de país/idioma |
-| `src/components/layout/Header.tsx` | **Modificar** - Añadir LocaleSelector |
-| `src/App.tsx` | **Modificar** - Envolver con I18nextProvider |
-| Todos los componentes con texto | **Modificar** - Usar `t('key')` |
+| `src/stores/localeStore.ts` | ✅ Creado |
+| `src/i18n.ts` | ✅ Creado |
+| `src/locales/es/translation.json` | ✅ Creado |
+| `src/locales/en/translation.json` | ✅ Creado |
+| `src/lib/shopify.ts` | ✅ Modificado |
+| `src/hooks/useProducts.ts` | ✅ Modificado |
+| `src/components/LocaleSelector.tsx` | ✅ Creado |
+| `src/components/layout/Header.tsx` | ✅ Modificado |
+| `src/components/layout/Footer.tsx` | ✅ Modificado |
+| `src/components/layout/CartDrawer.tsx` | ✅ Modificado |
+| `src/components/products/ProductCard.tsx` | ✅ Modificado |
+| `src/components/products/ProductGrid.tsx` | ✅ Modificado |
+| `src/components/home/Hero.tsx` | ✅ Modificado |
+| `src/components/home/BestSellers.tsx` | ✅ Modificado |
+| `src/components/home/USPBanner.tsx` | ✅ Modificado |
+| `src/App.tsx` | ✅ Modificado |
 
 ---
 
-## Dependencias de Shopify
+## Notas de implementación
 
-Para que esto funcione necesitas:
+- El locale se persiste en localStorage
+- Al cambiar país, los productos se refetean automáticamente con el nuevo contexto
+- Los precios cambian según el mercado configurado en Shopify Markets
+- El idioma cambia toda la UI automáticamente
 
+---
+
+## Dependencias de Shopify necesarias
+
+Para multi-moneda funcional:
 1. **Shopify Markets configurado**: Admin → Settings → Markets
 2. **Países habilitados**: España + otros países a los que vendas
-3. **Traducciones de productos**: Admin → Products → editar traducciones (o usar app como Langify/Weglot)
+3. **Traducciones de productos** (opcional): Admin → Products → editar traducciones
 
-Si no tienes traducciones en Shopify, los productos se mostrarán en el idioma original pero los precios sí cambiarán según el país.
-
----
-
-## Consideraciones técnicas
-
-- La primera carga detectará el país por IP o usará España por defecto
-- El locale se persiste en localStorage para recordar preferencia
-- Los hooks de productos se invalidan automáticamente al cambiar locale
-- El carrito se resetea si cambia la moneda (comportamiento estándar de Shopify)
-
----
-
-## Estimación
-
-Esta implementación requiere cambios significativos en toda la aplicación. Es un proyecto de varias sesiones de trabajo.
-
-¿Quieres que empiece por alguna fase específica o prefieres priorizar solo multi-moneda (más sencillo) o solo multi-idioma?
+Si no tienes Shopify Markets configurado, los productos mostrarán siempre EUR pero la UI seguirá traducida.

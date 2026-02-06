@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
-import { ShopifyProduct, formatPrice } from "@/lib/shopify";
+import { useTranslation } from "react-i18next";
 import { useProducts } from "@/hooks/useProducts";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { ProductCard } from "@/components/products/ProductCard";
 import { ProductCardSkeleton } from "@/components/products/ProductCardSkeleton";
 
 export function BestSellers() {
+  const { t } = useTranslation();
   const { data: products, isLoading } = useProducts(8);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -26,9 +27,9 @@ export function BestSellers() {
       <div className="container">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="font-display text-4xl md:text-5xl mb-4">Los Más Amados</h2>
+          <h2 className="font-display text-4xl md:text-5xl mb-4">{t('bestSellers.title')}</h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-            Las camisetas que enamoran a nuestra comunidad
+            {t('bestSellers.subtitle')}
           </p>
         </div>
 
@@ -72,10 +73,10 @@ export function BestSellers() {
             ) : (
               <div className="w-full text-center py-12">
                 <p className="text-muted-foreground mb-4">
-                  Aún no hay productos disponibles
+                  {t('product.noProducts')}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Pronto añadiremos nuestras camisetas artesanales
+                  {t('product.noProductsDescription')}
                 </p>
               </div>
             )}
@@ -89,7 +90,7 @@ export function BestSellers() {
               to="/productos?sort=best-selling" 
               className="inline-block bg-accent text-accent-foreground px-8 py-3 font-body font-bold uppercase tracking-wide text-sm hover:bg-accent/90 transition-colors"
             >
-              Explorar Más Vendidos
+              {t('nav.viewAll')}
             </Link>
           </div>
         )}

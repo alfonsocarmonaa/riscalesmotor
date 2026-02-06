@@ -62,9 +62,10 @@ export interface ShopifyProduct {
   };
 }
 
-// GraphQL Queries
+// GraphQL Queries with @inContext for localization
 const PRODUCTS_QUERY = `
-  query GetProducts($first: Int!, $query: String) {
+  query GetProducts($first: Int!, $query: String, $country: CountryCode, $language: LanguageCode) 
+  @inContext(country: $country, language: $language) {
     products(first: $first, query: $query) {
       edges {
         node {
@@ -125,7 +126,8 @@ const PRODUCTS_QUERY = `
 `;
 
 const PRODUCT_BY_HANDLE_QUERY = `
-  query GetProductByHandle($handle: String!) {
+  query GetProductByHandle($handle: String!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
     productByHandle(handle: $handle) {
       id
       title
@@ -265,15 +267,37 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
   return data;
 }
 
-// Fetch Products
-export async function fetchProducts(first: number = 20, query?: string): Promise<ShopifyProduct[]> {
-  const data = await storefrontApiRequest(PRODUCTS_QUERY, { first, query });
+// Locale context type
+export interface LocaleContext {
+  country?: string;
+  language?: string;
+}
+
+// Fetch Products with locale context
+export async function fetchProducts(
+  first: number = 20, 
+  query?: string, 
+  locale?: LocaleContext
+): Promise<ShopifyProduct[]> {
+  const data = await storefrontApiRequest(PRODUCTS_QUERY, { 
+    first, 
+    query,
+    country: locale?.country || 'ES',
+    language: locale?.language || 'ES'
+  });
   return data?.data?.products?.edges || [];
 }
 
-// Fetch Single Product by Handle
-export async function fetchProductByHandle(handle: string): Promise<ShopifyProduct['node'] | null> {
-  const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
+// Fetch Single Product by Handle with locale context
+export async function fetchProductByHandle(
+  handle: string,
+  locale?: LocaleContext
+): Promise<ShopifyProduct['node'] | null> {
+  const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { 
+    handle,
+    country: locale?.country || 'ES',
+    language: locale?.language || 'ES'
+  });
   return data?.data?.productByHandle || null;
 }
 

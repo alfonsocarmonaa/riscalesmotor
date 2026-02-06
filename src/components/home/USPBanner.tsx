@@ -1,24 +1,28 @@
 import { Truck, Palette, Leaf } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { BrandHeart } from "@/components/BrandHeart";
-const usps = [
-  {
-    icon: Truck,
-    title: "Envío Gratis",
-    description: "+50€",
-  },
-  {
-    icon: Palette,
-    title: "Diseño Único",
-    description: "A Mano",
-  },
-  {
-    icon: Leaf,
-    title: "Fabricación Responsable",
-    description: "Planeta",
-  },
-];
 
 export function USPBanner() {
+  const { t } = useTranslation();
+
+  const usps = [
+    {
+      icon: Truck,
+      title: t('usp.freeShipping'),
+      description: "+50€",
+    },
+    {
+      icon: Palette,
+      title: t('usp.quality'),
+      description: t('usp.handmade'),
+    },
+    {
+      icon: Leaf,
+      title: t('usp.returns'),
+      description: "",
+    },
+  ];
+
   return (
     <section className="py-8 bg-background border-y border-border">
       <div className="container">
@@ -34,9 +38,11 @@ export function USPBanner() {
               <h3 className="font-body font-bold text-sm mb-1">
                 {usp.title}
               </h3>
-              <p className="text-muted-foreground text-xs">
-                {usp.description}
-              </p>
+              {usp.description && (
+                <p className="text-muted-foreground text-xs">
+                  {usp.description}
+                </p>
+              )}
             </div>
           ))}
           {/* Last item with brand heart */}
@@ -45,10 +51,10 @@ export function USPBanner() {
               <BrandHeart size="lg" className="group-hover:scale-110 group-hover:text-accent transition-all" />
             </div>
             <h3 className="font-body font-bold text-sm mb-1">
-              Hecho con Amor
+              {t('usp.handmade')}
             </h3>
             <p className="text-muted-foreground text-xs">
-              España
+              {t('footer.inSpain')}
             </p>
           </div>
         </div>
