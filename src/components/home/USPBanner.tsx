@@ -1,24 +1,21 @@
 import { Truck, Palette, Leaf } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import { BrandHeart } from "@/components/BrandHeart";
 
 export function USPBanner() {
-  const { t } = useTranslation();
-
   const usps = [
     {
       icon: Truck,
-      title: t('usp.freeShipping'),
+      title: "Envío gratis +50€",
       description: "+50€",
     },
     {
       icon: Palette,
-      title: t('usp.quality'),
-      description: t('usp.handmade'),
+      title: "Calidad premium",
+      description: "Hecho a mano",
     },
     {
       icon: Leaf,
-      title: t('usp.returns'),
+      title: "Devolución 30 días",
       description: "",
     },
   ];
@@ -51,10 +48,10 @@ export function USPBanner() {
               <BrandHeart size="lg" className="group-hover:scale-110 group-hover:text-accent transition-all" />
             </div>
             <h3 className="font-body font-bold text-sm mb-1">
-              {t('usp.handmade')}
+              Hecho a mano
             </h3>
             <p className="text-muted-foreground text-xs">
-              {t('footer.inSpain')}
+              en España
             </p>
           </div>
         </div>
