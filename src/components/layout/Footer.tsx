@@ -1,41 +1,44 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Youtube } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { toast } from "sonner";
 import { BrandHeart } from "@/components/BrandHeart";
-const footerLinks = {
-  shop: [
-    { name: "Camisetas", href: "/productos" },
-    { name: "Sudaderas", href: "/proximamente/sudaderas" },
-    { name: "Accesorios", href: "/proximamente/accesorios" },
-    { name: "Guía de Tallas", href: "/guia-tallas" },
-  ],
-  support: [
-    { name: "Contacto", href: "/contacto" },
-    { name: "Envíos", href: "/envios" },
-    { name: "Devoluciones", href: "/devoluciones" },
-    { name: "Guía de Tallas", href: "/guia-tallas" },
-    { name: "Política de Privacidad", href: "/privacidad" },
-    { name: "Términos y Condiciones", href: "/terminos" },
-    { name: "Política de Cookies", href: "/cookies" },
-  ],
-  about: [
-    { name: "Sobre Riscales", href: "/sobre-riscales" },
-    { name: "Compromiso Sostenible", href: "/sostenibilidad" },
-  ],
-};
-
-const socialLinks = [
-  { name: "Instagram", icon: Instagram, href: "https://instagram.com/riscalesmotor" },
-  { name: "Facebook", icon: Facebook, href: "https://facebook.com/riscalesmotor" },
-  { name: "YouTube", icon: Youtube, href: "https://youtube.com/@riscalesmotor" },
-];
 
 export function Footer() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation();
+
+  const footerLinks = {
+    shop: [
+      { name: t('footer.links.tshirts'), href: "/productos" },
+      { name: t('footer.links.hoodies'), href: "/proximamente/sudaderas" },
+      { name: t('footer.links.accessories'), href: "/proximamente/accesorios" },
+      { name: t('footer.links.sizeGuide'), href: "/guia-tallas" },
+    ],
+    support: [
+      { name: t('footer.links.contact'), href: "/contacto" },
+      { name: t('footer.links.shipping'), href: "/envios" },
+      { name: t('footer.links.returns'), href: "/devoluciones" },
+      { name: t('footer.links.sizeGuide'), href: "/guia-tallas" },
+      { name: t('footer.links.privacy'), href: "/privacidad" },
+      { name: t('footer.links.terms'), href: "/terminos" },
+      { name: t('footer.links.cookies'), href: "/cookies" },
+    ],
+    about: [
+      { name: t('footer.links.aboutRiscales'), href: "/sobre-riscales" },
+      { name: t('footer.links.sustainability'), href: "/sostenibilidad" },
+    ],
+  };
+
+  const socialLinks = [
+    { name: "Instagram", icon: Instagram, href: "https://instagram.com/riscalesmotor" },
+    { name: "Facebook", icon: Facebook, href: "https://facebook.com/riscalesmotor" },
+    { name: "YouTube", icon: Youtube, href: "https://youtube.com/@riscalesmotor" },
+  ];
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +47,8 @@ export function Footer() {
     setIsSubmitting(true);
     // Simulate newsletter signup
     await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("¡Bienvenido a la familia Riscales!", {
-      description: "Recibirás un 10% de descuento en tu primera compra.",
+    toast.success(t('footer.newsletter.success'), {
+      description: t('footer.newsletter.successDescription'),
     });
     setEmail("");
     setIsSubmitting(false);
@@ -57,14 +60,14 @@ export function Footer() {
       <div className="border-b border-sidebar-border">
         <div className="container py-12">
           <div className="max-w-xl mx-auto text-center">
-            <h3 className="font-display text-3xl mb-2">Únete a la familia Riscales</h3>
+            <h3 className="font-display text-3xl mb-2">{t('footer.newsletter.title')}</h3>
             <p className="text-sidebar-foreground/80 mb-6">
-              Suscríbete y recibe un 10% de descuento en tu primera compra
+              {t('footer.newsletter.description')}
             </p>
             <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
               <Input
                 type="email"
-                placeholder="Tu email"
+                placeholder={t('footer.newsletter.placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/50"
@@ -75,7 +78,7 @@ export function Footer() {
                 className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold uppercase tracking-wide"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "..." : "Suscribir"}
+                {isSubmitting ? "..." : t('footer.newsletter.button')}
               </Button>
             </form>
           </div>
@@ -87,7 +90,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Shop */}
           <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">Tienda</h4>
+            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.shop')}</h4>
             <ul className="space-y-2">
               {footerLinks.shop.map((link) => (
                 <li key={link.name}>
@@ -104,7 +107,7 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">Soporte</h4>
+            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.support')}</h4>
             <ul className="space-y-2">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
@@ -121,7 +124,7 @@ export function Footer() {
 
           {/* About */}
           <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">Sobre Nosotros</h4>
+            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.about')}</h4>
             <ul className="space-y-2">
               {footerLinks.about.map((link) => (
                 <li key={link.name}>
@@ -138,7 +141,7 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="font-body font-bold uppercase tracking-wide mb-4">Síguenos</h4>
+            <h4 className="font-body font-bold uppercase tracking-wide mb-4">{t('footer.sections.social')}</h4>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <a
@@ -160,7 +163,7 @@ export function Footer() {
         <div className="border-t border-sidebar-border mt-12 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4 text-sidebar-foreground/60 text-sm">
-              <span>Métodos de pago:</span>
+              <span>{t('footer.payment')}</span>
               <div className="flex gap-2">
                 <span className="px-2 py-1 border border-sidebar-border rounded text-xs">VISA</span>
                 <span className="px-2 py-1 border border-sidebar-border rounded text-xs">Mastercard</span>
@@ -169,14 +172,14 @@ export function Footer() {
               </div>
             </div>
             <div className="text-sidebar-foreground/60 text-sm">
-              Envíos a España y Europa
+              {t('footer.shippingRegions')}
             </div>
           </div>
         </div>
 
         {/* Copyright */}
         <div className="border-t border-sidebar-border mt-8 pt-8 text-center text-sm text-sidebar-foreground/60">
-          <p className="inline-flex items-center gap-1">© 2026 Riscales Motor Co. | Hecho con <BrandHeart size="xs" className="text-accent" /> en España</p>
+          <p className="inline-flex items-center gap-1">{t('footer.copyright')} <BrandHeart size="xs" className="text-accent" /> {t('footer.inSpain')}</p>
         </div>
       </div>
     </footer>
