@@ -9,8 +9,11 @@ const SHOPIFY_STORE_PERMANENT_DOMAIN = "3hxjb2-ht.myshopify.com";
  * Handles Shopify paths that land on our domain when Shopify redirects
  * back to the custom domain (e.g. after checkout, account actions).
  *
- * - /checkouts/*, /cart/*, /orders/* → Shopify permanent domain
- * - /account/* → home
+ * - /checkouts/*, /cart/*, /orders/* → Shopify permanent domain (same path)
+ * - /account/*                      → Shopify permanent domain (same path)
+ *     This is critical: Shopify checkout's "Iniciar sesión" link points to
+ *     /account/login on the custom domain. We must forward it to Shopify's
+ *     native account login, NOT to our home page.
  *
  * Because this is a Route element (not a side-effect), it renders a
  * loading spinner INSTEAD of the 404 page — eliminating the flash.
@@ -21,35 +24,20 @@ export const ShopifyRedirect = () => {
 
   useEffect(() => {
     const path = location.pathname;
-    const params = new URLSearchParams(location.search);
+    const search = location.search;
 
     // Anti-loop: if we already redirected once, go home
+    const params = new URLSearchParams(search);
     if (params.get("ref") === "lovable") {
       navigate("/", { replace: true });
       return;
     }
 
-    // --- Checkout / cart / order paths → Shopify permanent domain ---
-    const isShopifyCheckoutPath =
-      path.startsWith("/checkouts/") ||
-      path.startsWith("/cart/") ||
-      path.startsWith("/orders/");
-
-    if (isShopifyCheckoutPath) {
-      params.set("ref", "lovable");
-      const shopifyUrl = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}${path}?${params.toString()}`;
-      window.location.replace(shopifyUrl);
-      return;
-    }
-
-    // --- Auth / Account paths → home ---
-    if (path.startsWith("/account")) {
-      navigate("/", { replace: true });
-      return;
-    }
-
-    // Fallback — shouldn't happen, but just go home
-    navigate("/", { replace: true });
+    // All Shopify paths get forwarded to the permanent domain
+    // preserving the original path and query string.
+    params.set("ref", "lovable");
+    const shopifyUrl = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}${path}?${params.toString()}`;
+    window.location.replace(shopifyUrl);
   }, [location, navigate]);
 
   // Show a simple loading state while the redirect is in flight
