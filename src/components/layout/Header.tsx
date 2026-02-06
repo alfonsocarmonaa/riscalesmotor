@@ -31,8 +31,12 @@ const getNavLinks = (t: (key: string) => string) => [
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { t } = useTranslation();
   const totalItems = useCartStore(state => state.getTotalItems());
   const location = useLocation();
+  
+  // Get nav links with current translations
+  const navLinks = getNavLinks(t);
   
   // Only apply transparent header on homepage
   const isHomePage = location.pathname === "/";
