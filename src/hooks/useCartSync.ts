@@ -8,9 +8,11 @@ import { supabase } from '@/integrations/supabase/client';
  * so the customer arrives identified at Shopify checkout.
  */
 export function useCartSync() {
-  const syncCart = useCartStore(state => state.syncCart);
-  const setBuyerEmail = useCartStore(state => state.setBuyerEmail);
-  const cartId = useCartStore(state => state.cartId);
+  const { syncCart, setBuyerEmail, cartId } = useCartStore(state => ({
+    syncCart: state.syncCart,
+    setBuyerEmail: state.setBuyerEmail,
+    cartId: state.cartId,
+  }));
 
   // Cart freshness sync
   useEffect(() => {
