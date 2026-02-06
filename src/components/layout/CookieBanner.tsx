@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { onConsentChange } from "@/lib/analytics";
 
 const COOKIE_CONSENT_KEY = "riscales-cookie-consent";
 
