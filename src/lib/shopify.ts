@@ -293,9 +293,11 @@ export async function fetchProductByHandle(
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    // Replace custom domain with Shopify's permanent domain to avoid
-    // routing through the React app (which would show a 404)
-    if (url.hostname !== SHOPIFY_STORE_PERMANENT_DOMAIN) {
+    // Only replace the custom domain that causes redirect loops
+    // (it points to Lovable, not Shopify). Leave other domains
+    // like checkout.shopify.com untouched.
+    const CUSTOM_DOMAINS = ['riscalesmotor.com', 'www.riscalesmotor.com'];
+    if (CUSTOM_DOMAINS.includes(url.hostname)) {
       url.hostname = SHOPIFY_STORE_PERMANENT_DOMAIN;
     }
     url.searchParams.set('channel', 'online_store');

@@ -146,8 +146,25 @@ export const useCartStore = create<CartStore>()(
       getTotalPrice: () => get().items.reduce((sum, item) => sum + (parseFloat(item.price.amount) * item.quantity), 0),
 
       syncCart: async () => {
-        const { cartId, isSyncing, clearCart } = get();
+        const { cartId, checkoutUrl, isSyncing, clearCart } = get();
         if (!cartId || isSyncing) return;
+
+        // Clean up carts with corrupt checkout URLs pointing to the
+        // custom domain (which causes redirect loops)
+        if (checkoutUrl) {
+          try {
+            const url = new URL(checkoutUrl);
+            if (url.hostname === 'riscalesmotor.com' || url.hostname === 'www.riscalesmotor.com') {
+              console.warn('Clearing cart with corrupt checkout URL:', checkoutUrl);
+              clearCart();
+              return;
+            }
+          } catch {
+            // Invalid URL — clear it
+            clearCart();
+            return;
+          }
+        }
 
         set({ isSyncing: true });
         try {
