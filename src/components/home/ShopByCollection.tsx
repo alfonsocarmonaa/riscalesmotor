@@ -8,7 +8,7 @@ const collections = [
   {
     id: 'ediciones-riscales',
     name: 'Ediciones Riscales',
-    description: 'Diseños exclusivos de la marca',
+    description: 'Diseños exclusivos para nuestra comunidad',
     href: '/productos?collection=ediciones-riscales',
     image: collectionEdicionesRiscales,
   },
@@ -65,7 +65,7 @@ export function ShopByCollection() {
                 <h3 className="font-display text-3xl md:text-4xl mb-2">{collection.name}</h3>
                 <p className="text-background/80 mb-4">{collection.description}</p>
               <Button 
-                  className="w-fit bg-accent text-accent-foreground hover:bg-accent/90 transition-all"
+                  className="w-fit bg-accent text-accent-foreground hover:bg-accent/90 transition-all uppercase"
                 >
                   Comprar
                 </Button>
