@@ -313,7 +313,7 @@ export function onConsentChange() {
 
   if (consent?.analytics) {
     // Remove the disable flag (if set previously)
-    delete (window as Record<string, unknown>)[`ga-disable-${GA4_ID}`];
+    delete (window as unknown as Record<string, unknown>)[`ga-disable-${GA4_ID}`];
     initGA4();
   } else {
     disableGA4();
