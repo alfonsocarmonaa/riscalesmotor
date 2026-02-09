@@ -5,9 +5,23 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const KLAVIYO_PUBLIC_KEY = "YdYKhb";
-const KLAVIYO_LIST_ID = "RwYZem";
 const KLAVIYO_API_REVISION = "2024-10-15";
+
+// Simple in-memory rate limiter (per isolate instance)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 3; // max requests
+const RATE_WINDOW_MS = 60_000; // per minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count++;
+  return entry.count > RATE_LIMIT;
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -15,6 +29,26 @@ serve(async (req) => {
   }
 
   try {
+    // Rate limit by IP
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    if (isRateLimited(clientIp)) {
+      return new Response(
+        JSON.stringify({ error: "Demasiadas solicitudes. Inténtalo de nuevo en un minuto." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const KLAVIYO_PUBLIC_KEY = Deno.env.get("KLAVIYO_PUBLIC_KEY");
+    const KLAVIYO_LIST_ID = Deno.env.get("KLAVIYO_LIST_ID");
+
+    if (!KLAVIYO_PUBLIC_KEY || !KLAVIYO_LIST_ID) {
+      console.error("Klaviyo credentials not configured");
+      return new Response(
+        JSON.stringify({ error: "Servicio de newsletter no configurado" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const { email, source } = await req.json();
 
     if (!email || typeof email !== "string") {
@@ -25,6 +59,14 @@ serve(async (req) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
+
+    // Basic email validation
+    if (normalizedEmail.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      return new Response(
+        JSON.stringify({ error: "Email no válido" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     const response = await fetch(
       `https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_PUBLIC_KEY}`,

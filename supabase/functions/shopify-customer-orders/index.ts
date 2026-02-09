@@ -50,6 +50,22 @@ const ORDERS_QUERY = `
   }
 `;
 
+// Simple in-memory rate limiter per user
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60_000;
+
+function isRateLimited(userId: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(userId);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(userId, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count++;
+  return entry.count > RATE_LIMIT;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -77,6 +93,14 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ error: "No autorizado" }),
         { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Rate limit by user ID
+    if (isRateLimited(user.id)) {
+      return new Response(
+        JSON.stringify({ error: "Demasiadas solicitudes. Inténtalo de nuevo en un minuto." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 

@@ -25,6 +25,22 @@ const CUSTOMER_CREATE_MUTATION = `
   }
 `;
 
+// Simple in-memory rate limiter per user
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 60_000;
+
+function isRateLimited(userId: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(userId);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(userId, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count++;
+  return entry.count > RATE_LIMIT;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -55,10 +71,19 @@ serve(async (req) => {
       );
     }
 
+    // Rate limit by user ID
+    if (isRateLimited(user.id)) {
+      return new Response(
+        JSON.stringify({ error: "Demasiadas solicitudes. Inténtalo de nuevo en un minuto." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const { fullName } = await req.json().catch(() => ({ fullName: "" }));
 
-    // Parse name into first/last
-    const nameParts = (fullName || "").trim().split(/\s+/);
+    // Validate and sanitize name input
+    const sanitizedName = (fullName || "").trim().substring(0, 200);
+    const nameParts = sanitizedName.split(/\s+/);
     const firstName = nameParts[0] || "";
     const lastName = nameParts.slice(1).join(" ") || "";
 
