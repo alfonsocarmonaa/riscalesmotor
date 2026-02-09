@@ -12,25 +12,50 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.shopify.com" />
+    <link rel="preconnect" href="https://3hxjb2-ht.myshopify.com" crossorigin />
 
-    <!-- Google Fonts (loaded here instead of CSS @import for better performance) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@400;500;700&display=swap" />
+    <!-- Google Fonts: preload + non-blocking swap -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@400;500;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@400;500;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@400;500;700&display=swap" />
+    </noscript>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZNHBTFH4B"></script>
+    <!-- Inline critical CSS for above-the-fold first paint -->
+    <style>
+      /* Critical font fallbacks to prevent FOIT */
+      body { font-family: 'Noto Sans', system-ui, -apple-system, sans-serif; margin: 0; }
+      h1, h2, h3, .font-display { font-family: 'Lobster', cursive; }
+      /* Prevent layout shift for root */
+      #root { min-height: 100vh; }
+    </style>
+
+    <!-- Google Analytics - deferred until consent -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      
-      // Check cookie consent before initializing
+
+      // Only load gtag.js after cookie consent
       (function() {
         var consent = localStorage.getItem('riscales-cookie-consent');
         if (consent) {
           var prefs = JSON.parse(consent);
           if (prefs.analytics) {
+            var s = document.createElement('script');
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-7ZNHBTFH4B';
+            s.async = true;
+            document.head.appendChild(s);
             gtag('js', new Date());
             gtag('config', 'G-7ZNHBTFH4B', {
-              // Cross-domain linking with Shopify checkout
               linker: {
                 domains: ['3hxjb2-ht.myshopify.com'],
                 accept_incoming: true

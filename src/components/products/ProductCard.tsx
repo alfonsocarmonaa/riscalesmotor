@@ -89,6 +89,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Wishlist Button */}
         <button
           onClick={handleWishlist}
+          aria-label={isWishlisted ? `Quitar ${node.title} de favoritos` : `Añadir ${node.title} a favoritos`}
           className={`absolute top-2 right-2 z-10 p-2.5 sm:p-2 rounded-full transition-all duration-200 touch-manipulation ${
             isWishlisted 
               ? 'bg-accent text-accent-foreground' 

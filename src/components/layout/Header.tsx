@@ -26,7 +26,6 @@ const navLinks = [
   { name: "SOBRE RISCALES", href: "/sobre-riscales" },
 ];
 
-// Force clean re-mount after hook changes
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -60,7 +59,7 @@ export function Header() {
              <div className="flex-1 flex justify-start">
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation">
+                <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" aria-label="Abrir menú de navegación">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -69,7 +68,10 @@ export function Header() {
                   <Link to="/" className="block mb-8" onClick={() => setMobileMenuOpen(false)}>
                     <img 
                       src={logoImage} 
-                      alt="Riscales Motor Co." 
+                      alt="Riscales Motor Co."
+                      width={153}
+                      height={84}
+                      decoding="async"
                       className="h-14 w-auto"
                     />
                   </Link>
@@ -119,13 +121,16 @@ export function Header() {
             <Link to="/" className="flex items-center flex-shrink-0">
               <img 
                 src={logoImage} 
-                alt="Riscales Motor Co." 
+                alt="Riscales Motor Co."
+                width={153}
+                height={84}
+                decoding="async"
                 className="h-12 sm:h-14 w-auto"
               />
             </Link>
 
             <div className="flex-1 flex justify-end items-center">
-              <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" asChild>
+              <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" asChild aria-label="Favoritos">
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
                 </Link>
@@ -139,7 +144,10 @@ export function Header() {
             <Link to="/" className="flex-shrink-0">
               <img 
                 src={logoImage} 
-                alt="Riscales Motor Co." 
+                alt="Riscales Motor Co."
+                width={131}
+                height={72}
+                decoding="async"
                 className="h-[72px] w-auto"
               />
             </Link>
@@ -180,12 +188,12 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" asChild>
+              <Button variant="ghost" size="icon" asChild aria-label={user ? "Mi cuenta" : "Iniciar sesión"}>
                 <Link to={user ? "/cuenta" : "/login"}>
                   <User className="h-5 w-5" />
                 </Link>
               </Button>
-              <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors" asChild>
+              <Button variant="ghost" size="icon" className="relative hover:bg-accent hover:text-accent-foreground transition-colors" asChild aria-label="Favoritos">
                 <Link to="/favoritos">
                   <BrandHeart size="md" />
                 </Link>

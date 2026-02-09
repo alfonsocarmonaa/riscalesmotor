@@ -6,16 +6,19 @@ import heroBg from "@/assets/hero-bg.jpg";
 export function Hero() {
   return (
     <section className="relative min-h-[100svh] flex items-end sm:items-center justify-center overflow-hidden">
-      {/* Background - Fixed on desktop, scroll on mobile for better performance */}
-      <div 
-        role="img"
-        aria-label="Coche clásico vintage en carretera - Riscales Motor Co."
-        className="absolute inset-0 bg-cover bg-[center_30%] sm:bg-center lg:bg-fixed" 
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
-        {/* Overlay - lighter on mobile so car is more visible */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 sm:bg-gradient-hero" />
-      </div>
+      {/* Background - Using <img> for LCP discoverability */}
+      <img
+        src={heroBg}
+        alt="Coche clásico vintage en carretera - Riscales Motor Co."
+        fetchPriority="high"
+        loading="eager"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover object-[center_30%] sm:object-center"
+        width={1440}
+        height={960}
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 sm:bg-gradient-hero" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 sm:px-8 max-w-4xl mx-auto animate-fade-in-up pb-20 sm:pb-12 pt-24 sm:py-12">
