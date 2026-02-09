@@ -46,14 +46,17 @@ export function ShopByCollection() {
             <Link 
               key={collection.id} 
               to={collection.href}
-              className="collection-card group relative aspect-[3/4] rounded-lg overflow-hidden"
+              className="collection-card group relative aspect-[3/4] rounded-lg overflow-hidden block"
             >
-              {/* Background Image */}
-              <div 
-                role="img"
-                aria-label={`Colección ${collection.name} - ${collection.description}`}
-                className="absolute inset-0 collection-image transition-transform duration-500 bg-cover bg-center"
-                style={{ backgroundImage: `url(${collection.image})` }}
+              {/* Background Image - now a real <img> */}
+              <img
+                src={collection.image}
+                alt={`Colección ${collection.name} - ${collection.description}`}
+                loading="lazy"
+                decoding="async"
+                width={480}
+                height={640}
+                className="absolute inset-0 w-full h-full object-cover collection-image transition-transform duration-500"
               />
               
               {/* Overlay */}

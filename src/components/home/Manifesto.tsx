@@ -13,6 +13,9 @@ export function Manifesto() {
               src={manifestoImage} 
               alt="Persona con camiseta Riscales en un garaje vintage"
               loading="lazy"
+              decoding="async"
+              width={640}
+              height={800}
               className="w-full h-full object-cover"
             />
             {/* Subtle overlay */}

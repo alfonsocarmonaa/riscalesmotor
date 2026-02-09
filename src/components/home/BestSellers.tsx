@@ -39,6 +39,7 @@ export function BestSellers() {
             size="icon"
             className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex bg-background shadow-lg"
             onClick={() => scroll('left')}
+            aria-label="Productos anteriores"
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -47,6 +48,7 @@ export function BestSellers() {
             size="icon"
             className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex bg-background shadow-lg"
             onClick={() => scroll('right')}
+            aria-label="Productos siguientes"
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
